@@ -4,13 +4,13 @@
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-title       | string    | not null
-type        | text      | not null, [full_time, part_time, temp], indexed
+title       | string    | not null, indexed
+type        | text      | not null, indexed, default: full_time
 salary      | integer   | not null, indexed
 location    | string    | not null, indexed
 description | text      | not null
 employer_id | integer   | not null, foreign key (references users), indexed
-status      | boolean   | not null, default: active
+status      | boolean   | not null, default: true
 
 <!-- ## applications (maybe not needed?)
 column name | data type | details
@@ -35,7 +35,7 @@ column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key
 email           | string    | not null, indexed, unique
-real_name       | string    | not null
+real_name       | string    |
 phone_number    | string    | optional
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
