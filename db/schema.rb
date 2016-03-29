@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 20160329180816) do
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title",                             null: false
-    t.string   "type",        default: "full_time", null: false
+    t.string   "jobtype",     default: "full_time", null: false
     t.integer  "salary",                            null: false
     t.string   "location",                          null: false
-    t.string   "descriptopn",                       null: false
+    t.string   "description",                       null: false
     t.integer  "employer_id",                       null: false
     t.boolean  "status",      default: true,        null: false
     t.datetime "created_at"
@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 20160329180816) do
   end
 
   add_index "jobs", ["employer_id"], name: "index_jobs_on_employer_id", using: :btree
+  add_index "jobs", ["jobtype"], name: "index_jobs_on_jobtype", using: :btree
   add_index "jobs", ["location"], name: "index_jobs_on_location", using: :btree
   add_index "jobs", ["salary"], name: "index_jobs_on_salary", using: :btree
   add_index "jobs", ["title"], name: "index_jobs_on_title", using: :btree
-  add_index "jobs", ["type"], name: "index_jobs_on_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
