@@ -1,0 +1,36 @@
+{
+  "name": "undeed",
+  "version": "1.0.0",
+  "description": "[Heroku link][heroku] Coming Soon",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhuleijia/undeed.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhuleijia/undeed/issues"
+  },
+  "homepage": "https://github.com/zhuleijia/undeed#readme",
+  "dependencies": {
+    "babel-core": "^6.7.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "flux": "^2.1.1",
+    "history": "^2.0.1",
+    "react": "^0.14.8",
+    "react-addons-linked-state-mixin": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-router": "^2.0.1",
+    "webpack": "^1.12.14"
+  }
+}
