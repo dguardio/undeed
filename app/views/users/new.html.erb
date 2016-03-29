@@ -1,5 +1,11 @@
+<br /> <%= link_to "Root", root_url %>
+
+
 <h2>Create an account</h2>
 Already have an account?<%= link_to "Sign In", new_session_url %>
+
+
+
 <form action=" <%=users_url %>" method="post">
   <%= auth_token_input %>
   <label>Email Address<br />
