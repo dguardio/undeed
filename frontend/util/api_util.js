@@ -1,15 +1,14 @@
-var BenchActions = require('../actions/api_actions');
+var JobActions = require('../actions/api_actions');
 var ApiUtil = {
-  fetchBenches: function(bounds){
+  fetchJobs: function(jobs){
     $.ajax({
-			url: '/api/benches',
+			url: '/api/jobs',
 			method: 'GET',
-      data: {bounds: bounds},
 			dataType: 'json',
 			contentType: "application/json",
 
-			success: function (benches) {
-        BenchActions.receiveAll(benches);
+			success: function (jobs) {
+        JobActions.receiveAll(jobs);
       },
       error: function(no){
         console.log("Error: " + no);

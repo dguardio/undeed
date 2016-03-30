@@ -5,7 +5,7 @@ column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 title       | string    | not null, indexed
-type        | text      | not null, indexed, default: full_time
+jobtype     | text      | not null, indexed, default: full_time
 salary      | integer   | not null, indexed
 location    | string    | not null, indexed
 description | text      | not null
