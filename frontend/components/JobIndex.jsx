@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
-
+var JobDetail = require('./JobDetail');
 var JobIndex = React.createClass({
   getInitialState: function() {
     // debugger;
@@ -22,16 +22,10 @@ var JobIndex = React.createClass({
   },
 
   render: function() {
-    var jobs = this.state.jobs.map(function(job){
+    var jobs = this.state.jobs.map(function(job) {
 			// debugger;
-      return (
-				<li key= { job.id }>
-					{job.title}<br />
-				{job.employer.name}-{job.location}<br />
-					{job.salary}<br />
-					{job.description}<br />
-				</li>
-			);
+      return <JobDetail key= {job.id} job = {job} />;
+
     });
     return (
       <div>

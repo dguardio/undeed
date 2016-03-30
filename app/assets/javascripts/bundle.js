@@ -50,24 +50,39 @@
 
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
+	var IndexRoute = ReactRouter.IndexRoute;
+	var hashHistory = ReactRouter.hashHistory; //is this okay?
 	var ApiUtil = __webpack_require__(216);
 	var JobStore = __webpack_require__(223);
 	var JobIndex = __webpack_require__(241);
+	var JobDetail = __webpack_require__(242);
+	var App = React.createClass({
+		displayName: 'App',
 
-	// var App  = React.createClass({
-	//
-	// 	render: function() {
-	// 		return (
-	// 			<div>{JobIndex}</div>
-	// 		);
-	// 	}
-	//
-	// });
-	//
-	// module.exports = App;
+
+		render: function () {
+			return React.createElement(
+				'div',
+				null,
+				this.props.children
+			);
+		}
+
+	});
+
+	module.exports = App;
 
 	document.addEventListener("DOMContentLoaded", function () {
-	  ReactDOM.render(React.createElement(JobIndex, null), document.getElementById('content'));
+		ReactDOM.render(React.createElement(
+			Router,
+			{ history: hashHistory },
+			React.createElement(
+				Route,
+				{ path: '/', component: App },
+				React.createElement(IndexRoute, { component: JobIndex }),
+				React.createElement(Route, { path: '/jobs/:id', component: JobDetail })
+			)
+		), document.getElementById('content'));
 	});
 
 /***/ },
@@ -31592,7 +31607,7 @@
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(216);
 	var JobStore = __webpack_require__(223);
-
+	var JobDetail = __webpack_require__(242);
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
 
@@ -31615,20 +31630,7 @@
 	  render: function () {
 	    var jobs = this.state.jobs.map(function (job) {
 	      // debugger;
-	      return React.createElement(
-	        'li',
-	        { key: job.id },
-	        job.title,
-	        React.createElement('br', null),
-	        job.employer.name,
-	        '-',
-	        job.location,
-	        React.createElement('br', null),
-	        job.salary,
-	        React.createElement('br', null),
-	        job.description,
-	        React.createElement('br', null)
-	      );
+	      return React.createElement(JobDetail, { key: job.id, job: job });
 	    });
 	    return React.createElement(
 	      'div',
@@ -31638,6 +31640,44 @@
 	  }
 	});
 	module.exports = JobIndex;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(216);
+	var JobStore = __webpack_require__(223);
+
+	var JobDetail = React.createClass({
+		displayName: 'JobDetail',
+
+
+		render: function () {
+			return React.createElement(
+				'li',
+				null,
+				this.props.job.title,
+				React.createElement('br', null),
+				this.props.job.employer.name,
+				'-',
+				this.props.job.location,
+				React.createElement('br', null),
+				this.props.job.salary,
+				React.createElement('br', null),
+				this.props.job.description,
+				React.createElement('br', null)
+			);
+		}
+
+	});
+
+	module.exports = JobDetail;
+	// 	{job.title}<br />
+	// {job.employer.name}-{job.location}<br />
+	// 	{job.salary}<br />
+	// 	{job.description}<br />
 
 /***/ }
 /******/ ]);
