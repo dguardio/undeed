@@ -8,30 +8,10 @@ JobStore.all = function () {
   return _jobs.slice(0);
 };
 
-JobStore.find = function(id) {
-	for( var i = 0; i < _jobs.length; i++){
-		if( _jobs[i].id == id) {
-			return _jobs[i];
-		}
-	}
-};
 var resetJobs = function(jobs){
   _jobs = jobs;
 };
-var replaceJob = function(newJob){
-	var replaced = false;
-  _jobs = _jobs.map (function(job){
-		if (job.id == newJob.id){
-			replaced = true;
-			return newJob;
-		}else{
-			return job;
-		}
-	});
-	if (!replaced){
-		_jobs.push(newJob);
-	}
-};
+
 
 JobStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
@@ -39,11 +19,7 @@ JobStore.__onDispatch = function (payload) {
       resetJobs(payload.jobs);
       JobStore.__emitChange();
       break;
-		case JobConstants.JOB_RECEIVED:
-			replaceJob(payload.job);
-			JobStore.__emitChange();
-			break;
-  }
+    }
 };
 window.JobStore = JobStore;
 

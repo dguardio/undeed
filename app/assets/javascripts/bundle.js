@@ -55,6 +55,7 @@
 	var ApiUtil = __webpack_require__(216);
 	var JobStore = __webpack_require__(223);
 	var JobIndex = __webpack_require__(241);
+	var JobIndexItem = __webpack_require__(241);
 	var JobDetail = __webpack_require__(242);
 	var App = React.createClass({
 		displayName: 'App',
@@ -80,7 +81,7 @@
 				Route,
 				{ path: '/', component: App },
 				React.createElement(IndexRoute, { component: JobIndex }),
-				React.createElement(Route, { path: '/jobs/:id', component: JobDetail })
+				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail })
 			)
 		), document.getElementById('content'));
 	});
@@ -24759,21 +24760,37 @@
 
 	var JobActions = __webpack_require__(217);
 	var ApiUtil = {
-	  fetchJobs: function (jobs) {
-	    $.ajax({
-	      url: '/api/jobs',
-	      method: 'GET',
-	      dataType: 'json',
-	      contentType: "application/json",
+		fetchJobs: function (jobs) {
+			$.ajax({
+				url: '/api/jobs',
+				method: 'GET',
+				dataType: 'json',
+				contentType: "application/json",
 
-	      success: function (jobs) {
-	        JobActions.receiveAll(jobs);
-	      },
-	      error: function (no) {
-	        console.log("Error: " + no);
-	      }
-	    });
-	  }
+				success: function (jobs) {
+					JobActions.receiveAll(jobs);
+				},
+				error: function (no) {
+					console.log("Error: " + no);
+				}
+			});
+		},
+		fetchSingleJob: function (id) {
+			$.ajax({
+				url: '/api/jobs/' + id,
+				method: 'GET',
+				dataType: 'json',
+				contentType: "application/json",
+
+				success: function (job) {
+					// debugger;
+					JobActions.receiveSingleJob(job);
+				},
+				error: function (no) {
+					console.log("Error: " + no);
+				}
+			});
+		}
 	};
 
 	window.ApiUtil = ApiUtil;
@@ -24791,6 +24808,12 @@
 	    AppDispatcher.dispatch({
 	      actionType: JobConstants.JOBS_RECEIVED,
 	      jobs: jobs
+	    });
+	  },
+	  receiveSingleJob: function (job) {
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.JOB_RECEIVED,
+	      job: job
 	    });
 	  }
 	};
@@ -25118,7 +25141,8 @@
 /***/ function(module, exports) {
 
 	var JobConstants = {
-	  JOBES_RECEIVED: "JOBS_RECEIVED"
+	  JOBS_RECEIVED: "JOBS_RECEIVED",
+	  JOB_RECEIVED: "JOB_RECEIVED"
 	};
 
 	module.exports = JobConstants;
@@ -25134,20 +25158,45 @@
 	var JobStore = new Store(AppDispatcher);
 
 	JobStore.all = function () {
-	  return _jobs.slice(0);
+		return _jobs.slice(0);
 	};
 
-	var resetJobes = function (jobs) {
-	  _jobs = jobs;
+	JobStore.find = function (id) {
+		for (var i = 0; i < _jobs.length; i++) {
+			if (_jobs[i].id == id) {
+				return _jobs[i];
+			}
+		}
+	};
+	var resetJobs = function (jobs) {
+		_jobs = jobs;
+	};
+	var replaceJob = function (newJob) {
+		var replaced = false;
+		_jobs = _jobs.map(function (job) {
+			if (job.id == newJob.id) {
+				replaced = true;
+				return newJob;
+			} else {
+				return job;
+			}
+		});
+		if (!replaced) {
+			_jobs.push(newJob);
+		}
 	};
 
 	JobStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case JobConstants.JOBS_RECEIVED:
-	      resetJobes(payload.jobs);
-	      JobStore.__emitChange();
-	      break;
-	  }
+		switch (payload.actionType) {
+			case JobConstants.JOBS_RECEIVED:
+				resetJobs(payload.jobs);
+				JobStore.__emitChange();
+				break;
+			case JobConstants.JOB_RECEIVED:
+				replaceJob(payload.job);
+				JobStore.__emitChange();
+				break;
+		}
 	};
 	window.JobStore = JobStore;
 
@@ -31608,12 +31657,12 @@
 	var ApiUtil = __webpack_require__(216);
 	var JobStore = __webpack_require__(223);
 	var JobDetail = __webpack_require__(242);
+	var JobIndexItem = __webpack_require__(243);
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
 
 	  getInitialState: function () {
-	    // debugger;
-	    return { jobs: JobStore.all() };
+	    return { jobs: [] };
 	  },
 	  _onChange: function () {
 	    this.setState({ jobs: JobStore.all() });
@@ -31630,7 +31679,7 @@
 	  render: function () {
 	    var jobs = this.state.jobs.map(function (job) {
 	      // debugger;
-	      return React.createElement(JobDetail, { key: job.id, job: job });
+	      return React.createElement(JobIndexItem, { key: job.id, job: job });
 	    });
 	    return React.createElement(
 	      'div',
@@ -31649,35 +31698,127 @@
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(216);
 	var JobStore = __webpack_require__(223);
+	var Logo = __webpack_require__(244);
+	var Link = __webpack_require__(159).Link;
 
 	var JobDetail = React.createClass({
 		displayName: 'JobDetail',
 
+		getInitialState: function () {
+
+			return this.getStateFromStore();
+		},
+
+		componentDidMount: function () {
+			this.storeToken = JobStore.addListener(this.updateStateFromStore);
+			ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
+		},
+
+		updateStateFromStore: function () {
+			this.setState(this.getStateFromStore());
+		},
+
+		getStateFromStore: function () {
+			var job = JobStore.find(parseInt(this.props.params.jobId));
+			return { job: job };
+		},
+
+		componentWillReceiveProps: function (newProps) {
+			ApiUtil.fetchSingleJob(parseInt(newProps.params.jobId));
+		},
+
+		componentWillUnmount: function () {
+			this.storeToken.remove();
+		},
 
 		render: function () {
+			var job = this.state.job;
+			if (!job) {
+				return React.createElement('div', null);
+			}
+			// debugger;
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					Link,
+					{ to: "/" },
+					React.createElement(Logo, null)
+				),
+				React.createElement(
+					'h2',
+					null,
+					job.title
+				),
+				job.employer.name,
+				'-',
+				job.location,
+				React.createElement('br', null),
+				job.salary,
+				React.createElement('br', null),
+				job.description,
+				React.createElement('br', null)
+			);
+		}
+	});
+	module.exports = JobDetail;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(216);
+	var JobStore = __webpack_require__(223);
+	var Link = __webpack_require__(159).Link;
+	var JobIndexItem = React.createClass({
+		displayName: 'JobIndexItem',
+
+
+		render: function () {
+			var job = this.props.job;
 			return React.createElement(
 				'li',
 				null,
-				this.props.job.title,
+				React.createElement(
+					Link,
+					{ to: "/jobs/" + job.id },
+					job.title
+				),
 				React.createElement('br', null),
-				this.props.job.employer.name,
+				job.employer.name,
 				'-',
-				this.props.job.location,
+				job.location,
 				React.createElement('br', null),
-				this.props.job.salary,
+				job.salary,
 				React.createElement('br', null),
-				this.props.job.description,
+				job.description,
 				React.createElement('br', null)
 			);
 		}
 
 	});
 
-	module.exports = JobDetail;
-	// 	{job.title}<br />
-	// {job.employer.name}-{job.location}<br />
-	// 	{job.salary}<br />
-	// 	{job.description}<br />
+	module.exports = JobIndexItem;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Logo = React.createClass({
+		displayName: "Logo",
+
+
+		render: function () {
+			return React.createElement("div", { className: "logo" });
+		}
+
+	});
+
+	module.exports = Logo;
 
 /***/ }
 /******/ ]);

@@ -9,6 +9,7 @@ var hashHistory =ReactRouter.hashHistory;//is this okay?
 var ApiUtil = require('./util/api_util');
 var JobStore = require('./stores/job');
 var JobIndex = require('./components/JobIndex');
+var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');
 var App  = React.createClass({
 
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		<Router history={hashHistory}>
 		    <Route path="/" component={App}>
 					<IndexRoute component={JobIndex}/>
-					<Route path="/jobs/:id" component={JobDetail}/>
+					<Route path="/jobs/:jobId" component={JobDetail}/>
 				</Route>
   	</Router>,
 	document.getElementById('content')

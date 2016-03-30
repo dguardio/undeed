@@ -14,7 +14,23 @@ var ApiUtil = {
         console.log("Error: " + no);
       }
 		});
-  }
+  },
+	fetchSingleJob: function(id){
+		$.ajax({
+			url: '/api/jobs/'+ id,
+			method: 'GET',
+			dataType: 'json',
+			contentType: "application/json",
+
+			success: function (job) {
+				// debugger;
+				JobActions.receiveSingleJob(job);
+			},
+			error: function(no){
+				console.log("Error: " + no);
+			}
+		});
+	}
 };
 
 
