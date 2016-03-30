@@ -39,9 +39,9 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 - [ ] user signup/signin pages
 - [ ] blank landing page after signin
 
-### Phase 2.0: Job Model (1.5 days)
+### Phase 2: Job Model (2 days)
 
-**Objective:** Jobs can be searched and read by User.
+**Objective:** Jobs can be read by User.
 
 - [ ] create `Job` model
 - [ ] seed the database with a small amount of test data
@@ -50,33 +50,19 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 - [ ] setup Webpack & Flux scaffold
 - [ ] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
-
-<!-- ### Phase 2.5: Application Model, API, and basic APIUtil (0.5 days)(may not needed?)
-(the real website does not save applications, but directly email them out)
-
-**Objective:** Job Applications can be created through the API.
-
-- [ ] create `Application` model
-- [ ] CRUD API for application (`ApplicationsController`)
-- [ ] jBuilder views for applications -->
-
-### Phase 2.5: Flux Architecture and Router (1.5 days)
-
-**Objective:** Jobs can be searched and read by User with the user interface.
-
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
 - implement each job component, building out the flux loop as needed.
   - [ ] `JobIndex`
   - [ ] `JobIndexItem`
 
-### Phase 3: Start Styling (0.5 days)
+### Phase 3: Filtering jobs and styling (2 days)
 
-**Objective:** Existing pages (including singup/signin) will look good.
+**Objective:** Jobs can be search by User
 
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
+- [ ] Add FilterParams store, actions and other flux structure.
+- [ ] add new components
+- [ ] add styling
 
 ### Phase 4: Myjobs (1.5 days)
 
@@ -84,24 +70,10 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 
 - [ ] create `Myjob` model and join table
 - build out API, Flux loop, and components for:
-  - [ ] fetching jobs for user
+  - [ ] fetching myjobs for user
   - [ ] move jobs to one of the Myjob categories
 - [ ] Style new elements
 
-### Phase 5: Allow Complex Styling in Jobs (0.5 days)
-
-**objective:** Enable complex styling of jobs.
-
-- [ ] Use Rails helpers to sanitize HTML before rendering.
-- [ ] Style the new Quill elements.
-
-### Phase 6: Styling Cleanup and Seeding (1 day)
-
-**objective:** Make the site feel more cohesive and awesome.
-
-- [ ] Get feedback on my UI from others
-- [ ] Refactor HTML classes & CSS rules
-- [ ] Add modals, transitions, and other styling flourishes.
 
 ### Bonus Features (TBD)
 - [ ] Upload Resume

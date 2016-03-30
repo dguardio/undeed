@@ -47,7 +47,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ReactRouter = __webpack_require__(159);
-	var root = document.getElementById('content');
+
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 

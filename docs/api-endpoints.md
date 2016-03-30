@@ -15,7 +15,7 @@
 ### Session
 
 - `GET /session/new`
-- `Job /session`
+- `POST /session`
 - `DELETE /session`
 
 ## JSON API
