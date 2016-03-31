@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329180816) do
+ActiveRecord::Schema.define(version: 20160331152606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,19 +20,27 @@ ActiveRecord::Schema.define(version: 20160329180816) do
     t.string   "title",                             null: false
     t.string   "jobtype",     default: "full_time", null: false
     t.integer  "salary",                            null: false
-    t.string   "location",                          null: false
     t.string   "description",                       null: false
     t.integer  "employer_id",                       null: false
     t.boolean  "status",      default: true,        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id",                       null: false
   end
 
   add_index "jobs", ["employer_id"], name: "index_jobs_on_employer_id", using: :btree
   add_index "jobs", ["jobtype"], name: "index_jobs_on_jobtype", using: :btree
-  add_index "jobs", ["location"], name: "index_jobs_on_location", using: :btree
+  add_index "jobs", ["location_id"], name: "index_jobs_on_location_id", using: :btree
   add_index "jobs", ["salary"], name: "index_jobs_on_salary", using: :btree
   add_index "jobs", ["title"], name: "index_jobs_on_title", using: :btree
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "city",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "locations", ["city"], name: "index_locations_on_city", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false

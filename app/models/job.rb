@@ -7,6 +7,11 @@ class Job < ActiveRecord::Base
 	primary_key: :id,
 	foreign_key: :employer_id
 	)
-
+	belongs_to(
+	:location,
+	class_name: "Location",
+	primary_key: :id,
+	foreign_key: :location_id
+	)
 
 end
