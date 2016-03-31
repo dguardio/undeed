@@ -1,20 +1,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactRouter = require('react-router');
-
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
-var hashHistory =ReactRouter.hashHistory;//is this okay?
+var hashHistory =ReactRouter.hashHistory;
+
 var ApiUtil = require('./util/api_util');
 var JobStore = require('./stores/job');
 var JobIndex = require('./components/JobIndex');
 var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');
-var App  = React.createClass({
+var CityStore = require('./stores/jobCity');
 
+
+var App  = React.createClass({
 	render: function() {
-		
+
 		return (
 			<div>{this.props.children}</div>
 		);

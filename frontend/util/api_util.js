@@ -48,16 +48,16 @@ var ApiUtil = {
         }
   		});
     },
-  searchNames: function(whatwhere){
+  searchCity: function(cityString){
       $.ajax({
-  			url: '/api/jobs',
+  			url: '/api/locations',
   			method: 'GET',
   			dataType: 'json',
   			contentType: "application/json",
 
-  			success: function (jobs) {
+  			success: function (cities) {
           // debugger;
-          JobActions.searchAll(jobs, whatwhere);
+          JobActions.receiveCities(cities, cityString);
         },
         error: function(no){
           console.log("Error: " + no);
@@ -66,7 +66,5 @@ var ApiUtil = {
     },
 };
 
-
-window.ApiUtil = ApiUtil;
-
 module.exports = ApiUtil;
+window.ApiUtil = ApiUtil;

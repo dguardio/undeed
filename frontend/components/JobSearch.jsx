@@ -1,5 +1,6 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
+var CityDropDown = require('./CityDropDown');
 
 var JobSeach = React.createClass({
   getInitialState: function() {
@@ -12,17 +13,21 @@ var JobSeach = React.createClass({
   handleSubmit: function(event){
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
-    // debugger;
     ApiUtil.searchJobs(whatwhere);
   },
 
   handleWhatFieldChange: function (e) {
     this.setState({ whatField: e.currentTarget.value });
-    ApiUtil.searchName(e.currentTarget.value);
   },
 
   handleWhereFieldChange: function (e) {
     this.setState({ whereField: e.currentTarget.value });
+    if (e.currentTarget.value.length > 0){
+      ApiUtil.searchCity(e.currentTarget.value);
+    }
+  },
+  setLocation: function(name){
+    this.setState({ whereField: name});
   },
   render: function() {
     return (
@@ -39,6 +44,8 @@ var JobSeach = React.createClass({
           <button className="search-button">Search Job</button>
           <br />
         </form>
+
+        <CityDropDown setLocation={this.setLocation}/>
       </div>
     );
   }

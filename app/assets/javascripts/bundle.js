@@ -47,19 +47,20 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ReactRouter = __webpack_require__(159);
-
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
-	var hashHistory = ReactRouter.hashHistory; //is this okay?
+	var hashHistory = ReactRouter.hashHistory;
+
 	var ApiUtil = __webpack_require__(218);
 	var JobStore = __webpack_require__(225);
 	var JobIndex = __webpack_require__(243);
 	var JobIndexItem = __webpack_require__(243);
 	var JobDetail = __webpack_require__(244);
+	var CityStore = __webpack_require__(249);
+
 	var App = React.createClass({
 		displayName: 'App',
-
 
 		render: function () {
 
@@ -24934,16 +24935,16 @@
 	      }
 	    });
 	  },
-	  searchNames: function (whatwhere) {
+	  searchCity: function (cityString) {
 	    $.ajax({
-	      url: '/api/jobs',
+	      url: '/api/locations',
 	      method: 'GET',
 	      dataType: 'json',
 	      contentType: "application/json",
 
-	      success: function (jobs) {
+	      success: function (cities) {
 	        // debugger;
-	        JobActions.searchAll(jobs, whatwhere);
+	        JobActions.receiveCities(cities, cityString);
 	      },
 	      error: function (no) {
 	        console.log("Error: " + no);
@@ -24952,9 +24953,8 @@
 	  }
 	};
 
-	window.ApiUtil = ApiUtil;
-
 	module.exports = ApiUtil;
+	window.ApiUtil = ApiUtil;
 
 /***/ },
 /* 219 */
@@ -24980,6 +24980,14 @@
 	      actionType: JobConstants.JOBS_SEARCHED,
 	      jobs: jobs,
 	      whatwhere: whatwhere
+	    });
+	  },
+	  receiveCities: function (cities, cityString) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.CITIES_RECEIVED,
+	      cities: cities,
+	      cityString: cityString
 	    });
 	  }
 
@@ -25310,7 +25318,8 @@
 	var JobConstants = {
 	  JOBS_RECEIVED: "JOBS_RECEIVED",
 	  JOB_RECEIVED: "JOB_RECEIVED",
-	  JOBS_SEARCHED: "JOBS_SEARCHED"
+	  JOBS_SEARCHED: "JOBS_SEARCHED",
+	  CITIES_RECEIVED: "CITIES_RECEIVED"
 	};
 
 	module.exports = JobConstants;
@@ -32021,6 +32030,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
+	var CityDropDown = __webpack_require__(248);
 
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
@@ -32035,17 +32045,21 @@
 	  handleSubmit: function (event) {
 	    event.preventDefault();
 	    var whatwhere = Object.assign({}, this.state);
-	    // debugger;
 	    ApiUtil.searchJobs(whatwhere);
 	  },
 
 	  handleWhatFieldChange: function (e) {
 	    this.setState({ whatField: e.currentTarget.value });
-	    ApiUtil.searchName(e.currentTarget.value);
 	  },
 
 	  handleWhereFieldChange: function (e) {
 	    this.setState({ whereField: e.currentTarget.value });
+	    if (e.currentTarget.value.length > 0) {
+	      ApiUtil.searchCity(e.currentTarget.value);
+	    }
+	  },
+	  setLocation: function (name) {
+	    this.setState({ whereField: name });
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -32080,13 +32094,112 @@
 	          'Search Job'
 	        ),
 	        React.createElement('br', null)
-	      )
+	      ),
+	      React.createElement(CityDropDown, { setLocation: this.setLocation })
 	    );
 	  }
 
 	});
 
 	module.exports = JobSeach;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(218);
+	var CityStore = __webpack_require__(249);
+
+	var CityDropDown = React.createClass({
+	  displayName: 'CityDropDown',
+
+	  getInitialState: function () {
+	    return { cities: [] };
+	  },
+	  componentDidMount: function () {
+	    this.cityStoreToken = CityStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.cityStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+
+	    this.setState({ cities: CityStore.all() });
+	  },
+	  handelClick: function () {
+	    // debugger;
+	    // this.props.setLocation.bind(null,location.city);
+	  },
+	  render: function () {
+	    var cities = this.state.cities.map(function (location) {
+	      // debugger;
+	      return React.createElement(
+	        'li',
+	        {
+	          onClick: this.props.setLocation.bind(null, location.city),
+	          key: location.id },
+	        location.city
+	      );
+	    }.bind(this));
+	    return React.createElement(
+	      'div',
+	      { className: 'dropdown-location' },
+	      cities
+	    );
+	  }
+
+	});
+
+	module.exports = CityDropDown;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(226).Store;
+	var AppDispatcher = __webpack_require__(220);
+	var JobCityConstants = __webpack_require__(224);
+	var _jobCities = [];
+	var JobCityStore = new Store(AppDispatcher);
+
+	JobCityStore.all = function () {
+	  return _jobCities.slice(0);
+	};
+
+	JobCityStore.find = function (id) {
+	  for (var i = 0; i < _jobCities.length; i++) {
+	    if (_jobCities[i].id == id) {
+	      return _jobCities[i];
+	    }
+	  }
+	};
+	var searchCities = function (cities, cityString) {
+	  _jobCities = cities;
+	  var searchedCities = [];
+	  _jobCities.forEach(function (location) {
+	    if (location.city.includes(cityString)) {
+	      searchedCities.push(location);
+	    }
+	  });
+
+	  _jobCities = searchedCities;
+	};
+
+	JobCityStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case JobCityConstants.CITIES_RECEIVED:
+	      searchCities(payload.cities, payload.cityString);
+	      JobCityStore.__emitChange();
+	      break;
+	  }
+	};
+	window.JobCityStore = JobCityStore;
+
+	module.exports = JobCityStore;
 
 /***/ }
 /******/ ]);

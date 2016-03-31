@@ -19,6 +19,14 @@ ApiActions = {
       jobs: jobs,
       whatwhere: whatwhere
     });
+  },
+  receiveCities: function(cities, cityString){
+    // debugger;
+    AppDispatcher.dispatch({
+      actionType: JobConstants.CITIES_RECEIVED,
+      cities: cities,
+      cityString: cityString
+    });
   }
 
 };
