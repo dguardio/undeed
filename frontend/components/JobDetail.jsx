@@ -44,13 +44,15 @@ var JobDetail = React.createClass({
 		// debugger;
 		return (
 
-			<div>
+		<div>
 
 				<Link to={"/"}><Logo /></Link>
-				<h2>{job.title}</h2>
+			<div className="main-content">
+				<h2 className="job-detail-title">{job.title}</h2>
 				{job.employer.name}-{job.location}<br />
 				{job.salary}<br />
 				{job.description}<br />
+			</div>
 		</div>
 		);
 	}

@@ -10,8 +10,8 @@ var JobIndexItem = React.createClass({
 		var job = this.props.job;
 		return (
 
-			<li>
-				<Link to={"/jobs/" + job.id}>
+			<li className="job-index-item">
+				<Link className="job-index-item-title" to={"/jobs/" + job.id}>
 					{job.title}
 				</Link>
 				<br />

@@ -29,7 +29,12 @@ var JobIndex = React.createClass({
     });
     return (
       <div>
-        {jobs}
+        <div className='logo'>
+
+        </div>
+        <div className="main-content">
+          {jobs}
+        </div>
       </div>
     );
   }
