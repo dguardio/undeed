@@ -4,7 +4,7 @@ var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
 var Logo = require('./Logo');
 var Link = require('react-router').Link;
-
+var JobSearch = require('./JobSearch');
 
 
 var JobDetail = React.createClass({
@@ -46,7 +46,8 @@ var JobDetail = React.createClass({
 
 		<div>
 
-				<Link to={"/"}><Logo /></Link>
+			<Link to={"/"}><Logo /></Link>
+      <JobSearch />
 			<div className="main-content">
 				<h2 className="job-detail-title">{job.title}</h2>
 				{job.employer.name}-{job.location.city}<br />

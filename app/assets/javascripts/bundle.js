@@ -58,7 +58,8 @@
 	var JobIndexItem = __webpack_require__(243);
 	var JobDetail = __webpack_require__(244);
 	var CityStore = __webpack_require__(249);
-
+	var FrontPage = __webpack_require__(250);
+	var JobSearch = __webpack_require__(247);
 	var App = React.createClass({
 		displayName: 'App',
 
@@ -82,7 +83,8 @@
 			React.createElement(
 				Route,
 				{ path: '/', component: App },
-				React.createElement(IndexRoute, { component: JobIndex }),
+				React.createElement(IndexRoute, { component: FrontPage }),
+				React.createElement(Route, { path: '/jobs', component: JobIndex }),
 				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail })
 			)
 		), document.getElementById('content'));
@@ -24920,6 +24922,7 @@
 	    });
 	  },
 	  searchJobs: function (whatwhere) {
+	    // debugger;
 	    $.ajax({
 	      url: '/api/jobs',
 	      method: 'GET',
@@ -31864,7 +31867,7 @@
 
 	  componentDidMount: function () {
 	    this.jobStoreToken = JobStore.addListener(this._onChange);
-	    ApiUtil.fetchJobs();
+	    // ApiUtil.fetchJobs();
 	  },
 	  componentWillUnmount: function () {
 	    this.jobStoreToken.remove();
@@ -31900,6 +31903,7 @@
 	var JobStore = __webpack_require__(225);
 	var Logo = __webpack_require__(245);
 	var Link = __webpack_require__(159).Link;
+	var JobSearch = __webpack_require__(247);
 
 	var JobDetail = React.createClass({
 		displayName: 'JobDetail',
@@ -31945,6 +31949,7 @@
 					{ to: "/" },
 					React.createElement(Logo, null)
 				),
+				React.createElement(JobSearch, null),
 				React.createElement(
 					'div',
 					{ className: 'main-content' },
@@ -32031,14 +32036,16 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
 	var CityDropDown = __webpack_require__(248);
-
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
+
+	  contextTypes: { router: React.PropTypes.object.isRequired },
 
 	  getInitialState: function () {
 	    return {
 	      whatField: "Engineer",
-	      whereField: "New York"
+	      whereField: "New York",
+	      whereVisible: false
 	    };
 	  },
 
@@ -32046,6 +32053,8 @@
 	    event.preventDefault();
 	    var whatwhere = Object.assign({}, this.state);
 	    ApiUtil.searchJobs(whatwhere);
+	    // debugger;
+	    this.context.router.push("/jobs");
 	  },
 
 	  handleWhatFieldChange: function (e) {
@@ -32056,10 +32065,12 @@
 	    this.setState({ whereField: e.currentTarget.value });
 	    if (e.currentTarget.value.length > 0) {
 	      ApiUtil.searchCity(e.currentTarget.value);
+	      this.setState({ whereVisible: true });
 	    }
 	  },
 	  setLocation: function (name) {
 	    this.setState({ whereField: name });
+	    this.setState({ whereVisible: false });
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -32095,7 +32106,7 @@
 	        ),
 	        React.createElement('br', null)
 	      ),
-	      React.createElement(CityDropDown, { setLocation: this.setLocation })
+	      React.createElement(CityDropDown, { setLocation: this.setLocation, whereVisible: this.state.whereVisible })
 	    );
 	  }
 
@@ -32130,13 +32141,8 @@
 
 	    this.setState({ cities: CityStore.all() });
 	  },
-	  handelClick: function () {
-	    // debugger;
-	    // this.props.setLocation.bind(null,location.city);
-	  },
 	  render: function () {
 	    var cities = this.state.cities.map(function (location) {
-	      // debugger;
 	      return React.createElement(
 	        'li',
 	        {
@@ -32145,11 +32151,16 @@
 	        location.city
 	      );
 	    }.bind(this));
-	    return React.createElement(
-	      'div',
-	      { className: 'dropdown-location' },
-	      cities
-	    );
+	    // debugger;
+	    if (this.props.whereVisible === true) {
+	      return React.createElement(
+	        'div',
+	        { className: 'dropdown-location' },
+	        cities
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
 	  }
 
 	});
@@ -32200,6 +32211,29 @@
 	window.JobCityStore = JobCityStore;
 
 	module.exports = JobCityStore;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+
+	var JobSearch = __webpack_require__(247);
+	var FrontPage = React.createClass({
+	  displayName: 'FrontPage',
+
+
+	  render: function () {
+	    // debugger;
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(JobSearch, null)
+	    );
+	  }
+	});
+	module.exports = FrontPage;
 
 /***/ }
 /******/ ]);

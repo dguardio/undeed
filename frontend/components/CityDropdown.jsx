@@ -22,13 +22,8 @@ var CityDropDown  = React.createClass({
     this.setState({ cities: CityStore.all()} );
 
   },
-  handelClick: function(){
-    // debugger;
-    // this.props.setLocation.bind(null,location.city);
-  },
   render: function() {
     var cities = this.state.cities.map(function (location) {
-      // debugger;
       return (
         <li
           onClick={this.props.setLocation.bind(null,location.city)}
@@ -36,11 +31,19 @@ var CityDropDown  = React.createClass({
           {location.city}
         </li>);
     }.bind(this));
-    return (
-      <div className="dropdown-location">
-        {cities}
-      </div>
-    );
+    // debugger;
+    if (this.props.whereVisible === true){
+      return (
+        <div className="dropdown-location">
+          {cities}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+        </div>
+      );
+  }
   }
 
 });

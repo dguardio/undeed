@@ -16,7 +16,7 @@ var JobIndex = React.createClass({
 
   componentDidMount: function() {
     this.jobStoreToken = JobStore.addListener(this._onChange);
-    ApiUtil.fetchJobs();
+    // ApiUtil.fetchJobs();
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();

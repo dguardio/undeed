@@ -12,13 +12,15 @@ var JobIndex = require('./components/JobIndex');
 var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');
 var CityStore = require('./stores/jobCity');
-
-
+var FrontPage = require('./components/FrontPage');
+var JobSearch = require('./components/JobSearch');
 var App  = React.createClass({
 	render: function() {
 
 		return (
-			<div>{this.props.children}</div>
+			<div>
+				{this.props.children}
+			</div>
 		);
 	}
 
@@ -33,7 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(
 		<Router history={hashHistory}>
 		    <Route path="/" component={App}>
-					<IndexRoute component={JobIndex}/>
+					<IndexRoute component={FrontPage}/>
+					<Route path="/jobs" component={JobIndex}/>
 					<Route path="/jobs/:jobId" component={JobDetail}/>
 				</Route>
   	</Router>,

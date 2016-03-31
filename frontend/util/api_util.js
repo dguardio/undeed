@@ -33,6 +33,7 @@ var ApiUtil = {
 		});
 	},
   searchJobs: function(whatwhere){
+      // debugger;
       $.ajax({
   			url: '/api/jobs',
   			method: 'GET',
