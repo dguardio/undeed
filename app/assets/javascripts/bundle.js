@@ -32002,7 +32002,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
-	var CityDropDown = __webpack_require__(247);
+	var CityDropDown = __webpack_require__(251);
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
 
@@ -32084,58 +32084,7 @@
 	module.exports = JobSeach;
 
 /***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var ApiUtil = __webpack_require__(218);
-	var CityStore = __webpack_require__(248);
-
-	var CityDropDown = React.createClass({
-	  displayName: 'CityDropDown',
-
-	  getInitialState: function () {
-	    return { cities: [] };
-	  },
-	  componentDidMount: function () {
-	    this.cityStoreToken = CityStore.addListener(this.setStateFromStore);
-	  },
-
-	  componentWillUnmount: function () {
-	    this.cityStoreToken.remove();
-	  },
-
-	  setStateFromStore: function () {
-
-	    this.setState({ cities: CityStore.all() });
-	  },
-	  render: function () {
-	    var cities = this.state.cities.map(function (location) {
-	      return React.createElement(
-	        'li',
-	        { className: 'dropdown-location-list',
-	          onClick: this.props.setLocation.bind(null, location.city),
-	          key: location.id },
-	        location.city
-	      );
-	    }.bind(this));
-	    if (this.props.whereVisible === true && cities.length > 0) {
-	      return React.createElement(
-	        'div',
-	        { className: 'dropdown-location' },
-	        cities
-	      );
-	    } else {
-	      return React.createElement('div', null);
-	    }
-	  }
-
-	});
-
-	module.exports = CityDropDown;
-
-/***/ },
+/* 247 */,
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32242,6 +32191,58 @@
 	  }
 	});
 	module.exports = FrontPage;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(218);
+	var CityStore = __webpack_require__(248);
+
+	var CityDropDown = React.createClass({
+	  displayName: 'CityDropDown',
+
+	  getInitialState: function () {
+	    return { cities: [] };
+	  },
+	  componentDidMount: function () {
+	    this.cityStoreToken = CityStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.cityStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+
+	    this.setState({ cities: CityStore.all() });
+	  },
+	  render: function () {
+	    var cities = this.state.cities.map(function (location) {
+	      return React.createElement(
+	        'li',
+	        { className: 'dropdown-location-list',
+	          onClick: this.props.setLocation.bind(null, location.city),
+	          key: location.id },
+	        location.city
+	      );
+	    }.bind(this));
+	    if (this.props.whereVisible === true && cities.length > 0) {
+	      return React.createElement(
+	        'div',
+	        { className: 'dropdown-location' },
+	        cities
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+
+	});
+
+	module.exports = CityDropDown;
 
 /***/ }
 /******/ ]);
