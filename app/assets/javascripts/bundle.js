@@ -57,9 +57,9 @@
 	var JobIndex = __webpack_require__(243);
 	var JobIndexItem = __webpack_require__(243);
 	var JobDetail = __webpack_require__(244);
-	var CityStore = __webpack_require__(249);
+	var CityStore = __webpack_require__(248);
 	var FrontPage = __webpack_require__(250);
-	var JobSearch = __webpack_require__(247);
+	var JobSearch = __webpack_require__(246);
 	var App = React.createClass({
 		displayName: 'App',
 
@@ -31853,8 +31853,8 @@
 	var ApiUtil = __webpack_require__(218);
 	var JobStore = __webpack_require__(225);
 	var JobDetail = __webpack_require__(244);
-	var JobIndexItem = __webpack_require__(246);
-	var JobSearch = __webpack_require__(247);
+	var JobIndexItem = __webpack_require__(249);
+	var JobSearch = __webpack_require__(246);
 	var Logo = __webpack_require__(245);
 	var Link = __webpack_require__(159).Link;
 	var JobIndex = React.createClass({
@@ -31909,7 +31909,7 @@
 	var JobStore = __webpack_require__(225);
 	var Logo = __webpack_require__(245);
 	var Link = __webpack_require__(159).Link;
-	var JobSearch = __webpack_require__(247);
+	var JobSearch = __webpack_require__(246);
 
 	var JobDetail = React.createClass({
 		displayName: 'JobDetail',
@@ -32001,47 +32001,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var JobStore = __webpack_require__(225);
-	var Link = __webpack_require__(159).Link;
-	var JobIndexItem = React.createClass({
-		displayName: 'JobIndexItem',
-
-
-		render: function () {
-			var job = this.props.job;
-			return React.createElement(
-				'li',
-				{ className: 'job-index-item' },
-				React.createElement(
-					Link,
-					{ className: 'job-index-item-title', to: "/jobs/" + job.id },
-					job.title
-				),
-				React.createElement('br', null),
-				job.employer.name,
-				'-',
-				job.location.city,
-				React.createElement('br', null),
-				job.salary,
-				React.createElement('br', null),
-				job.description,
-				React.createElement('br', null)
-			);
-		}
-
-	});
-
-	module.exports = JobIndexItem;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(218);
-	var CityDropDown = __webpack_require__(248);
+	var CityDropDown = __webpack_require__(247);
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
 
@@ -32123,13 +32084,13 @@
 	module.exports = JobSeach;
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var CityStore = __webpack_require__(249);
+	var CityStore = __webpack_require__(248);
 
 	var CityDropDown = React.createClass({
 	  displayName: 'CityDropDown',
@@ -32175,7 +32136,7 @@
 	module.exports = CityDropDown;
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(226).Store;
@@ -32220,13 +32181,52 @@
 	module.exports = JobCityStore;
 
 /***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(218);
+	var JobStore = __webpack_require__(225);
+	var Link = __webpack_require__(159).Link;
+	var JobIndexItem = React.createClass({
+		displayName: 'JobIndexItem',
+
+
+		render: function () {
+			var job = this.props.job;
+			return React.createElement(
+				'li',
+				{ className: 'job-index-item' },
+				React.createElement(
+					Link,
+					{ className: 'job-index-item-title', to: "/jobs/" + job.id },
+					job.title
+				),
+				React.createElement('br', null),
+				job.employer.name,
+				'-',
+				job.location.city,
+				React.createElement('br', null),
+				job.salary,
+				React.createElement('br', null),
+				job.description,
+				React.createElement('br', null)
+			);
+		}
+
+	});
+
+	module.exports = JobIndexItem;
+
+/***/ },
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 
-	var JobSearch = __webpack_require__(247);
+	var JobSearch = __webpack_require__(246);
 	var FrontPage = React.createClass({
 	  displayName: 'FrontPage',
 
