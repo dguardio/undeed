@@ -31855,6 +31855,8 @@
 	var JobDetail = __webpack_require__(244);
 	var JobIndexItem = __webpack_require__(246);
 	var JobSearch = __webpack_require__(247);
+	var Logo = __webpack_require__(245);
+	var Link = __webpack_require__(159).Link;
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
 
@@ -31881,7 +31883,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('div', { className: 'logo' }),
+	      React.createElement(
+	        Link,
+	        { to: "/" },
+	        React.createElement(Logo, null)
+	      ),
 	      React.createElement(JobSearch, null),
 	      React.createElement(
 	        'div',
@@ -32043,8 +32049,8 @@
 
 	  getInitialState: function () {
 	    return {
-	      whatField: "Engineer",
-	      whereField: "New York",
+	      whatField: "",
+	      whereField: "",
 	      whereVisible: false
 	    };
 	  },
@@ -32066,6 +32072,8 @@
 	    if (e.currentTarget.value.length > 0) {
 	      ApiUtil.searchCity(e.currentTarget.value);
 	      this.setState({ whereVisible: true });
+	    } else {
+	      this.setState({ whereVisible: false });
 	    }
 	  },
 	  setLocation: function (name) {
@@ -32145,14 +32153,13 @@
 	    var cities = this.state.cities.map(function (location) {
 	      return React.createElement(
 	        'li',
-	        {
+	        { className: 'dropdown-location-list',
 	          onClick: this.props.setLocation.bind(null, location.city),
 	          key: location.id },
 	        location.city
 	      );
 	    }.bind(this));
-	    // debugger;
-	    if (this.props.whereVisible === true) {
+	    if (this.props.whereVisible === true && cities.length > 0) {
 	      return React.createElement(
 	        'div',
 	        { className: 'dropdown-location' },
@@ -32229,6 +32236,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement('div', { className: 'logo' }),
 	      React.createElement(JobSearch, null)
 	    );
 	  }

@@ -63,6 +63,15 @@
 	border: 1px solid black;
 	background: white;
 	cursor: pointer;
+	width:600px;
+}
+.dropdown-location-list{
+	display: block;
+	padding: 10px;
+}
+.dropdown-location-list:hover {
+	background: blue;
+	color: white;
 }
 
 

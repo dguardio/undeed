@@ -5,6 +5,8 @@ var JobStore = require('../stores/job');
 var JobDetail = require('./JobDetail');
 var JobIndexItem = require('./JobIndexItem');
 var JobSearch = require('./JobSearch');
+var Logo = require('./Logo');
+var Link = require('react-router').Link;
 var JobIndex = React.createClass({
   getInitialState: function() {
     return { jobs: [] };
@@ -30,9 +32,7 @@ var JobIndex = React.createClass({
     });
     return (
       <div>
-        <div className='logo'>
-
-        </div>
+			  <Link to={"/"}><Logo /></Link>
         <JobSearch></JobSearch>
         <div className="main-content">
           {jobs}

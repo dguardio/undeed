@@ -25,14 +25,13 @@ var CityDropDown  = React.createClass({
   render: function() {
     var cities = this.state.cities.map(function (location) {
       return (
-        <li
+        <li className="dropdown-location-list"
           onClick={this.props.setLocation.bind(null,location.city)}
           key={location.id} >
           {location.city}
         </li>);
     }.bind(this));
-    // debugger;
-    if (this.props.whereVisible === true){
+    if (this.props.whereVisible === true && cities.length > 0 ){
       return (
         <div className="dropdown-location">
           {cities}

@@ -6,8 +6,8 @@ var JobSeach = React.createClass({
 
   getInitialState: function() {
     return {
-      whatField:"Engineer",
-      whereField:"New York",
+      whatField: "",
+      whereField: "",
       whereVisible: false
     };
   },
@@ -29,6 +29,8 @@ var JobSeach = React.createClass({
     if (e.currentTarget.value.length > 0){
       ApiUtil.searchCity(e.currentTarget.value);
       this.setState({ whereVisible: true });
+    } else {
+      this.setState({ whereVisible: false });
     }
   },
   setLocation: function(name){
