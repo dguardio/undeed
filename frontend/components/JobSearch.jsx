@@ -17,25 +17,26 @@ var JobSeach = React.createClass({
   },
 
   handleWhatFieldChange: function (e) {
-  this.setState({ whatField: e.currentTarget.value });
+    this.setState({ whatField: e.currentTarget.value });
+    ApiUtil.searchName(e.currentTarget.value);
   },
 
   handleWhereFieldChange: function (e) {
-  this.setState({ whereField: e.currentTarget.value });
+    this.setState({ whereField: e.currentTarget.value });
   },
   render: function() {
     return (
-      <div>
+      <div className="search-component">
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>what:</label>
-            <input type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
+            <input className="searchField" type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
           </div>
           <div>
             <label>where:</label>
-            <input type='text' onChange={this.handleWhereFieldChange} value={this.state.whereField}/>
+            <input className="searchField" type='text' onChange={this.handleWhereFieldChange} value={this.state.whereField}/>
           </div>
-          <button>Search Job</button>
+          <button className="search-button">Search Job</button>
           <br />
         </form>
       </div>

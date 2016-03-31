@@ -46,7 +46,23 @@ var ApiUtil = {
           console.log("Error: " + no);
         }
   		});
-    }
+    },
+  searchNames: function(whatwhere){
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+  			dataType: 'json',
+  			contentType: "application/json",
+
+  			success: function (jobs) {
+          // debugger;
+          JobActions.searchAll(jobs, whatwhere);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+    },
 };
 
 

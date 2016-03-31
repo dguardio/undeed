@@ -24931,6 +24931,22 @@
 	        console.log("Error: " + no);
 	      }
 	    });
+	  },
+	  searchNames: function (whatwhere) {
+	    $.ajax({
+	      url: '/api/jobs',
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (jobs) {
+	        // debugger;
+	        JobActions.searchAll(jobs, whatwhere);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
 	  }
 	};
 
@@ -32024,6 +32040,7 @@
 
 	  handleWhatFieldChange: function (e) {
 	    this.setState({ whatField: e.currentTarget.value });
+	    ApiUtil.searchName(e.currentTarget.value);
 	  },
 
 	  handleWhereFieldChange: function (e) {
@@ -32032,7 +32049,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'search-component' },
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
@@ -32044,7 +32061,7 @@
 	            null,
 	            'what:'
 	          ),
-	          React.createElement('input', { type: 'text', onChange: this.handleWhatFieldChange, value: this.state.whatField })
+	          React.createElement('input', { className: 'searchField', type: 'text', onChange: this.handleWhatFieldChange, value: this.state.whatField })
 	        ),
 	        React.createElement(
 	          'div',
@@ -32054,11 +32071,11 @@
 	            null,
 	            'where:'
 	          ),
-	          React.createElement('input', { type: 'text', onChange: this.handleWhereFieldChange, value: this.state.whereField })
+	          React.createElement('input', { className: 'searchField', type: 'text', onChange: this.handleWhereFieldChange, value: this.state.whereField })
 	        ),
 	        React.createElement(
 	          'button',
-	          null,
+	          { className: 'search-button' },
 	          'Search Job'
 	        ),
 	        React.createElement('br', null)
