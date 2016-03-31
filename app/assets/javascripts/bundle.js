@@ -62,6 +62,7 @@
 
 
 		render: function () {
+
 			return React.createElement(
 				'div',
 				null,
@@ -24893,6 +24894,7 @@
 	      contentType: "application/json",
 
 	      success: function (jobs) {
+	        // debugger;
 	        JobActions.receiveAll(jobs);
 	      },
 	      error: function (no) {
@@ -25356,8 +25358,7 @@
 	  var searchedJobs = [];
 
 	  _jobs.forEach(function (job) {
-	    if (job.location == whatwhere.whereField && job.title == whatwhere.whatField) {
-	      // debugger;
+	    if (job.location.city.includes(whatwhere.whereField) && job.title.includes(whatwhere.whatField)) {
 	      searchedJobs.push(job);
 	    }
 	  });
@@ -31945,7 +31946,7 @@
 					),
 					job.employer.name,
 					'-',
-					job.location,
+					job.location.city,
 					React.createElement('br', null),
 					job.salary,
 					React.createElement('br', null),
@@ -32001,7 +32002,7 @@
 				React.createElement('br', null),
 				job.employer.name,
 				'-',
-				job.location,
+				job.location.city,
 				React.createElement('br', null),
 				job.salary,
 				React.createElement('br', null),

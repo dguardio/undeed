@@ -49,7 +49,7 @@ var JobDetail = React.createClass({
 				<Link to={"/"}><Logo /></Link>
 			<div className="main-content">
 				<h2 className="job-detail-title">{job.title}</h2>
-				{job.employer.name}-{job.location}<br />
+				{job.employer.name}-{job.location.city}<br />
 				{job.salary}<br />
 				{job.description}<br />
 			</div>

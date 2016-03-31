@@ -15,7 +15,7 @@ var JobIndexItem = React.createClass({
 					{job.title}
 				</Link>
 				<br />
-				{job.employer.name}-{job.location}<br />
+				{job.employer.name}-{job.location.city}<br />
 				{job.salary}<br />
 				{job.description}<br />
 			</li>

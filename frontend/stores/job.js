@@ -37,8 +37,7 @@ var searchJobs = function(jobs, whatwhere){
   var searchedJobs = [];
 
   _jobs.forEach (function(job){
-    if (job.location == whatwhere.whereField && job.title == whatwhere.whatField){
-      // debugger;
+    if (job.location.city.includes(whatwhere.whereField) && job.title.includes(whatwhere.whatField)){
       searchedJobs.push(job);
     }
   });
