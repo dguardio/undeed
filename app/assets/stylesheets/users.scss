@@ -1,3 +1,164 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html, body, header, nav, h1, a, ul, li,
+strong, main, section, img, div, h2, p,
+form, fieldset, label, input, textarea,
+button, article, footer, small, main{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  box-sizing: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  color: inherit;
+  background: transparent;
+}
+body {
+  box-sizing: content-box;
+  font-family: sans-serif;
+  font-size: 13.3333px;
+  line-height: 1.1666666666;
+  background: white;
+  color: #000;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- CLEARFIX --- */
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+a {
+	color: #00c;
+	text-decoration: underline
+}
+.logo{
+	display: block;
+	background-image: asset-url("logo.png");
+  background-size:contain;
+	width: 175px;
+	height:72px;
+	margin-bottom: 19px;
+	// border: 1px solid black;
+}
+.header{
+	text-transform: lowercase;
+	text-align: right;
+	margin: 3px 8.5px;
+
+}
+
+.main{
+	display: block;
+	height: 300px;
+	background: #e0e5ff;
+	padding: 15px 0 15px 0px;
+	border-top: 1px solid #36c;
+	border-bottom: 1px solid #36c;
+}
+
+.content{
+	display: block;
+	height: 300px;
+	background: white;
+	// border: 1px solid red;
+}
+.signin-block{
+	margin: auto;
+	width: 800px;
+}
+.main-signin{
+	margin: 20px 0;
+	float: left;
+	height: 260px;
+	background: white;
+	// border: 1px solid red;
+}
+.facebook-signin{
+	float: left;
+	height: 260px;
+	background: white;
+	// border: 1px solid red;
+}
+
+.signin-title{
+	font-size: 24px;
+	padding: 0 12px;
+}
+
+
+.input-block{
+	padding: 12px;
+	background: #e0e5ff;
+	width: 370px;
+	height:120px;
+	border-top: 2px solid #36c;
+	display:block;
+}
+
+.input-field{
+	background: white;
+	display: block;
+	width:340px;
+	border: 1px solid lightgrey;
+	margin-bottom: 10px;
+}
+.signin-button{
+	align-items: flex-start;
+	text-align: center;
+	cursor: default;
+	color: buttontext;
+	background-color: buttonface;
+	box-sizing: border-box;
+	padding: 2px 6px 3px;
+	border: 2px outset buttonface;
+	display: block;
+	margin: 6px 12px;
+}
+
+.facebook-signin{
+	text-align: left;
+	padding:20px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

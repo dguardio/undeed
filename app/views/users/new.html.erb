@@ -1,20 +1,34 @@
-<br /> <%= link_to "Root", root_url %>
+<label class="logo"><%= link_to "", root_url %></label>
+
+<main class="main">
+	<section class="content group">
+		<section class="signin-block group">
+			<section class="main-signin">
+				<h2 class="signin-title">Create an account</h2>
+					Already have an account? <%= link_to "Sign In", new_session_url %>
+				<form action=" <%=users_url%>" method="post">
+				  <%= auth_token_input %>
+
+					<div class="input-block">
+					  <label>Email Address<br />
+					    <input class="input-field" type="text" name="user[email]" value="" />
+					  </label>
+					  <label>Password<br />
+					    <input class="input-field" type="password" name="user[password]" value="" />
+					  </label>
+					</div>
 
 
-<h2>Create an account</h2>
-Already have an account?<%= link_to "Sign In", new_session_url %>
+				  <input class="signin-button" type="submit" value="Create Account" />
 
 
+				</form>
+			</section>
+			<section class="facebook-signin">
+				<button class="facebook-button">Sign in with Facebook</button>
 
-<form action=" <%=users_url %>" method="post">
-  <%= auth_token_input %>
-  <label>Email Address<br />
-    <input type="text" name="user[email]" value="" />
-  </label>
-	<br />
-  <label>Password<br />
-    <input type="password" name="user[password]" value="" />
-  </label><br />
-  <input type="submit" value="Create Account" />
-	<br />
-</form>
+			</section>
+		</section>
+
+	</section>
+</main>

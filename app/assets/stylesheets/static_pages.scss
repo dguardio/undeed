@@ -2,12 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .logo{
-	color: red;
-	font-size: 20px;
 	display: block;
 	background-image: asset-url("logo.png");
   background-size:contain;
-	width: 150px;
-	height:62px;
-	border: 1px solid black;
+	width: 175px;
+	height:72px;
+	// border: 1px solid black;
 }
