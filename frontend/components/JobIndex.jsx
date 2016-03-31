@@ -4,6 +4,7 @@ var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
 var JobDetail = require('./JobDetail');
 var JobIndexItem = require('./JobIndexItem');
+var JobSearch = require('./JobSearch');
 var JobIndex = React.createClass({
   getInitialState: function() {
     return { jobs: [] };
@@ -32,6 +33,7 @@ var JobIndex = React.createClass({
         <div className='logo'>
 
         </div>
+        <JobSearch></JobSearch>
         <div className="main-content">
           {jobs}
         </div>

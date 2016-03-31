@@ -24,13 +24,26 @@ var replaceJob = function(newJob){
 		if (job.id == newJob.id){
 			replaced = true;
 			return newJob;
-		}else{
+		} else {
 			return job;
 		}
 	});
 	if (!replaced){
 		_jobs.push(newJob);
 	}
+};
+var searchJobs = function(jobs, whatwhere){
+  _jobs = jobs;
+  var searchedJobs = [];
+
+  _jobs.forEach (function(job){
+    if (job.location == whatwhere.whereField && job.title == whatwhere.whatField){
+      // debugger;
+      searchedJobs.push(job);
+    }
+  });
+
+  _jobs = searchedJobs;
 };
 
 JobStore.__onDispatch = function (payload) {
@@ -43,6 +56,10 @@ JobStore.__onDispatch = function (payload) {
 			replaceJob(payload.job);
 			JobStore.__emitChange();
 			break;
+    case JobConstants.JOBS_SEARCHED:
+      searchJobs(payload.jobs, payload.whatwhere);
+      JobStore.__emitChange();
+      break;
   }
 };
 window.JobStore = JobStore;

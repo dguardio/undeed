@@ -1,6 +1,6 @@
 var JobActions = require('../actions/api_actions');
 var ApiUtil = {
-  fetchJobs: function(jobs){
+  fetchJobs: function(){
     $.ajax({
 			url: '/api/jobs',
 			method: 'GET',
@@ -30,7 +30,23 @@ var ApiUtil = {
 				console.log("Error: " + no);
 			}
 		});
-	}
+	},
+  searchJobs: function(whatwhere){
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+  			dataType: 'json',
+  			contentType: "application/json",
+
+  			success: function (jobs) {
+          // debugger;
+          JobActions.searchAll(jobs, whatwhere);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+    }
 };
 
 

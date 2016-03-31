@@ -24885,37 +24885,53 @@
 
 	var JobActions = __webpack_require__(219);
 	var ApiUtil = {
-		fetchJobs: function (jobs) {
-			$.ajax({
-				url: '/api/jobs',
-				method: 'GET',
-				dataType: 'json',
-				contentType: "application/json",
+	  fetchJobs: function () {
+	    $.ajax({
+	      url: '/api/jobs',
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
 
-				success: function (jobs) {
-					JobActions.receiveAll(jobs);
-				},
-				error: function (no) {
-					console.log("Error: " + no);
-				}
-			});
-		},
-		fetchSingleJob: function (id) {
-			$.ajax({
-				url: '/api/jobs/' + id,
-				method: 'GET',
-				dataType: 'json',
-				contentType: "application/json",
+	      success: function (jobs) {
+	        JobActions.receiveAll(jobs);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  fetchSingleJob: function (id) {
+	    $.ajax({
+	      url: '/api/jobs/' + id,
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
 
-				success: function (job) {
-					// debugger;
-					JobActions.receiveSingleJob(job);
-				},
-				error: function (no) {
-					console.log("Error: " + no);
-				}
-			});
-		}
+	      success: function (job) {
+	        // debugger;
+	        JobActions.receiveSingleJob(job);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  searchJobs: function (whatwhere) {
+	    $.ajax({
+	      url: '/api/jobs',
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (jobs) {
+	        // debugger;
+	        JobActions.searchAll(jobs, whatwhere);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
+	  }
 	};
 
 	window.ApiUtil = ApiUtil;
@@ -24940,7 +24956,15 @@
 	      actionType: JobConstants.JOB_RECEIVED,
 	      job: job
 	    });
+	  },
+	  searchAll: function (jobs, whatwhere) {
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.JOBS_SEARCHED,
+	      jobs: jobs,
+	      whatwhere: whatwhere
+	    });
 	  }
+
 	};
 
 	module.exports = ApiActions;
@@ -25267,7 +25291,8 @@
 
 	var JobConstants = {
 	  JOBS_RECEIVED: "JOBS_RECEIVED",
-	  JOB_RECEIVED: "JOB_RECEIVED"
+	  JOB_RECEIVED: "JOB_RECEIVED",
+	  JOBS_SEARCHED: "JOBS_SEARCHED"
 	};
 
 	module.exports = JobConstants;
@@ -25283,45 +25308,62 @@
 	var JobStore = new Store(AppDispatcher);
 
 	JobStore.all = function () {
-		return _jobs.slice(0);
+	  return _jobs.slice(0);
 	};
 
 	JobStore.find = function (id) {
-		for (var i = 0; i < _jobs.length; i++) {
-			if (_jobs[i].id == id) {
-				return _jobs[i];
-			}
-		}
+	  for (var i = 0; i < _jobs.length; i++) {
+	    if (_jobs[i].id == id) {
+	      return _jobs[i];
+	    }
+	  }
 	};
 	var resetJobs = function (jobs) {
-		_jobs = jobs;
+	  _jobs = jobs;
 	};
 	var replaceJob = function (newJob) {
-		var replaced = false;
-		_jobs = _jobs.map(function (job) {
-			if (job.id == newJob.id) {
-				replaced = true;
-				return newJob;
-			} else {
-				return job;
-			}
-		});
-		if (!replaced) {
-			_jobs.push(newJob);
-		}
+	  var replaced = false;
+	  _jobs = _jobs.map(function (job) {
+	    if (job.id == newJob.id) {
+	      replaced = true;
+	      return newJob;
+	    } else {
+	      return job;
+	    }
+	  });
+	  if (!replaced) {
+	    _jobs.push(newJob);
+	  }
+	};
+	var searchJobs = function (jobs, whatwhere) {
+	  _jobs = jobs;
+	  var searchedJobs = [];
+
+	  _jobs.forEach(function (job) {
+	    if (job.location == whatwhere.whereField && job.title == whatwhere.whatField) {
+	      // debugger;
+	      searchedJobs.push(job);
+	    }
+	  });
+
+	  _jobs = searchedJobs;
 	};
 
 	JobStore.__onDispatch = function (payload) {
-		switch (payload.actionType) {
-			case JobConstants.JOBS_RECEIVED:
-				resetJobs(payload.jobs);
-				JobStore.__emitChange();
-				break;
-			case JobConstants.JOB_RECEIVED:
-				replaceJob(payload.job);
-				JobStore.__emitChange();
-				break;
-		}
+	  switch (payload.actionType) {
+	    case JobConstants.JOBS_RECEIVED:
+	      resetJobs(payload.jobs);
+	      JobStore.__emitChange();
+	      break;
+	    case JobConstants.JOB_RECEIVED:
+	      replaceJob(payload.job);
+	      JobStore.__emitChange();
+	      break;
+	    case JobConstants.JOBS_SEARCHED:
+	      searchJobs(payload.jobs, payload.whatwhere);
+	      JobStore.__emitChange();
+	      break;
+	  }
 	};
 	window.JobStore = JobStore;
 
@@ -31783,6 +31825,7 @@
 	var JobStore = __webpack_require__(225);
 	var JobDetail = __webpack_require__(244);
 	var JobIndexItem = __webpack_require__(246);
+	var JobSearch = __webpack_require__(247);
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
 
@@ -31810,6 +31853,7 @@
 	      'div',
 	      null,
 	      React.createElement('div', { className: 'logo' }),
+	      React.createElement(JobSearch, null),
 	      React.createElement(
 	        'div',
 	        { className: 'main-content' },
@@ -31953,6 +31997,78 @@
 	});
 
 	module.exports = JobIndexItem;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(218);
+
+	var JobSeach = React.createClass({
+	  displayName: 'JobSeach',
+
+	  getInitialState: function () {
+	    return {
+	      whatField: "Engineer",
+	      whereField: "New York"
+	    };
+	  },
+
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var whatwhere = Object.assign({}, this.state);
+	    // debugger;
+	    ApiUtil.searchJobs(whatwhere);
+	  },
+
+	  handleWhatFieldChange: function (e) {
+	    this.setState({ whatField: e.currentTarget.value });
+	  },
+
+	  handleWhereFieldChange: function (e) {
+	    this.setState({ whereField: e.currentTarget.value });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'label',
+	            null,
+	            'what:'
+	          ),
+	          React.createElement('input', { type: 'text', onChange: this.handleWhatFieldChange, value: this.state.whatField })
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'label',
+	            null,
+	            'where:'
+	          ),
+	          React.createElement('input', { type: 'text', onChange: this.handleWhereFieldChange, value: this.state.whereField })
+	        ),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Search Job'
+	        ),
+	        React.createElement('br', null)
+	      )
+	    );
+	  }
+
+	});
+
+	module.exports = JobSeach;
 
 /***/ }
 /******/ ]);
