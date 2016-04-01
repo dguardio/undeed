@@ -25464,6 +25464,7 @@
 	};
 
 	JobStore.find = function (id) {
+	  // debugger;
 	  for (var i = 0; i < _jobs.length; i++) {
 	    if (_jobs[i].id == id) {
 	      return _jobs[i];
@@ -32882,16 +32883,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobVisited = React.createClass({
 	  displayName: 'MyJobVisited',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Visited!'
+	      'Visited!',
+	      React.createElement(Shared, { type: 'visited' })
 	    );
 	  }
 
@@ -32981,6 +32983,7 @@
 	};
 
 	MyJobStore.find = function (status) {
+	  // debugger;
 	  var result = [];
 	  for (var i = 0; i < _myjobs.length; i++) {
 	    if (_myjobs[i].status === status) {
@@ -33012,7 +33015,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var MyJobStore = __webpack_require__(265);
+	var SessionStore = __webpack_require__(253);
+	var ApiUtil = __webpack_require__(218);
 	var Shared = React.createClass({
 	  displayName: 'Shared',
 
@@ -33022,24 +33027,55 @@
 	  },
 
 	  componentDidMount: function () {
+	    var currentUserId = SessionStore.currentUser().id;
+	    ApiUtil.fetchMyJobs(currentUserId);
 	    this.storeToken = MyJobStore.addListener(this.updateStateFromStore);
-	    ApiUtil.fetchMyJobs(2);
+	    this.storeToken2 = SessionStore.addListener(this.updateStateFromStore);
 	  },
-
+	  componentWillUnmount: function () {
+	    this.storeToken.remove();
+	    this.storeToken2.remove();
+	  },
 	  updateStateFromStore: function () {
 	    this.setState(this.getStateFromStore());
 	  },
 
 	  getStateFromStore: function () {
+	    var currentUserId = SessionStore.currentUser().id;
 	    var myjobs = MyJobStore.find(this.props.type);
-	    return { myjobs: myjobs };
+	    return {
+	      myjobs: myjobs,
+	      currentUserId: currentUserId
+	    };
 	  },
 
 	  render: function () {
+	    var myjobs = this.state.myjobs.map(function (myjob) {
+	      // debugger;
+	      return React.createElement(
+	        'ul',
+	        { key: myjob.id },
+	        React.createElement(
+	          'li',
+	          null,
+	          myjob.job.employer
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          myjob.job.location
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          myjob.job.title
+	        )
+	      );
+	    });
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.myjobs.id
+	      myjobs
 	    );
 	  }
 

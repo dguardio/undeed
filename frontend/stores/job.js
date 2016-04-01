@@ -9,6 +9,7 @@ JobStore.all = function () {
 };
 
 JobStore.find = function(id) {
+  // debugger;
 	for( var i = 0; i < _jobs.length; i++){
 		if( _jobs[i].id == id) {
 			return _jobs[i];

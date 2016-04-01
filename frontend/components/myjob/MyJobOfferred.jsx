@@ -6,6 +6,7 @@ var MyJobOfferred = React.createClass({
     return (
       <div>
         Offerred!
+
       </div>
     );
   }
