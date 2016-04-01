@@ -1,6 +1,24 @@
 var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
 var ApiUtil = {
+  fetchMyJobs: function(seeker_id){
+    $.ajax({
+      url: '/api/myjobs',
+      method: 'GET',
+      data:{seeker_id: seeker_id},
+      dataType: 'json',
+      contentType: "application/json",
+
+      success: function (myjobs) {
+        // debugger;
+        JobActions.receiveMyJobs(myjobs);
+      },
+      error: function(no){
+        // debugger;
+        console.log("Error: " + no);
+      }
+    });
+  },
   fetchJobs: function(){
     $.ajax({
 			url: '/api/jobs',

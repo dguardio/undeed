@@ -21,6 +21,17 @@ var SignupForm = require("./components/SignupForm.jsx");
 var SessionStore = require("./stores/session");
 var UserHeader =  require("./components/UserHeader.jsx");
 
+var MyJobSaved = require('./components/myjob/MyJobSaved');
+var MyJobApplied = require('./components/myjob/MyJobApplied');
+var MyJobInter = require('./components/myjob/MyJobInter');
+var MyJobOfferred = require('./components/myjob/MyJobOfferred');
+var MyJobHired = require('./components/myjob/MyJobHired');
+var MyJobVisited = require('./components/myjob/MyJobVisited');
+var MyJobArchived = require('./components/myjob/MyJobArchived');
+var MyJobStore = require('./stores/myJob');
+
+
+
 var App  = React.createClass({
 	render: function() {
 
@@ -46,14 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
 					<IndexRoute component={FrontPage}/>
 					<Route path="/jobs" component={JobIndex}/>
 					<Route path="/jobs/:jobId" component={JobDetail}/>
-					<Route path="myjobs" component={MyJobIndex} onEnter={_requireLoggedIn}/>
-						// <IndexRoute path="" component={MyJobSaved} />
-						// <Route path="myjobs/applied" component={MyJobApplied} />
-						// <Route path="myjobs/interviewing" component={MyJobInter} />
-						// <Route path="myjobs/offered" component={MyJobOfferred} />
-						// <Route path="myjobs/hired" component={MyJobHired} />
-						// <Route path="myjobs/visited" component={MyJobVisited} />
-						// <Route path="myjobs/archived" component={MyJobArchived} />
+					<Route path="myjobs" component={MyJobIndex} onEnter={_requireLoggedIn}>
+						<IndexRoute component={MyJobSaved} />
+						<Route path="applied" component={MyJobApplied} />
+						<Route path="interviewed" component={MyJobInter} />
+						<Route path="offered" component={MyJobOfferred} />
+						<Route path="hired" component={MyJobHired} />
+						<Route path="visited" component={MyJobVisited} />
+						<Route path="archived" component={MyJobArchived} />
+					</Route>
 				</Route>
 				<Route path="/login" component={LoginForm}/>
 				<Route path="/signup" component={SignupForm}/>

@@ -1,6 +1,13 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
 var JobConstants = require('../constants/job_constants');
 ApiActions = {
+  receiveMyJobs: function(myjobs){
+    // debugger;
+    AppDispatcher.dispatch({
+      actionType: JobConstants.MYJOBS_RECEIVED,
+      myjobs: myjobs
+    });
+  },
   receiveAll: function(jobs){
     AppDispatcher.dispatch({
       actionType: JobConstants.JOBS_RECEIVED,

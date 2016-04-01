@@ -15,5 +15,8 @@ class Myjob < ActiveRecord::Base
   foreign_key: :seeker_id
   )
 
-
+	def self.forseeker(seeker_id)
+		# debugger
+		Myjob.where(seeker_id: seeker_id.to_i)
+	end
 end

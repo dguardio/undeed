@@ -32,21 +32,21 @@ var MyJobIndex = React.createClass({
     if (!this.state.isLoggedIn){
           this.context.router.goBack();
     }
-    var statuses = ["Saved","Applied","Interviewed","Offerred","Hired","Visited","Archived"];
-    var statuslist = status.map(function(status){
-      return <MyjobIndexItem status = {status} />;
-    });
+    // var statuses = ["Saved","Applied","Interviewed","Offerred","Hired","Visited","Archived"];
+    // var statuslist = status.map(function(status){
+    //   return <MyjobIndexItem status = {status} />;
+    // });
     return (
       <div>
         You have reached MyJobIndex!
         <ul>
-          {statuslist}
-          <Link to={"myjobs/applied"}>Applied</Link>
-          <Link to={"myjobs/interviewed"}>Interviewed</Link>
-          <Link to={"myjobs/offered"}>Offered</Link>
-          <Link to={"myjobs/hired"}>Hired</Link>
-          <Link to={"myjobs/visited"}>Visited</Link>
-          <Link to={"myjobs/archived"}>Archived</Link>
+          <li><Link to={"myjobs/"}>Saved</Link></li>
+          <li><Link to={"myjobs/applied"}>Applied</Link></li>
+          <li><Link to={"myjobs/interviewed"}>Interviewed</Link></li>
+          <li><Link to={"myjobs/offered"}>Offered</Link></li>
+          <li><Link to={"myjobs/hired"}>Hired</Link></li>
+          <li><Link to={"myjobs/visited"}>Visited</Link></li>
+          <li><Link to={"myjobs/archived"}>Archived</Link></li>
         </ul>
           {this.props.children}
       </ div>

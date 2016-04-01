@@ -67,68 +67,73 @@
 	var SessionStore = __webpack_require__(253);
 	var UserHeader = __webpack_require__(257);
 
+	var MyJobSaved = __webpack_require__(264);
+	var MyJobApplied = __webpack_require__(258);
+	var MyJobInter = __webpack_require__(259);
+	var MyJobOfferred = __webpack_require__(263);
+	var MyJobHired = __webpack_require__(260);
+	var MyJobVisited = __webpack_require__(261);
+	var MyJobArchived = __webpack_require__(262);
+	var MyJobStore = __webpack_require__(265);
+
 	var App = React.createClass({
-			displayName: 'App',
+		displayName: 'App',
 
-			render: function () {
+		render: function () {
 
-					return React.createElement(
-							'div',
-							null,
-							React.createElement(UserHeader, null),
-							this.props.children
-					);
-			}
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(UserHeader, null),
+				this.props.children
+			);
+		}
 
 	});
 
 	module.exports = App;
 
 	document.addEventListener("DOMContentLoaded", function () {
-			ReactDOM.render(React.createElement(
-					Router,
-					{ history: hashHistory },
-					React.createElement(
-							Route,
-							{ path: '/', component: App },
-							React.createElement(IndexRoute, { component: FrontPage }),
-							React.createElement(Route, { path: '/jobs', component: JobIndex }),
-							React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
-							React.createElement(Route, { path: 'myjobs', component: MyJobIndex, onEnter: _requireLoggedIn }),
-							'// ',
-							React.createElement(IndexRoute, { path: '', component: MyJobSaved }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/applied', component: MyJobApplied }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/interviewing', component: MyJobInter }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/offered', component: MyJobOfferred }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/hired', component: MyJobHired }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/visited', component: MyJobVisited }),
-							'// ',
-							React.createElement(Route, { path: 'myjobs/archived', component: MyJobArchived })
-					),
-					React.createElement(Route, { path: '/login', component: LoginForm }),
-					React.createElement(Route, { path: '/signup', component: SignupForm })
-			), document.getElementById('content'));
+		ReactDOM.render(React.createElement(
+			Router,
+			{ history: hashHistory },
+			React.createElement(
+				Route,
+				{ path: '/', component: App },
+				React.createElement(IndexRoute, { component: FrontPage }),
+				React.createElement(Route, { path: '/jobs', component: JobIndex }),
+				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
+				React.createElement(
+					Route,
+					{ path: 'myjobs', component: MyJobIndex, onEnter: _requireLoggedIn },
+					React.createElement(IndexRoute, { component: MyJobSaved }),
+					React.createElement(Route, { path: 'applied', component: MyJobApplied }),
+					React.createElement(Route, { path: 'interviewed', component: MyJobInter }),
+					React.createElement(Route, { path: 'offered', component: MyJobOfferred }),
+					React.createElement(Route, { path: 'hired', component: MyJobHired }),
+					React.createElement(Route, { path: 'visited', component: MyJobVisited }),
+					React.createElement(Route, { path: 'archived', component: MyJobArchived })
+				)
+			),
+			React.createElement(Route, { path: '/login', component: LoginForm }),
+			React.createElement(Route, { path: '/signup', component: SignupForm })
+		), document.getElementById('content'));
 	});
 
 	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
-			if (!SessionStore.currentUserHasBeenFetched()) {
-					ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
-			} else {
-					_redirectIfNotLoggedIn();
+		if (!SessionStore.currentUserHasBeenFetched()) {
+			ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+		} else {
+			_redirectIfNotLoggedIn();
+		}
+
+		function _redirectIfNotLoggedIn() {
+			if (!SessionStore.isLoggedIn()) {
+				replace("/login");
 			}
 
-			function _redirectIfNotLoggedIn() {
-					if (!SessionStore.isLoggedIn()) {
-							replace("/login");
-					}
-
-					asyncCompletionCallback();
-			}
+			asyncCompletionCallback();
+		}
 	}
 
 /***/ },
@@ -24931,6 +24936,24 @@
 	var JobActions = __webpack_require__(219);
 	var SessionActions = __webpack_require__(255);
 	var ApiUtil = {
+	  fetchMyJobs: function (seeker_id) {
+	    $.ajax({
+	      url: '/api/myjobs',
+	      method: 'GET',
+	      data: { seeker_id: seeker_id },
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (myjobs) {
+	        // debugger;
+	        JobActions.receiveMyJobs(myjobs);
+	      },
+	      error: function (no) {
+	        // debugger;
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
 	  fetchJobs: function () {
 	    $.ajax({
 	      url: '/api/jobs',
@@ -25057,6 +25080,13 @@
 	var AppDispatcher = __webpack_require__(220);
 	var JobConstants = __webpack_require__(224);
 	ApiActions = {
+	  receiveMyJobs: function (myjobs) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.MYJOBS_RECEIVED,
+	      myjobs: myjobs
+	    });
+	  },
 	  receiveAll: function (jobs) {
 	    AppDispatcher.dispatch({
 	      actionType: JobConstants.JOBS_RECEIVED,
@@ -25410,6 +25440,7 @@
 /***/ function(module, exports) {
 
 	var JobConstants = {
+	  MYJOBS_RECEIVED: "MYJOBS_RECEIVED",
 	  JOBS_RECEIVED: "JOBS_RECEIVED",
 	  JOB_RECEIVED: "JOB_RECEIVED",
 	  JOBS_SEARCHED: "JOBS_SEARCHED",
@@ -32346,10 +32377,10 @@
 	    if (!this.state.isLoggedIn) {
 	      this.context.router.goBack();
 	    }
-	    var statuses = ["Saved", "Applied", "Interviewed", "Offerred", "Hired", "Visited", "Archived"];
-	    var statuslist = status.map(function (status) {
-	      return React.createElement(MyjobIndexItem, { status: status });
-	    });
+	    // var statuses = ["Saved","Applied","Interviewed","Offerred","Hired","Visited","Archived"];
+	    // var statuslist = status.map(function(status){
+	    //   return <MyjobIndexItem status = {status} />;
+	    // });
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32357,36 +32388,68 @@
 	      React.createElement(
 	        'ul',
 	        null,
-	        statuslist,
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/applied" },
-	          'Applied'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/" },
+	            'Saved'
+	          )
 	        ),
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/interviewed" },
-	          'Interviewed'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/applied" },
+	            'Applied'
+	          )
 	        ),
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/offered" },
-	          'Offered'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/interviewed" },
+	            'Interviewed'
+	          )
 	        ),
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/hired" },
-	          'Hired'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/offered" },
+	            'Offered'
+	          )
 	        ),
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/visited" },
-	          'Visited'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/hired" },
+	            'Hired'
+	          )
 	        ),
 	        React.createElement(
-	          Link,
-	          { to: "myjobs/archived" },
-	          'Archived'
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/visited" },
+	            'Visited'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: "myjobs/archived" },
+	            'Archived'
+	          )
 	        )
 	      ),
 	      this.props.children
@@ -32747,6 +32810,242 @@
 	});
 
 	module.exports = UserHeader;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobApplied = React.createClass({
+	  displayName: 'MyJobApplied',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Applied!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobApplied;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobInter = React.createClass({
+	  displayName: 'MyJobInter',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Inter!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobInter;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobHired = React.createClass({
+	  displayName: 'MyJobHired',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Hired!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobHired;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobVisited = React.createClass({
+	  displayName: 'MyJobVisited',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Visited!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobVisited;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobArchived = React.createClass({
+	  displayName: 'MyJobArchived',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Archived!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobArchived;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var MyJobOfferred = React.createClass({
+	  displayName: 'MyJobOfferred',
+
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Offerred!'
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobOfferred;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(266);
+	var MyJobSaved = React.createClass({
+	  displayName: 'MyJobSaved',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Saved!',
+	      React.createElement(Shared, { type: 'saved' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobSaved;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(226).Store;
+	var AppDispatcher = __webpack_require__(220);
+	var JobConstants = __webpack_require__(224);
+	var _myjobs = [];
+	var MyJobStore = new Store(AppDispatcher);
+
+	MyJobStore.all = function () {
+	  return _myjobs.slice(0);
+	};
+
+	MyJobStore.find = function (status) {
+	  var result = [];
+	  for (var i = 0; i < _myjobs.length; i++) {
+	    if (_myjobs[i].status === status) {
+	      result.push(_myjobs[i]);
+	    }
+	  }
+	  return result;
+	};
+	var resetMyJobs = function (jobs) {
+	  _myjobs = jobs;
+	};
+
+	MyJobStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+
+	    case JobConstants.MYJOBS_RECEIVED:
+	      // debugger;
+	      resetMyJobs(payload.myjobs);
+	      MyJobStore.__emitChange();
+	      break;
+	  }
+	};
+	window.MyJobStore = MyJobStore;
+
+	module.exports = MyJobStore;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Shared = React.createClass({
+	  displayName: 'Shared',
+
+	  getInitialState: function () {
+
+	    return this.getStateFromStore();
+	  },
+
+	  componentDidMount: function () {
+	    this.storeToken = MyJobStore.addListener(this.updateStateFromStore);
+	    ApiUtil.fetchMyJobs(2);
+	  },
+
+	  updateStateFromStore: function () {
+	    this.setState(this.getStateFromStore());
+	  },
+
+	  getStateFromStore: function () {
+	    var myjobs = MyJobStore.find(this.props.type);
+	    return { myjobs: myjobs };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.state.myjobs.id
+	    );
+	  }
+
+	});
+
+	module.exports = Shared;
 
 /***/ }
 /******/ ]);
