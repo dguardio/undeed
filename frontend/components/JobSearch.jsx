@@ -16,7 +16,6 @@ var JobSeach = React.createClass({
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobs(whatwhere);
-    // debugger;
     this.context.router.push("/jobs");
   },
 

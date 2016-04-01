@@ -54,41 +54,82 @@
 
 	var ApiUtil = __webpack_require__(218);
 	var JobStore = __webpack_require__(225);
-	var JobIndex = __webpack_require__(243);
-	var JobIndexItem = __webpack_require__(243);
-	var JobDetail = __webpack_require__(244);
-	var CityStore = __webpack_require__(248);
-	var FrontPage = __webpack_require__(250);
-	var JobSearch = __webpack_require__(246);
+	var CityStore = __webpack_require__(243);
+	var JobIndex = __webpack_require__(244);
+	var JobIndexItem = __webpack_require__(244);
+	var JobDetail = __webpack_require__(245);
+	var JobSearch = __webpack_require__(247);
+	var MyJobIndex = __webpack_require__(250);
+
+	var FrontPage = __webpack_require__(251);
+	var LoginForm = __webpack_require__(252);
+	var SignupForm = __webpack_require__(256);
+	var SessionStore = __webpack_require__(253);
+	var UserHeader = __webpack_require__(257);
+
 	var App = React.createClass({
-		displayName: 'App',
+			displayName: 'App',
 
-		render: function () {
+			render: function () {
 
-			return React.createElement(
-				'div',
-				null,
-				this.props.children
-			);
-		}
+					return React.createElement(
+							'div',
+							null,
+							React.createElement(UserHeader, null),
+							this.props.children
+					);
+			}
 
 	});
 
 	module.exports = App;
 
 	document.addEventListener("DOMContentLoaded", function () {
-		ReactDOM.render(React.createElement(
-			Router,
-			{ history: hashHistory },
-			React.createElement(
-				Route,
-				{ path: '/', component: App },
-				React.createElement(IndexRoute, { component: FrontPage }),
-				React.createElement(Route, { path: '/jobs', component: JobIndex }),
-				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail })
-			)
-		), document.getElementById('content'));
+			ReactDOM.render(React.createElement(
+					Router,
+					{ history: hashHistory },
+					React.createElement(
+							Route,
+							{ path: '/', component: App },
+							React.createElement(IndexRoute, { component: FrontPage }),
+							React.createElement(Route, { path: '/jobs', component: JobIndex }),
+							React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
+							React.createElement(Route, { path: 'myjobs', component: MyJobIndex, onEnter: _requireLoggedIn }),
+							'// ',
+							React.createElement(IndexRoute, { path: '', component: MyJobSaved }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/applied', component: MyJobApplied }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/interviewing', component: MyJobInter }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/offered', component: MyJobOfferred }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/hired', component: MyJobHired }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/visited', component: MyJobVisited }),
+							'// ',
+							React.createElement(Route, { path: 'myjobs/archived', component: MyJobArchived })
+					),
+					React.createElement(Route, { path: '/login', component: LoginForm }),
+					React.createElement(Route, { path: '/signup', component: SignupForm })
+			), document.getElementById('content'));
 	});
+
+	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
+			if (!SessionStore.currentUserHasBeenFetched()) {
+					ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+			} else {
+					_redirectIfNotLoggedIn();
+			}
+
+			function _redirectIfNotLoggedIn() {
+					if (!SessionStore.isLoggedIn()) {
+							replace("/login");
+					}
+
+					asyncCompletionCallback();
+			}
+	}
 
 /***/ },
 /* 1 */
@@ -24888,6 +24929,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var JobActions = __webpack_require__(219);
+	var SessionActions = __webpack_require__(255);
 	var ApiUtil = {
 	  fetchJobs: function () {
 	    $.ajax({
@@ -24951,6 +24993,55 @@
 	      },
 	      error: function (no) {
 	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  login: function (credentials, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/session",
+	      dataType: "json",
+	      data: credentials,
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+	  signup: function (credentials, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/users",
+	      dataType: "json",
+	      data: credentials,
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+
+	  logout: function () {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function () {
+	        SessionActions.logout();
+	      }
+	    });
+	  },
+
+	  fetchCurrentUser: function (completion) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
+	        completion && completion();
 	      }
 	    });
 	  }
@@ -31848,14 +31939,59 @@
 /* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(226).Store;
+	var AppDispatcher = __webpack_require__(220);
+	var JobCityConstants = __webpack_require__(224);
+	var _jobCities = [];
+	var JobCityStore = new Store(AppDispatcher);
+
+	JobCityStore.all = function () {
+	  return _jobCities.slice(0);
+	};
+
+	JobCityStore.find = function (id) {
+	  for (var i = 0; i < _jobCities.length; i++) {
+	    if (_jobCities[i].id == id) {
+	      return _jobCities[i];
+	    }
+	  }
+	};
+	var searchCities = function (cities, cityString) {
+	  _jobCities = cities;
+	  var searchedCities = [];
+	  _jobCities.forEach(function (location) {
+	    if (location.city.includes(cityString)) {
+	      searchedCities.push(location);
+	    }
+	  });
+
+	  _jobCities = searchedCities;
+	};
+
+	JobCityStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case JobCityConstants.CITIES_RECEIVED:
+	      searchCities(payload.cities, payload.cityString);
+	      JobCityStore.__emitChange();
+	      break;
+	  }
+	};
+	window.JobCityStore = JobCityStore;
+
+	module.exports = JobCityStore;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
 	var JobStore = __webpack_require__(225);
-	var JobDetail = __webpack_require__(244);
+	var JobDetail = __webpack_require__(245);
 	var JobIndexItem = __webpack_require__(249);
-	var JobSearch = __webpack_require__(246);
-	var Logo = __webpack_require__(245);
+	var JobSearch = __webpack_require__(247);
+	var Logo = __webpack_require__(246);
 	var Link = __webpack_require__(159).Link;
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
@@ -31900,16 +32036,16 @@
 	module.exports = JobIndex;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
 	var JobStore = __webpack_require__(225);
-	var Logo = __webpack_require__(245);
+	var Logo = __webpack_require__(246);
 	var Link = __webpack_require__(159).Link;
-	var JobSearch = __webpack_require__(246);
+	var JobSearch = __webpack_require__(247);
 
 	var JobDetail = React.createClass({
 		displayName: 'JobDetail',
@@ -31979,7 +32115,7 @@
 	module.exports = JobDetail;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31997,12 +32133,12 @@
 	module.exports = Logo;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
-	var CityDropDown = __webpack_require__(251);
+	var CityDropDown = __webpack_require__(248);
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
 
@@ -32020,7 +32156,6 @@
 	    event.preventDefault();
 	    var whatwhere = Object.assign({}, this.state);
 	    ApiUtil.searchJobs(whatwhere);
-	    // debugger;
 	    this.context.router.push("/jobs");
 	  },
 
@@ -32084,50 +32219,55 @@
 	module.exports = JobSeach;
 
 /***/ },
-/* 247 */,
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(226).Store;
-	var AppDispatcher = __webpack_require__(220);
-	var JobCityConstants = __webpack_require__(224);
-	var _jobCities = [];
-	var JobCityStore = new Store(AppDispatcher);
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(218);
+	var CityStore = __webpack_require__(243);
 
-	JobCityStore.all = function () {
-	  return _jobCities.slice(0);
-	};
+	var CityDropDown = React.createClass({
+	  displayName: 'CityDropDown',
 
-	JobCityStore.find = function (id) {
-	  for (var i = 0; i < _jobCities.length; i++) {
-	    if (_jobCities[i].id == id) {
-	      return _jobCities[i];
+	  getInitialState: function () {
+	    return { cities: [] };
+	  },
+	  componentDidMount: function () {
+	    this.cityStoreToken = CityStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.cityStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({ cities: CityStore.all() });
+	  },
+	  render: function () {
+	    var cities = this.state.cities.map(function (location) {
+	      return React.createElement(
+	        'li',
+	        { className: 'dropdown-location-list',
+	          onClick: this.props.setLocation.bind(null, location.city),
+	          key: location.id },
+	        location.city
+	      );
+	    }.bind(this));
+	    if (this.props.whereVisible === true && cities.length > 0) {
+	      return React.createElement(
+	        'div',
+	        { className: 'dropdown-location' },
+	        cities
+	      );
+	    } else {
+	      return React.createElement('div', null);
 	    }
 	  }
-	};
-	var searchCities = function (cities, cityString) {
-	  _jobCities = cities;
-	  var searchedCities = [];
-	  _jobCities.forEach(function (location) {
-	    if (location.city.includes(cityString)) {
-	      searchedCities.push(location);
-	    }
-	  });
 
-	  _jobCities = searchedCities;
-	};
+	});
 
-	JobCityStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case JobCityConstants.CITIES_RECEIVED:
-	      searchCities(payload.cities, payload.cityString);
-	      JobCityStore.__emitChange();
-	      break;
-	  }
-	};
-	window.JobCityStore = JobCityStore;
-
-	module.exports = JobCityStore;
+	module.exports = CityDropDown;
 
 /***/ },
 /* 249 */
@@ -32173,9 +32313,98 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(253);
+	var Link = __webpack_require__(159).Link;
+	var MyJobIndex = React.createClass({
+	  displayName: 'MyJobIndex',
+
+	  contextTypes: { router: React.PropTypes.object.isRequired },
+
+	  getInitialState: function () {
+	    return {
+	      currentUser: "",
+	      isLoggedIn: true,
+	      status: "saved"
+	    };
+	  },
+	  componentDidMount: function () {
+	    this.setStateFromStore();
+	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({
+	      currentUser: SessionStore.currentUser(),
+	      isLoggedIn: SessionStore.isLoggedIn()
+	    });
+	  },
+	  render: function () {
+	    if (!this.state.isLoggedIn) {
+	      this.context.router.goBack();
+	    }
+	    var statuses = ["Saved", "Applied", "Interviewed", "Offerred", "Hired", "Visited", "Archived"];
+	    var statuslist = status.map(function (status) {
+	      return React.createElement(MyjobIndexItem, { status: status });
+	    });
+	    return React.createElement(
+	      'div',
+	      null,
+	      'You have reached MyJobIndex!',
+	      React.createElement(
+	        'ul',
+	        null,
+	        statuslist,
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/applied" },
+	          'Applied'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/interviewed" },
+	          'Interviewed'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/offered" },
+	          'Offered'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/hired" },
+	          'Hired'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/visited" },
+	          'Visited'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: "myjobs/archived" },
+	          'Archived'
+	        )
+	      ),
+	      this.props.children
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobIndex;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 
-	var JobSearch = __webpack_require__(246);
+	var JobSearch = __webpack_require__(247);
 	var FrontPage = React.createClass({
 	  displayName: 'FrontPage',
 
@@ -32193,56 +32422,331 @@
 	module.exports = FrontPage;
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var CityStore = __webpack_require__(248);
+	var Link = __webpack_require__(159).Link;
 
-	var CityDropDown = React.createClass({
-	  displayName: 'CityDropDown',
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 
 	  getInitialState: function () {
-	    return { cities: [] };
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Sign In'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Not a member?'
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: "/signup" },
+	        'Create an account free'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'email' },
+	          'Email'
+	        ),
+	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Submit'
+	        )
+	      )
+	    );
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.goBack();
+	    });
+	  },
+
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+
+	});
+
+	module.exports = LoginForm;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(226).Store;
+	var SessionConstants = __webpack_require__(254);
+	var AppDispatcher = __webpack_require__(220);
+
+	var SessionStore = new Store(AppDispatcher);
+
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+
+	module.exports = SessionStore;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(220);
+	var SessionConstants = __webpack_require__(254);
+
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+
+	  logout: function () {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+
+	module.exports = SessionActions;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(218);
+	var Link = __webpack_require__(159).Link;
+	var SignupForm = React.createClass({
+	  displayName: 'SignupForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Create an account'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Already have an account?'
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: "/login" },
+	        'Signin'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'email' },
+	          'Email'
+	        ),
+	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Create an account'
+	        )
+	      )
+	    );
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var router = this.context.router;
+	    ApiUtil.signup(this.state, function () {
+	      // debugger;
+	      router.push("/");
+	    });
+	  },
+
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+
+	});
+
+	module.exports = SignupForm;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	var SessionStore = __webpack_require__(253);
+	var ApiUtil = __webpack_require__(218);
+
+	var UserHeader = React.createClass({
+	  displayName: 'UserHeader',
+
+	  getInitialState: function () {
+	    return {
+	      currentUser: "",
+	      isLoggedIn: false
+	    };
 	  },
 	  componentDidMount: function () {
-	    this.cityStoreToken = CityStore.addListener(this.setStateFromStore);
+	    this.setStateFromStore();
+	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
 	  },
 
 	  componentWillUnmount: function () {
-	    this.cityStoreToken.remove();
+	    this.sessionStoreToken.remove();
 	  },
 
 	  setStateFromStore: function () {
+	    this.setState({
+	      currentUser: SessionStore.currentUser(),
+	      isLoggedIn: SessionStore.isLoggedIn()
+	    });
+	  },
 
-	    this.setState({ cities: CityStore.all() });
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  handleLogIn: function () {
+	    this.context.router.push("/login");
+	  },
+
+	  handleLogOut: function () {
+	    ApiUtil.logout();
 	  },
 	  render: function () {
-	    var cities = this.state.cities.map(function (location) {
-	      return React.createElement(
-	        'li',
-	        { className: 'dropdown-location-list',
-	          onClick: this.props.setLocation.bind(null, location.city),
-	          key: location.id },
-	        location.city
-	      );
-	    }.bind(this));
-	    if (this.props.whereVisible === true && cities.length > 0) {
+	    // debugger;
+	    if (this.state.isLoggedIn) {
+	      // debugger;
 	      return React.createElement(
 	        'div',
-	        { className: 'dropdown-location' },
-	        cities
+	        null,
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleLogOut },
+	          'Sign Out '
+	        ),
+	        this.state.currentUser.email,
+	        React.createElement(
+	          Link,
+	          { to: "/myjobs" },
+	          ' My Jobs'
+	        )
 	      );
 	    } else {
-	      return React.createElement('div', null);
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleLogIn },
+	          'Sign In'
+	        )
+	      );
 	    }
 	  }
 
 	});
 
-	module.exports = CityDropDown;
+	module.exports = UserHeader;
 
 /***/ }
 /******/ ]);

@@ -18,9 +18,7 @@ var CityDropDown  = React.createClass({
   },
 
   setStateFromStore: function () {
-
     this.setState({ cities: CityStore.all()} );
-
   },
   render: function() {
     var cities = this.state.cities.map(function (location) {
