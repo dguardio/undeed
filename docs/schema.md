@@ -10,13 +10,13 @@ salary      | integer   | not null, indexed
 location    | string    | not null, indexed
 description | text      | not null
 employer_id | integer   | not null, foreign key (references users), indexed
-status      | boolean   | not null, default: true
+active      | boolean   | not null, default: true
 
 ## myjobs
 column name   | data type | details
 ------------  |-----------|-----------------------
 id            | integer   | not null, primary key
-category      | string    | not null
+status      | string    | not null
 seeker_id     | integer   | not null, foreign key (references users), indexed
 job_id        | integer   | not null, foreign key (references users), indexed
 

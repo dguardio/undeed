@@ -13,5 +13,11 @@ class Job < ActiveRecord::Base
 	primary_key: :id,
 	foreign_key: :location_id
 	)
+	has_many(
+  :seeker,
+  class_name: "User",
+  primary_key: :id,
+  foreign_key: :job_id
+  )
 
 end

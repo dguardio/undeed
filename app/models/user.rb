@@ -9,7 +9,12 @@ class User < ActiveRecord::Base
  	primary_key: :id,
  	foreign_key: :employer_id
  	)
-
+	has_many(
+  :myjobs,
+  class_name: "Myjob",
+  primary_key: :id,
+  foreign_key: :seeker_id
+  )
 
 	after_initialize :ensure_session_token!
 	attr_reader :password
