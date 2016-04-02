@@ -9,7 +9,7 @@ var FrontPage = React.createClass({
     // debugger;
     return (
       <div>
-        <div className='logo' />
+        <div className='logomain' />
         <JobSearch />
       </div>
     );

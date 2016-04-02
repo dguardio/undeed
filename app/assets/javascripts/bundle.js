@@ -53,28 +53,28 @@
 	var hashHistory = ReactRouter.hashHistory;
 
 	var ApiUtil = __webpack_require__(218);
-	var JobStore = __webpack_require__(225);
-	var CityStore = __webpack_require__(243);
-	var JobIndex = __webpack_require__(244);
-	var JobIndexItem = __webpack_require__(244);
-	var JobDetail = __webpack_require__(245);
-	var JobSearch = __webpack_require__(247);
-	var MyJobIndex = __webpack_require__(250);
+	var JobStore = __webpack_require__(227);
+	var CityStore = __webpack_require__(245);
+	var JobIndex = __webpack_require__(246);
+	var JobIndexItem = __webpack_require__(246);
+	var JobDetail = __webpack_require__(247);
+	var JobSearch = __webpack_require__(249);
+	var MyJobIndex = __webpack_require__(252);
 
-	var FrontPage = __webpack_require__(251);
-	var LoginForm = __webpack_require__(252);
+	var FrontPage = __webpack_require__(254);
+	var LoginForm = __webpack_require__(255);
 	var SignupForm = __webpack_require__(256);
 	var SessionStore = __webpack_require__(253);
 	var UserHeader = __webpack_require__(257);
 
-	var MyJobSaved = __webpack_require__(264);
-	var MyJobApplied = __webpack_require__(258);
-	var MyJobInter = __webpack_require__(259);
+	var MyJobSaved = __webpack_require__(258);
+	var MyJobApplied = __webpack_require__(261);
+	var MyJobInter = __webpack_require__(262);
 	var MyJobOfferred = __webpack_require__(263);
-	var MyJobHired = __webpack_require__(260);
-	var MyJobVisited = __webpack_require__(261);
-	var MyJobArchived = __webpack_require__(262);
-	var MyJobStore = __webpack_require__(265);
+	var MyJobHired = __webpack_require__(264);
+	var MyJobVisited = __webpack_require__(265);
+	var MyJobArchived = __webpack_require__(266);
+	var MyJobStore = __webpack_require__(260);
 
 	var App = React.createClass({
 		displayName: 'App',
@@ -24934,7 +24934,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var JobActions = __webpack_require__(219);
-	var SessionActions = __webpack_require__(255);
+	var SessionActions = __webpack_require__(225);
 	var ApiUtil = {
 	  fetchMyJobs: function (seeker_id) {
 	    $.ajax({
@@ -25455,7 +25455,40 @@
 /* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(226).Store;
+	var AppDispatcher = __webpack_require__(220);
+	var SessionConstants = __webpack_require__(226);
+
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+
+	  logout: function () {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+
+	module.exports = SessionActions;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+
+/***/ },
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(228).Store;
 	var AppDispatcher = __webpack_require__(220);
 	var JobConstants = __webpack_require__(224);
 	var _jobs = [];
@@ -25524,7 +25557,7 @@
 	module.exports = JobStore;
 
 /***/ },
-/* 226 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25536,15 +25569,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Container = __webpack_require__(227);
-	module.exports.MapStore = __webpack_require__(230);
-	module.exports.Mixin = __webpack_require__(242);
-	module.exports.ReduceStore = __webpack_require__(231);
-	module.exports.Store = __webpack_require__(232);
+	module.exports.Container = __webpack_require__(229);
+	module.exports.MapStore = __webpack_require__(232);
+	module.exports.Mixin = __webpack_require__(244);
+	module.exports.ReduceStore = __webpack_require__(233);
+	module.exports.Store = __webpack_require__(234);
 
 
 /***/ },
-/* 227 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25566,10 +25599,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStoreGroup = __webpack_require__(228);
+	var FluxStoreGroup = __webpack_require__(230);
 
 	var invariant = __webpack_require__(223);
-	var shallowEqual = __webpack_require__(229);
+	var shallowEqual = __webpack_require__(231);
 
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25727,7 +25760,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25808,7 +25841,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 229 */
+/* 231 */
 /***/ function(module, exports) {
 
 	/**
@@ -25863,7 +25896,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 230 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25884,8 +25917,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxReduceStore = __webpack_require__(231);
-	var Immutable = __webpack_require__(241);
+	var FluxReduceStore = __webpack_require__(233);
+	var Immutable = __webpack_require__(243);
 
 	var invariant = __webpack_require__(223);
 
@@ -26013,7 +26046,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26034,9 +26067,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStore = __webpack_require__(232);
+	var FluxStore = __webpack_require__(234);
 
-	var abstractMethod = __webpack_require__(240);
+	var abstractMethod = __webpack_require__(242);
 	var invariant = __webpack_require__(223);
 
 	var FluxReduceStore = (function (_FluxStore) {
@@ -26120,7 +26153,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 232 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26139,7 +26172,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _require = __webpack_require__(233);
+	var _require = __webpack_require__(235);
 
 	var EventEmitter = _require.EventEmitter;
 
@@ -26303,7 +26336,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26316,14 +26349,14 @@
 	 */
 
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(234)
+	  EventEmitter: __webpack_require__(236)
 	};
 
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 234 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26342,11 +26375,11 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var EmitterSubscription = __webpack_require__(235);
-	var EventSubscriptionVendor = __webpack_require__(237);
+	var EmitterSubscription = __webpack_require__(237);
+	var EventSubscriptionVendor = __webpack_require__(239);
 
-	var emptyFunction = __webpack_require__(239);
-	var invariant = __webpack_require__(238);
+	var emptyFunction = __webpack_require__(241);
+	var invariant = __webpack_require__(240);
 
 	/**
 	 * @class BaseEventEmitter
@@ -26520,7 +26553,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 235 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26541,7 +26574,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var EventSubscription = __webpack_require__(236);
+	var EventSubscription = __webpack_require__(238);
 
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26573,7 +26606,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 236 */
+/* 238 */
 /***/ function(module, exports) {
 
 	/**
@@ -26627,7 +26660,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 237 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26646,7 +26679,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(238);
+	var invariant = __webpack_require__(240);
 
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26736,7 +26769,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 238 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26791,7 +26824,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 239 */
+/* 241 */
 /***/ function(module, exports) {
 
 	/**
@@ -26833,7 +26866,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 240 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26860,7 +26893,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 241 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31847,7 +31880,7 @@
 	}));
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31864,7 +31897,7 @@
 
 	'use strict';
 
-	var FluxStoreGroup = __webpack_require__(228);
+	var FluxStoreGroup = __webpack_require__(230);
 
 	var invariant = __webpack_require__(223);
 
@@ -31970,10 +32003,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 243 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(226).Store;
+	var Store = __webpack_require__(228).Store;
 	var AppDispatcher = __webpack_require__(220);
 	var JobCityConstants = __webpack_require__(224);
 	var _jobCities = [];
@@ -32015,17 +32048,17 @@
 	module.exports = JobCityStore;
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var JobStore = __webpack_require__(225);
-	var JobDetail = __webpack_require__(245);
-	var JobIndexItem = __webpack_require__(249);
-	var JobSearch = __webpack_require__(247);
-	var Logo = __webpack_require__(246);
+	var JobStore = __webpack_require__(227);
+	var JobDetail = __webpack_require__(247);
+	var JobIndexItem = __webpack_require__(251);
+	var JobSearch = __webpack_require__(249);
+	var Logo = __webpack_require__(248);
 	var Link = __webpack_require__(159).Link;
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
@@ -32070,16 +32103,16 @@
 	module.exports = JobIndex;
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var JobStore = __webpack_require__(225);
-	var Logo = __webpack_require__(246);
+	var JobStore = __webpack_require__(227);
+	var Logo = __webpack_require__(248);
 	var Link = __webpack_require__(159).Link;
-	var JobSearch = __webpack_require__(247);
+	var JobSearch = __webpack_require__(249);
 
 	var JobDetail = React.createClass({
 		displayName: 'JobDetail',
@@ -32149,7 +32182,7 @@
 	module.exports = JobDetail;
 
 /***/ },
-/* 246 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32167,12 +32200,12 @@
 	module.exports = Logo;
 
 /***/ },
-/* 247 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
-	var CityDropDown = __webpack_require__(248);
+	var CityDropDown = __webpack_require__(250);
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
 
@@ -32253,13 +32286,13 @@
 	module.exports = JobSeach;
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var CityStore = __webpack_require__(243);
+	var CityStore = __webpack_require__(245);
 
 	var CityDropDown = React.createClass({
 	  displayName: 'CityDropDown',
@@ -32304,13 +32337,13 @@
 	module.exports = CityDropDown;
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var JobStore = __webpack_require__(225);
+	var JobStore = __webpack_require__(227);
 	var Link = __webpack_require__(159).Link;
 	var JobIndexItem = React.createClass({
 		displayName: 'JobIndexItem',
@@ -32343,12 +32376,13 @@
 	module.exports = JobIndexItem;
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(253);
 	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(248);
 	var MyJobIndex = React.createClass({
 	  displayName: 'MyJobIndex',
 
@@ -32383,7 +32417,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'You have reached MyJobIndex!',
+	      React.createElement(
+	        Link,
+	        { to: "/" },
+	        React.createElement(Logo, null)
+	      ),
 	      React.createElement(
 	        'ul',
 	        null,
@@ -32460,121 +32498,11 @@
 	module.exports = MyJobIndex;
 
 /***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-
-	var JobSearch = __webpack_require__(247);
-	var FrontPage = React.createClass({
-	  displayName: 'FrontPage',
-
-
-	  render: function () {
-	    // debugger;
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement('div', { className: 'logo' }),
-	      React.createElement(JobSearch, null)
-	    );
-	  }
-	});
-	module.exports = FrontPage;
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(218);
-	var Link = __webpack_require__(159).Link;
-
-	var LoginForm = React.createClass({
-	  displayName: 'LoginForm',
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {
-	      email: "",
-	      password: ""
-	    };
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Sign In'
-	      ),
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Not a member?'
-	      ),
-	      React.createElement(
-	        Link,
-	        { to: "/signup" },
-	        'Create an account free'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'email' },
-	          'Email'
-	        ),
-	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'password' },
-	          'Password'
-	        ),
-	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Submit'
-	        )
-	      )
-	    );
-	  },
-
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-
-	    var router = this.context.router;
-	    ApiUtil.login(this.state, function () {
-	      router.goBack();
-	    });
-	  },
-
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-
-	});
-
-	module.exports = LoginForm;
-
-/***/ },
 /* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(226).Store;
-	var SessionConstants = __webpack_require__(254);
+	var Store = __webpack_require__(228).Store;
+	var SessionConstants = __webpack_require__(226);
 	var AppDispatcher = __webpack_require__(220);
 
 	var SessionStore = new Store(AppDispatcher);
@@ -32612,36 +32540,164 @@
 
 /***/ },
 /* 254 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT: "LOGOUT"
-	};
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+
+	var JobSearch = __webpack_require__(249);
+	var FrontPage = React.createClass({
+	  displayName: 'FrontPage',
+
+
+	  render: function () {
+	    // debugger;
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('div', { className: 'logomain' }),
+	      React.createElement(JobSearch, null)
+	    );
+	  }
+	});
+	module.exports = FrontPage;
 
 /***/ },
 /* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(220);
-	var SessionConstants = __webpack_require__(254);
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(218);
+	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(248);
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
 
-	var SessionActions = {
-	  currentUserReceived: function (currentUser) {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
-	      currentUser: currentUser
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "/" },
+	        React.createElement(Logo, null)
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'main' },
+	        React.createElement(
+	          'div',
+	          { className: 'content group' },
+	          React.createElement(
+	            'section',
+	            { className: 'signin-block group' },
+	            React.createElement(
+	              'section',
+	              { className: 'main-signin' },
+	              React.createElement(
+	                'h1',
+	                { className: 'signin-title' },
+	                'Sign In'
+	              ),
+	              React.createElement(
+	                'text',
+	                { className: 'link-to-sign-up' },
+	                'Not a member?',
+	                React.createElement(
+	                  Link,
+	                  { to: "/signup" },
+	                  'Create an account free'
+	                )
+	              ),
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-block' },
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'email' },
+	                    'Email'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'password' },
+	                    'Password'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password })
+	                ),
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Sign In'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'section',
+	              { className: 'facebook-signin' },
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleGuestSubmit },
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Sign in as a guest'
+	                )
+	              ),
+	              React.createElement(
+	                'button',
+	                { className: 'signin-button' },
+	                'Sign in with Facebook, Comming Soon...'
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  },
+	  handleGuestSubmit: function (e) {
+	    e.preventDefault();
+	    // debugger;
+	    this.setState({ email: "guest@guest.com", password: "guestguest" });
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.goBack();
+	    });
+	  },
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.goBack();
 	    });
 	  },
 
-	  logout: function () {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.LOGOUT
-	    });
-	  }
-	};
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
 
-	module.exports = SessionActions;
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+
+	});
+
+	module.exports = LoginForm;
 
 /***/ },
 /* 256 */
@@ -32650,6 +32706,7 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(218);
 	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(248);
 	var SignupForm = React.createClass({
 	  displayName: 'SignupForm',
 
@@ -32669,39 +32726,64 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'h1',
-	        null,
-	        'Create an account'
-	      ),
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Already have an account?'
-	      ),
-	      React.createElement(
 	        Link,
-	        { to: "/login" },
-	        'Signin'
+	        { to: "/" },
+	        React.createElement(Logo, null)
 	      ),
 	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
+	        'div',
+	        { className: 'main' },
 	        React.createElement(
-	          'label',
-	          { htmlFor: 'email' },
-	          'Email'
-	        ),
-	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'password' },
-	          'Password'
-	        ),
-	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Create an account'
+	          'div',
+	          { className: 'content group' },
+	          React.createElement(
+	            'section',
+	            { className: 'signin-block group' },
+	            React.createElement(
+	              'section',
+	              { className: 'main-signin' },
+	              React.createElement(
+	                'h1',
+	                { className: 'signin-title' },
+	                'Create an account'
+	              ),
+	              React.createElement(
+	                'text',
+	                { className: 'link-to-sign-up' },
+	                'Already have an account?',
+	                React.createElement(
+	                  Link,
+	                  { to: "/login" },
+	                  'Sign in'
+	                )
+	              ),
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-block' },
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'email' },
+	                    'Email'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'password' },
+	                    'Password'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password })
+	                ),
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Create an account'
+	                )
+	              )
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -32816,145 +32898,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobApplied = React.createClass({
-	  displayName: 'MyJobApplied',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Applied!',
-	      React.createElement(Shared, { type: 'applied' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobApplied;
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobInter = React.createClass({
-	  displayName: 'MyJobInter',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Interviewed!',
-	      React.createElement(Shared, { type: 'interviewed' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobInter;
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobHired = React.createClass({
-	  displayName: 'MyJobHired',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Hired!',
-	      React.createElement(Shared, { type: 'hired' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobHired;
-
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobVisited = React.createClass({
-	  displayName: 'MyJobVisited',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Visited!',
-	      React.createElement(Shared, { type: 'visited' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobVisited;
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobArchived = React.createClass({
-	  displayName: 'MyJobArchived',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Archived!',
-	      React.createElement(Shared, { type: 'archived' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobArchived;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
-	var MyJobOfferred = React.createClass({
-	  displayName: 'MyJobOfferred',
-
-	  render: function () {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Offerred!',
-	      React.createElement(Shared, { type: 'offerred' })
-	    );
-	  }
-
-	});
-
-	module.exports = MyJobOfferred;
-
-/***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(266);
+	var Shared = __webpack_require__(259);
 	var MyJobSaved = React.createClass({
 	  displayName: 'MyJobSaved',
 
@@ -32973,51 +32917,11 @@
 	module.exports = MyJobSaved;
 
 /***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(226).Store;
-	var AppDispatcher = __webpack_require__(220);
-	var JobConstants = __webpack_require__(224);
-	var _myjobs = [];
-	var MyJobStore = new Store(AppDispatcher);
-
-	MyJobStore.all = function () {
-	  return _myjobs.slice(0);
-	};
-
-	MyJobStore.find = function (status) {
-	  var result = [];
-	  for (var i = 0; i < _myjobs.length; i++) {
-	    if (_myjobs[i].status === status) {
-	      result.push(_myjobs[i]);
-	    }
-	  }
-	  return result;
-	};
-	var resetMyJobs = function (jobs) {
-	  _myjobs = jobs;
-	};
-
-	MyJobStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-
-	    case JobConstants.MYJOBS_RECEIVED:
-	      resetMyJobs(payload.myjobs);
-	      MyJobStore.__emitChange();
-	      break;
-	  }
-	};
-	window.MyJobStore = MyJobStore;
-
-	module.exports = MyJobStore;
-
-/***/ },
-/* 266 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var MyJobStore = __webpack_require__(265);
+	var MyJobStore = __webpack_require__(260);
 	var SessionStore = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(218);
 	var Shared = React.createClass({
@@ -33084,6 +32988,184 @@
 	});
 
 	module.exports = Shared;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(228).Store;
+	var AppDispatcher = __webpack_require__(220);
+	var JobConstants = __webpack_require__(224);
+	var _myjobs = [];
+	var MyJobStore = new Store(AppDispatcher);
+
+	MyJobStore.all = function () {
+	  return _myjobs.slice(0);
+	};
+
+	MyJobStore.find = function (status) {
+	  var result = [];
+	  for (var i = 0; i < _myjobs.length; i++) {
+	    if (_myjobs[i].status === status) {
+	      result.push(_myjobs[i]);
+	    }
+	  }
+	  return result;
+	};
+	var resetMyJobs = function (jobs) {
+	  _myjobs = jobs;
+	};
+
+	MyJobStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+
+	    case JobConstants.MYJOBS_RECEIVED:
+	      resetMyJobs(payload.myjobs);
+	      MyJobStore.__emitChange();
+	      break;
+	  }
+	};
+	window.MyJobStore = MyJobStore;
+
+	module.exports = MyJobStore;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobApplied = React.createClass({
+	  displayName: 'MyJobApplied',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Applied!',
+	      React.createElement(Shared, { type: 'applied' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobApplied;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobInter = React.createClass({
+	  displayName: 'MyJobInter',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Interviewed!',
+	      React.createElement(Shared, { type: 'interviewed' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobInter;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobOfferred = React.createClass({
+	  displayName: 'MyJobOfferred',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Offerred!',
+	      React.createElement(Shared, { type: 'offerred' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobOfferred;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobHired = React.createClass({
+	  displayName: 'MyJobHired',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Hired!',
+	      React.createElement(Shared, { type: 'hired' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobHired;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobVisited = React.createClass({
+	  displayName: 'MyJobVisited',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Visited!',
+	      React.createElement(Shared, { type: 'visited' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobVisited;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Shared = __webpack_require__(259);
+	var MyJobArchived = React.createClass({
+	  displayName: 'MyJobArchived',
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Archived!',
+	      React.createElement(Shared, { type: 'archived' })
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobArchived;
 
 /***/ }
 /******/ ]);

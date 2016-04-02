@@ -1,6 +1,7 @@
 var React = require('react');
 var SessionStore = require("../stores/session");
 var Link = require('react-router').Link;
+var Logo = require('./Logo');
 var MyJobIndex = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
 
@@ -34,7 +35,7 @@ var MyJobIndex = React.createClass({
     }
     return (
       <div>
-        You have reached MyJobIndex!
+			  <Link to={"/"}><Logo /></Link>
         <ul>
           <li><Link to={"myjobs/"}>Saved</Link></li>
           <li><Link to={"myjobs/applied"}>Applied</Link></li>

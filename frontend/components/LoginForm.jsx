@@ -1,7 +1,7 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var Link = require('react-router').Link;
-
+var Logo = require('./Logo');
 var LoginForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -17,22 +17,46 @@ var LoginForm = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Sign In</h1>
-        <h3>Not a member?</h3>
-        <Link to={"/signup"}>Create an account free</Link>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input onChange={this.updateEmail} type="text" value={this.state.email}/>
+			  <Link to={"/"}><Logo /></Link>
+        <div className="main">
+          <div className="content group">
+        		<section className="signin-block group">
+        			<section className="main-signin">
+              <h1 className="signin-title">Sign In</h1>
+              <text className="link-to-sign-up">Not a member?<Link to={"/signup"}>Create an account free</Link></text>
+              <form onSubmit={this.handleSubmit}>
+      					<div className="input-block">
+                  <label htmlFor="email">Email</label>
+                  <input className="input-field" onChange={this.updateEmail} type="text" value={this.state.email}/>
 
-          <label htmlFor="password">Password</label>
-          <input onChange={this.updatePassword} type="password" value={this.state.password}/>
+                  <label htmlFor="password">Password</label>
+                  <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+      					</div>
+                <button className="signin-button">Sign In</button>
+              </form>
+      			   </section>
+               <section className="facebook-signin">
+                 <form onSubmit={this.handleGuestSubmit}>
+                   <button className="signin-button">Sign in as a guest</button>
+                 </form>
+                 <button className="signin-button">Sign in with Facebook, Comming Soon...</button>
 
-          <button>Submit</button>
-        </form>
+               </section>
+      			</section>
+          </div>
+        </div>
       </div>
     );
   },
-
+  handleGuestSubmit: function(e) {
+    e.preventDefault();
+    // debugger;
+    this.setState({ email: "guest@guest.com", password: "guestguest" });
+    var router = this.context.router;
+    ApiUtil.login(this.state, function() {
+        router.goBack();
+    });
+  },
   handleSubmit: function(e) {
     e.preventDefault();
 

@@ -1,6 +1,7 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var Link = require('react-router').Link;
+var Logo = require('./Logo');
 var SignupForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -16,18 +17,30 @@ var SignupForm = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Create an account</h1>
-        <h3>Already have an account?</h3>
-        <Link to={"/login"}>Signin</Link>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input onChange={this.updateEmail} type="text" value={this.state.email}/>
+			  <Link to={"/"}><Logo /></Link>
+        <div className="main">
+          <div className="content group">
+            <section className="signin-block group">
+              <section className="main-signin">
+                <h1 className="signin-title">Create an account</h1>
+                <text className="link-to-sign-up">
+                  Already have an account?
+                  <Link to={"/login"}>Sign in</Link>
+                </text>
+                <form onSubmit={this.handleSubmit}>
+        					<div className="input-block">
+                    <label htmlFor="email">Email</label>
+                    <input className="input-field" onChange={this.updateEmail} type="text" value={this.state.email}/>
 
-          <label htmlFor="password">Password</label>
-          <input onChange={this.updatePassword} type="password" value={this.state.password}/>
-
-          <button>Create an account</button>
-        </form>
+                    <label htmlFor="password">Password</label>
+                    <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+        					</div>
+                  <button className="signin-button">Create an account</button>
+                </form>
+             </section>
+    			</section>
+          </div>
+        </div>
       </div>
     );
   },

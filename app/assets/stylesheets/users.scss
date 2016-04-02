@@ -1,7 +1,7 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-html, body, header, nav, h1, a, ul, li,
+html, body, header, nav, h1,h3, a, ul, li,
 strong, main, section, img, div, h2, p,
 form, fieldset, label, input, textarea,
 button, article, footer, small, main{
@@ -108,7 +108,10 @@ a {
 	padding: 0 12px;
 }
 
-
+.link-to-sign-up{
+  margin: 0px 10px 5px 10px ;
+  display: block;
+}
 .input-block{
 	padding: 12px;
 	background: #e0e5ff;
@@ -140,7 +143,9 @@ a {
 
 .facebook-signin{
 	text-align: left;
+  margin-top: 30px;
 	padding:20px;
+  height: 100px;
 
 }
 
