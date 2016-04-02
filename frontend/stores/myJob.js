@@ -9,7 +9,6 @@ MyJobStore.all = function () {
 };
 
 MyJobStore.find = function (status) {
-  // debugger;
   var result = [];
   for( var i = 0; i < _myjobs.length; i++){
 		if( _myjobs[i].status === status) {
@@ -26,7 +25,6 @@ MyJobStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
 
     case JobConstants.MYJOBS_RECEIVED:
-        // debugger;
       resetMyJobs(payload.myjobs);
       MyJobStore.__emitChange();
       break;

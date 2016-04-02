@@ -27,7 +27,6 @@ var ApiUtil = {
 			contentType: "application/json",
 
 			success: function (jobs) {
-        // debugger;
         JobActions.receiveAll(jobs);
       },
       error: function(no){
@@ -93,6 +92,9 @@ var ApiUtil = {
         success: function(currentUser) {
           SessionActions.currentUserReceived(currentUser);
           callback && callback();
+        },
+        error: function(error){
+          // debugger;
         }
       });
     },

@@ -36,6 +36,7 @@ var UserHeader = React.createClass({
 
   handleLogOut: function() {
     ApiUtil.logout();
+    this.context.router.push("/");
   },
   render: function() {
     // debugger;

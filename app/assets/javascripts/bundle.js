@@ -24962,7 +24962,6 @@
 	      contentType: "application/json",
 
 	      success: function (jobs) {
-	        // debugger;
 	        JobActions.receiveAll(jobs);
 	      },
 	      error: function (no) {
@@ -25028,6 +25027,9 @@
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
 	        callback && callback();
+	      },
+	      error: function (error) {
+	        // debugger;
 	      }
 	    });
 	  },
@@ -32378,10 +32380,6 @@
 	    if (!this.state.isLoggedIn) {
 	      this.context.router.goBack();
 	    }
-	    // var statuses = ["Saved","Applied","Interviewed","Offerred","Hired","Visited","Archived"];
-	    // var statuslist = status.map(function(status){
-	    //   return <MyjobIndexItem status = {status} />;
-	    // });
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32775,6 +32773,7 @@
 
 	  handleLogOut: function () {
 	    ApiUtil.logout();
+	    this.context.router.push("/");
 	  },
 	  render: function () {
 	    // debugger;
@@ -32817,16 +32816,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobApplied = React.createClass({
 	  displayName: 'MyJobApplied',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Applied!'
+	      'Applied!',
+	      React.createElement(Shared, { type: 'applied' })
 	    );
 	  }
 
@@ -32839,16 +32839,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobInter = React.createClass({
 	  displayName: 'MyJobInter',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Inter!'
+	      'Interviewed!',
+	      React.createElement(Shared, { type: 'interviewed' })
 	    );
 	  }
 
@@ -32861,16 +32862,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobHired = React.createClass({
 	  displayName: 'MyJobHired',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Hired!'
+	      'Hired!',
+	      React.createElement(Shared, { type: 'hired' })
 	    );
 	  }
 
@@ -32906,16 +32908,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobArchived = React.createClass({
 	  displayName: 'MyJobArchived',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Archived!'
+	      'Archived!',
+	      React.createElement(Shared, { type: 'archived' })
 	    );
 	  }
 
@@ -32928,16 +32931,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-
+	var Shared = __webpack_require__(266);
 	var MyJobOfferred = React.createClass({
 	  displayName: 'MyJobOfferred',
 
-
 	  render: function () {
+
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Offerred!'
+	      'Offerred!',
+	      React.createElement(Shared, { type: 'offerred' })
 	    );
 	  }
 
@@ -32983,7 +32987,6 @@
 	};
 
 	MyJobStore.find = function (status) {
-	  // debugger;
 	  var result = [];
 	  for (var i = 0; i < _myjobs.length; i++) {
 	    if (_myjobs[i].status === status) {
@@ -33000,7 +33003,6 @@
 	  switch (payload.actionType) {
 
 	    case JobConstants.MYJOBS_RECEIVED:
-	      // debugger;
 	      resetMyJobs(payload.myjobs);
 	      MyJobStore.__emitChange();
 	      break;

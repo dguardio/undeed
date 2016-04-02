@@ -32,10 +32,6 @@ var MyJobIndex = React.createClass({
     if (!this.state.isLoggedIn){
           this.context.router.goBack();
     }
-    // var statuses = ["Saved","Applied","Interviewed","Offerred","Hired","Visited","Archived"];
-    // var statuslist = status.map(function(status){
-    //   return <MyjobIndexItem status = {status} />;
-    // });
     return (
       <div>
         You have reached MyJobIndex!
