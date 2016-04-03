@@ -8,11 +8,11 @@
 
 Undeed is a web application inspired by Indeed built using Ruby on Rails and React.js. Undeed allows users to:
 
-- [ ] Create an account
-- [ ] Log in / Log out
+- [x] Create an account
+- [x] Log in / Log out
 - [ ] Search / read / save jobs
-- [ ] Create job applications
 - [ ] Organize Myjobs
+- [ ] Create job applications
 
 ## Design Docs
 * [View Wireframes][views]
@@ -33,45 +33,52 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 
 **Objective:** Functioning rails project with Authentication
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user signup/signin pages
-- [ ] blank landing page after signin
+- [x] create new project
+- [x] create `User` model
+- [x] authentication
+- [x] user signup/signin pages
+- [x] blank landing page after signin
 
 ### Phase 2: Job Model (2 days)
 
 **Objective:** Jobs can be read by User.
 
-- [ ] create `Job` model
-- [ ] seed the database with a small amount of test data
-- [ ] read search Job (`JobsController`)
-- [ ] jBuilder views for Jobs
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
+- [x] create `Job` model
+- [x] seed the database with a small amount of test data
+- [x] read Job (`JobsController`)
+- [x] jBuilder views for Jobs
+- [x] setup Webpack & Flux scaffold
+- [x] setup `APIUtil` to interact with the API
+- [x] test out API interaction in the console.
+- [x] setup the flux loop with skeleton files
+- [x] setup React Router
 - implement each job component, building out the flux loop as needed.
-  - [ ] `JobIndex`
-  - [ ] `JobIndexItem`
+  - [x] `JobIndex`
+  - [x] `JobIndexItem`
+  - [x] `JobIndexDetail`
 
-### Phase 3: Filtering jobs and styling (2 days)
+### Phase 3: Searching jobs and styling (2 days)
 
-**Objective:** Jobs can be search by User
+**Objective:** Jobs can be searched by User
 
-- [ ] Add FilterParams store, actions and other flux structure.
-- [ ] add new components
-- [ ] add styling
+- [ ] Add stores, actions and other flux structure.
+  - [x] search by job title
+  - [x] search by job location
+  - [x] real time dropdown selection for job location
+  - [ ] real time dropdown selection for job title
+- [x] add new components
+  - [x] `JobSearch`
+- [x] add styling
 
 ### Phase 4: Myjobs (1.5 days)
 
 **Objective:** Jobs can be organized with myjobs
 
-- [ ] create `Myjob` model and join table
+- [x] create `Myjob` model and join table
 - build out API, Flux loop, and components for:
-  - [ ] fetching myjobs for user
-  - [ ] move jobs to one of the Myjob categories
+  - [x] fetching myjobs for user
+  - [ ] update myjobs to one of the Myjob status
+  - [ ] automatically create 'Myjob' and assign "visited" status when a signed-in user visited a job detail page
 - [ ] Style new elements
 
 
