@@ -5,9 +5,10 @@ var ApiUtil = require('../util/api_util');
 
 var UserHeader = React.createClass({
   getInitialState: function() {
+    // debugger;
     return {
-      currentUser : "",
-      isLoggedIn : false
+      currentUser : SessionStore.currentUser(),
+      isLoggedIn : SessionStore.isLoggedIn()
     };
   },
   componentDidMount: function() {

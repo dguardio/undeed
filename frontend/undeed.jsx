@@ -1,10 +1,12 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactRouter = require('react-router');
+var Modal = require("react-modal");
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory =ReactRouter.hashHistory;
+
 
 var ApiUtil = require('./util/api_util');
 var JobStore = require('./stores/job');
@@ -51,6 +53,7 @@ module.exports = App;
 
 
 document.addEventListener("DOMContentLoaded", function () {
+	Modal.setAppElement(document.getElementById("content"));
   ReactDOM.render(
 		<Router history={hashHistory}>
 		    <Route path="/" component={App}>

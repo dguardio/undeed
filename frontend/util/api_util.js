@@ -36,7 +36,7 @@ var ApiUtil = {
         }
       });
   },
-    createMyJob: function(myjob, callback){
+    createMyJob: function(myjob){
         $.ajax({
           url: '/api/myjobs/',
           method: 'POST',
