@@ -32258,7 +32258,7 @@
 					right: '150px',
 					bottom: '100px',
 					border: '1px solid #ccc',
-					padding: '20px'
+					padding: '10px'
 
 				}
 			};
@@ -32308,46 +32308,61 @@
 						'div',
 						{ className: 'job-detail-detail' },
 						job.description
-					)
-				),
-				React.createElement(
-					'button',
-					{ onClick: this.openModal },
-					'Apply This Job'
-				),
-				React.createElement(
-					Modal,
-					{
-						isOpen: this.state.modalIsOpen,
-						onRequestClose: this.closeModal,
-						style: customStyles },
-					React.createElement(
-						'h2',
-						null,
-						job.title
-					),
-					job.employer.name,
-					' - ',
-					job.location.city,
-					React.createElement(
-						'form',
-						null,
-						React.createElement(
-							'label',
-							{ htmlFor: 'email' },
-							'Email'
-						),
-						React.createElement('input', { type: 'text', value: email }),
-						React.createElement(
-							'button',
-							null,
-							'Submit'
-						)
 					),
 					React.createElement(
 						'button',
-						{ onClick: this.closeModal },
-						'Cancel'
+						{ className: 'job-detail-apply', onClick: this.openModal },
+						'Apply This Job'
+					),
+					React.createElement(
+						Modal,
+						{ className: 'group',
+							isOpen: this.state.modalIsOpen,
+							onRequestClose: this.closeModal,
+							style: customStyles },
+						React.createElement(
+							'div',
+							{ className: 'application-logo' },
+							React.createElement(Logo, null)
+						),
+						React.createElement(
+							'div',
+							{ className: 'application-content' },
+							React.createElement(
+								'h2',
+								null,
+								job.title
+							),
+							job.employer.name,
+							' - ',
+							job.location.city,
+							React.createElement(
+								'form',
+								null,
+								React.createElement(
+									'label',
+									{ htmlFor: 'email' },
+									'Email'
+								),
+								React.createElement('input', { type: 'text' }),
+								React.createElement(
+									'label',
+									{ htmlFor: 'coverletter' },
+									'Cover Letter'
+								),
+								React.createElement('input', { type: 'text' }),
+								React.createElement(
+									'button',
+									null,
+									'Submit Application (sends an email, not implemented yet)'
+								)
+							),
+							React.createElement(
+								'button',
+								{ onClick: this.closeModal },
+								'Cancel'
+							)
+						)
 					)
 				)
 			);

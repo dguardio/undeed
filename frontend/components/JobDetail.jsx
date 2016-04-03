@@ -76,7 +76,7 @@ var JobDetail = React.createClass({
 		    right           : '150px',
 		    bottom          : '100px',
 		    border          : '1px solid #ccc',
-		    padding         : '20px',
+		    padding         : '10px',
 
 		  }
 		};
@@ -100,23 +100,28 @@ var JobDetail = React.createClass({
 					Salary: {job.salary}<br />
 				</div>
 				<div className="job-detail-detail">{job.description}</div>
+				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
+				<Modal className="group"
+	          isOpen={this.state.modalIsOpen}
+	          onRequestClose={this.closeModal}
+	          style={customStyles} >
+						<div className="application-logo"><Logo></Logo></div>
+						<div className="application-content">
+		          <h2>{job.title}</h2>
+							{job.employer.name} - {job.location.city}
+
+		          <form>
+		  					<label htmlFor="email">Email</label>
+								<input type="text" />
+		  					<label htmlFor="coverletter">Cover Letter</label>
+								<input type="text" />
+		            <button>Submit Application (sends an email, not implemented yet)</button>
+
+		          </form>
+						<button onClick={this.closeModal}>Cancel</button>
+						</div>
+	      </Modal>
 			</div>
-			<button onClick={this.openModal}>Apply This Job</button>
-			 <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles} >
-
-          <h2>{job.title}</h2>
-					{job.employer.name} - {job.location.city}
-
-          <form>
-  					<label htmlFor="email">Email</label>
-						<input type="text" value={email}/>
-            <button>Submit</button>
-          </form>
-					<button onClick={this.closeModal}>Cancel</button>
-        </Modal>
 		</div>
 		);
 	}

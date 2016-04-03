@@ -36,3 +36,33 @@
 .job-detail-detail {
   margin-bottom: 20px;
 }
+.job-detail-apply{
+  display: inline-block ;
+  height: 31px ;
+  padding-top: 0px ;
+  padding-right: 12px ;
+  padding-bottom: 0px ;
+  padding-left: 12px ;
+  border-radius: 6px ;
+  background: orange;
+  border: 1px solid black;
+  font: 200 18px/31px 'Helvetica Neue','Helvetica',Arial ;
+  text-align: center ;
+  text-decoration: none ;
+  text-shadow: 0px -1px #000000;
+  color: white;
+}
+.job-detail-apply:hover{
+  background:#fdbb78;
+}
+.application-content {
+  float:left;
+  height: 100%;
+  background: lightgray;
+  width: 80%;
+}
+.application-logo {
+  float:left;
+  width: 20%;
+  min-width:200px;
+}
