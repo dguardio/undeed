@@ -5,7 +5,7 @@ var MyJobArchived = React.createClass({
 
     return (
       <div>
-        Archived!
+        <h1 className="myjob-title">Archived!</h1>
         <Shared type="archived"></Shared>
       </div>
     );

@@ -5,7 +5,7 @@ var MyJobVisited = React.createClass({
 
     return (
       <div>
-        Visited!
+        <h1 className="myjob-title">Visited!</h1>
         <Shared type="visited"></Shared>
       </div>
     );

@@ -44,16 +44,22 @@ var UserHeader = React.createClass({
     if (this.state.isLoggedIn){
       // debugger;
       return (
-        <div>
-          <button onClick={this.handleLogOut}>Sign Out </button>
-          {this.state.currentUser.email}
-          <Link to={"/myjobs"}> My Jobs</Link>
+        <div className="group">
+          <div className="user-header">
+            <div className="header-email">{this.state.currentUser.email}</div>
+            <ul className="header-dropdown">
+              <li><button onClick={this.handleLogOut}>Sign Out </button></li>
+              <li><Link to={"/myjobs"}> My Jobs</Link></li>
+            </ul>
+          </div>
         </div>
       );
     } else {
       return (
-        <div>
-          <button onClick={this.handleLogIn}>Sign In</button>
+        <div className="group">
+          <div className="user-header">
+            <button onClick={this.handleLogIn}>Sign In</button>
+          </div>
         </div>
       );
     }

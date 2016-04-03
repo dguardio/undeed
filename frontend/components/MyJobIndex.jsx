@@ -35,18 +35,25 @@ var MyJobIndex = React.createClass({
     }
     return (
       <div>
-			  <Link to={"/"}><Logo /></Link>
-        <ul>
-          <li><Link to={"myjobs/"}>Saved</Link></li>
-          <li><Link to={"myjobs/applied"}>Applied</Link></li>
-          <li><Link to={"myjobs/interviewed"}>Interviewed</Link></li>
-          <li><Link to={"myjobs/offered"}>Offered</Link></li>
-          <li><Link to={"myjobs/hired"}>Hired</Link></li>
-          <li><Link to={"myjobs/visited"}>Visited</Link></li>
-          <li><Link to={"myjobs/archived"}>Archived</Link></li>
-        </ul>
-          {this.props.children}
-      </ div>
+        <div className="myjob-main group">
+          <div className="myjob-sidebar">
+    			  <Link to={"/"}><Logo /></Link>
+            <ul>
+              <h2>My Jobs</h2>
+              <li><Link to={"myjobs/"}>Saved</Link></li>
+              <li><Link to={"myjobs/applied"}>Applied</Link></li>
+              <li><Link to={"myjobs/interviewed"}>Interviewed</Link></li>
+              <li><Link to={"myjobs/offered"}>Offered</Link></li>
+              <li><Link to={"myjobs/hired"}>Hired</Link></li>
+              <li><Link to={"myjobs/visited"}>Visited</Link></li>
+              <li><Link to={"myjobs/archived"}>Archived</Link></li>
+            </ul>
+          </div>
+          <div className="myjob-content">
+            {this.props.children}
+          </div>
+        </div>
+    </div>
     );
   }
 

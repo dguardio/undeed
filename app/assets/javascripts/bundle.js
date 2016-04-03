@@ -32449,78 +32449,95 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        Link,
-	        { to: "/" },
-	        React.createElement(Logo, null)
-	      ),
-	      React.createElement(
-	        'ul',
-	        null,
+	        'div',
+	        { className: 'myjob-main group' },
 	        React.createElement(
-	          'li',
-	          null,
+	          'div',
+	          { className: 'myjob-sidebar' },
 	          React.createElement(
 	            Link,
-	            { to: "myjobs/" },
-	            'Saved'
+	            { to: "/" },
+	            React.createElement(Logo, null)
+	          ),
+	          React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	              'h2',
+	              null,
+	              'My Jobs'
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/" },
+	                'Saved'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/applied" },
+	                'Applied'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/interviewed" },
+	                'Interviewed'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/offered" },
+	                'Offered'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/hired" },
+	                'Hired'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/visited" },
+	                'Visited'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "myjobs/archived" },
+	                'Archived'
+	              )
+	            )
 	          )
 	        ),
 	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/applied" },
-	            'Applied'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/interviewed" },
-	            'Interviewed'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/offered" },
-	            'Offered'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/hired" },
-	            'Hired'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/visited" },
-	            'Visited'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "myjobs/archived" },
-	            'Archived'
-	          )
+	          'div',
+	          { className: 'myjob-content' },
+	          this.props.children
 	        )
-	      ),
-	      this.props.children
+	      )
 	    );
 	  }
 
@@ -32899,27 +32916,51 @@
 	      // debugger;
 	      return React.createElement(
 	        'div',
-	        null,
+	        { className: 'group' },
 	        React.createElement(
-	          'button',
-	          { onClick: this.handleLogOut },
-	          'Sign Out '
-	        ),
-	        this.state.currentUser.email,
-	        React.createElement(
-	          Link,
-	          { to: "/myjobs" },
-	          ' My Jobs'
+	          'div',
+	          { className: 'user-header' },
+	          React.createElement(
+	            'div',
+	            { className: 'header-email' },
+	            this.state.currentUser.email
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'header-dropdown' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                { onClick: this.handleLogOut },
+	                'Sign Out '
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "/myjobs" },
+	                ' My Jobs'
+	              )
+	            )
+	          )
 	        )
 	      );
 	    } else {
 	      return React.createElement(
 	        'div',
-	        null,
+	        { className: 'group' },
 	        React.createElement(
-	          'button',
-	          { onClick: this.handleLogIn },
-	          'Sign In'
+	          'div',
+	          { className: 'user-header' },
+	          React.createElement(
+	            'button',
+	            { onClick: this.handleLogIn },
+	            'Sign In'
+	          )
 	        )
 	      );
 	    }
@@ -32943,7 +32984,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Saved!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Saved!'
+	      ),
 	      React.createElement(Shared, { type: 'saved' })
 	    );
 	  }
@@ -32960,6 +33005,7 @@
 	var MyJobStore = __webpack_require__(260);
 	var SessionStore = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(218);
+	var Link = __webpack_require__(159).Link;
 	var Shared = React.createClass({
 	  displayName: 'Shared',
 
@@ -32996,21 +33042,23 @@
 	      // debugger;
 	      return React.createElement(
 	        'ul',
-	        { key: myjob.id },
+	        { className: 'myjob-job', key: myjob.id },
 	        React.createElement(
 	          'li',
 	          null,
-	          myjob.job.employer
+	          React.createElement(
+	            Link,
+	            { to: "/jobs/" + myjob.id },
+	            ' ',
+	            myjob.job.title
+	          )
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
+	          myjob.job.employer,
+	          '-',
 	          myjob.job.location
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          myjob.job.title
 	        )
 	      );
 	    });
@@ -33079,7 +33127,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Applied!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Applied!'
+	      ),
 	      React.createElement(Shared, { type: 'applied' })
 	    );
 	  }
@@ -33102,7 +33154,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Interviewed!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Interview!'
+	      ),
 	      React.createElement(Shared, { type: 'interviewed' })
 	    );
 	  }
@@ -33125,7 +33181,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Offerred!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Offered!'
+	      ),
 	      React.createElement(Shared, { type: 'offerred' })
 	    );
 	  }
@@ -33148,7 +33208,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Hired!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Hired!'
+	      ),
 	      React.createElement(Shared, { type: 'hired' })
 	    );
 	  }
@@ -33171,7 +33235,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Visited!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Visited!'
+	      ),
 	      React.createElement(Shared, { type: 'visited' })
 	    );
 	  }
@@ -33194,7 +33262,11 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Archived!',
+	      React.createElement(
+	        'h1',
+	        { className: 'myjob-title' },
+	        'Archived!'
+	      ),
 	      React.createElement(Shared, { type: 'archived' })
 	    );
 	  }

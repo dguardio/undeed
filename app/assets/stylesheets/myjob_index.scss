@@ -1,0 +1,42 @@
+.myjob-main {
+  margin: 0 auto;
+  width: 1160px;
+}
+.myjob-sidebar{
+  float:left;
+  width: 300px;
+}
+
+.myjob-content{
+  float:left;
+  width: 800px;
+}
+.myjob-sidebar ul{
+
+  padding: 30px 10px;
+  margin-left: 30px;
+}
+.myjob-sidebar ul h2{
+  font-size: 20px;
+  margin-bottom:20px;
+}
+.myjob-sidebar li{
+  font-size: 16px;
+  padding: 10px 0px;
+}
+.myjob-title {
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px 0px;
+}
+.myjob-job {
+  font-size: 16px;
+  padding: 15px 0 15px 0px;
+  border-bottom: 1px solid lightgray;
+}
+.myjob-job li {
+
+  padding: 3px 0 3px 0px;
+
+}
