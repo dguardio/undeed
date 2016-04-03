@@ -24954,6 +24954,63 @@
 	      }
 	    });
 	  },
+	  updateMyJobStatus: function (id, status, callback) {
+	    $.ajax({
+	      url: '/api/myjobs/' + id,
+	      method: 'PATCH',
+	      data: { myjob: status },
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (myjob) {
+	        // debugger;
+	        JobActions.receiveMyJob(myjob);
+	        callback && callback();
+	      },
+	      error: function (no) {
+	        // debugger;
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  createMyJob: function (myjob, callback) {
+	    $.ajax({
+	      url: '/api/myjobs/',
+	      method: 'POST',
+	      data: { myjob: myjob },
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (myjob) {
+	        // debugger;
+	        JobActions.receiveMyJob(myjob);
+	        callback && callback();
+	      },
+	      error: function (no) {
+	        // debugger;
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  destroyMyJob: function (id, callback) {
+	    $.ajax({
+	      url: '/api/myjobs/' + id,
+	      method: 'DELETE',
+	      data: { myjob: myjob },
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (myjob) {
+	        // debugger;
+	        JobActions.removeMyJob(myjob);
+	        callback && callback();
+	      },
+	      error: function (no) {
+	        // debugger;
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
 	  fetchJobs: function () {
 	    $.ajax({
 	      url: '/api/jobs',
@@ -25087,6 +25144,20 @@
 	    AppDispatcher.dispatch({
 	      actionType: JobConstants.MYJOBS_RECEIVED,
 	      myjobs: myjobs
+	    });
+	  },
+	  receiveMyJob: function (myjob) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.MYJOB_RECEIVED,
+	      myjob: myjob
+	    });
+	  },
+	  removeMyJob: function (myjob) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.MYJOB_REMOVED,
+	      myjob: myjob
 	    });
 	  },
 	  receiveAll: function (jobs) {
@@ -25443,6 +25514,8 @@
 
 	var JobConstants = {
 	  MYJOBS_RECEIVED: "MYJOBS_RECEIVED",
+	  MYJOB_RECEIVED: "MYJOB_RECEIVED",
+	  MYJOB_REMOVED: "MYJOB_REMOVED",
 	  JOBS_RECEIVED: "JOBS_RECEIVED",
 	  JOB_RECEIVED: "JOB_RECEIVED",
 	  JOBS_SEARCHED: "JOBS_SEARCHED",
@@ -33048,7 +33121,7 @@
 	          null,
 	          React.createElement(
 	            Link,
-	            { to: "/jobs/" + myjob.id },
+	            { to: "/jobs/" + myjob.job_id },
 	            ' ',
 	            myjob.job.title
 	          )
@@ -33099,12 +33172,40 @@
 	var resetMyJobs = function (jobs) {
 	  _myjobs = jobs;
 	};
+	var updateMyJob = function (updatedMyJob) {
+	  var replaced = false;
+	  _myjobs = _myjobs.map(function (myJob) {
+	    if (myJob.id === updatedMyJob.id) {
+	      replaced = true;
+	      return updatedMyJob;
+	    } else {
+	      return myJob;
+	    }
+	  });
+	  if (!replaced) {
+	    _myjobs.push(updatedMyJob);
+	  }
+	};
+	var removeMyJob = function (removedMyJob) {
+	  _myjobs = _myjobs.map(function (myJob) {
+	    if (myJob.id !== removedMyJob.id) {
+	      return myjob;
+	    }
+	  });
+	};
 
 	MyJobStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-
 	    case JobConstants.MYJOBS_RECEIVED:
 	      resetMyJobs(payload.myjobs);
+	      MyJobStore.__emitChange();
+	      break;
+	    case JobConstants.MYJOB_RECEIVED:
+	      updateMyJob(payload.myjob);
+	      MyJobStore.__emitChange();
+	      break;
+	    case JobConstants.MYJOB_REMOVED:
+	      removeMyJob(payload.myjob);
 	      MyJobStore.__emitChange();
 	      break;
 	  }

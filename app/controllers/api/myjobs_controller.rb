@@ -19,6 +19,13 @@ class Api::MyjobsController < ApplicationController
 
   end
 
+  def update
+    debugger
+    @myjob = Myjob.find(params[:id])
+    @myjob.update(status: myjob_params[:status])
+    render :show
+  end
+
   def myjob_params
     params.require(:myjob).permit(:status, :seeker_id, :job_id)
   end

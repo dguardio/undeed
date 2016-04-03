@@ -37,7 +37,7 @@ var Shared = React.createClass({
       // debugger;
       return (
         <ul className="myjob-job" key={myjob.id}>
-          <li><Link to={"/jobs/"+ myjob.id}> {myjob.job.title}</Link></li>
+          <li><Link to={"/jobs/"+ myjob.job_id}> {myjob.job.title}</Link></li>
           <li>{myjob.job.employer}-{myjob.job.location}</li>
         </ul>
       );

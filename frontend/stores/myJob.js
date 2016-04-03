@@ -20,12 +20,40 @@ MyJobStore.find = function (status) {
 var resetMyJobs = function(jobs){
   _myjobs = jobs;
 };
+var updateMyJob = function(updatedMyJob){
+	var replaced = false;
+  _myjobs = _myjobs.map (function(myJob){
+		if (myJob.id === updatedMyJob.id){
+			replaced = true;
+			return updatedMyJob;
+		} else {
+			return myJob;
+		}
+	});
+	if (!replaced){
+		_myjobs.push(updatedMyJob);
+	}
+};
+var removeMyJob = function(removedMyJob){
+  _myjobs = _myjobs.map (function(myJob){
+		if (myJob.id !== removedMyJob.id){
+			return myjob;
+    }
+  });
+};
 
 MyJobStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
-
     case JobConstants.MYJOBS_RECEIVED:
       resetMyJobs(payload.myjobs);
+      MyJobStore.__emitChange();
+      break;
+    case JobConstants.MYJOB_RECEIVED:
+      updateMyJob(payload.myjob);
+      MyJobStore.__emitChange();
+      break;
+    case JobConstants.MYJOB_REMOVED:
+      removeMyJob(payload.myjob);
       MyJobStore.__emitChange();
       break;
   }

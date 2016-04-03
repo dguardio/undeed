@@ -8,6 +8,20 @@ ApiActions = {
       myjobs: myjobs
     });
   },
+  receiveMyJob: function(myjob){
+    // debugger;
+    AppDispatcher.dispatch({
+      actionType: JobConstants.MYJOB_RECEIVED,
+      myjob: myjob
+    });
+  },
+  removeMyJob: function(myjob){
+    // debugger;
+    AppDispatcher.dispatch({
+      actionType: JobConstants.MYJOB_REMOVED,
+      myjob: myjob
+    });
+  },
   receiveAll: function(jobs){
     AppDispatcher.dispatch({
       actionType: JobConstants.JOBS_RECEIVED,
