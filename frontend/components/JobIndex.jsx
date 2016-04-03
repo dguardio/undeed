@@ -30,15 +30,17 @@ var JobIndex = React.createClass({
       return <JobIndexItem key= {job.id} job = {job} />;
 
     });
-    return (
-      <div>
-			  <Link to={"/"}><Logo /></Link>
-        <JobSearch></JobSearch>
-        <div className="main-content">
-          {jobs}
+      return (
+        <div>
+          <div className="search-bar group">
+    			  <Link className="logo-link" to={"/"}><Logo /></Link>
+            <div className="search-bar-search"><JobSearch /></div>
+          </div>
+          <div className="search-results">
+            {jobs}
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 });
 module.exports = JobIndex;

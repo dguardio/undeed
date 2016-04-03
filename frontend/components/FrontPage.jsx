@@ -9,8 +9,10 @@ var FrontPage = React.createClass({
     // debugger;
     return (
       <div>
-        <div className='logomain' />
-        <JobSearch />
+        <div className="fontpage-content">
+          <div className='logomain' />
+          <JobSearch />
+        </div>
       </div>
     );
   }

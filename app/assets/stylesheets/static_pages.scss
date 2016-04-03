@@ -1,12 +1,63 @@
 // Place all the styles related to the Static_pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html, body, header, nav, h1,h3, a, ul, li,
+strong, main, section, img, div, h2, p,
+form, fieldset, label, input, textarea,
+button, article, footer, small, main{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  box-sizing: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  color: inherit;
+  background: transparent;
+}
+body {
+  box-sizing: content-box;
+  font-family: sans-serif;
+  font-size: 13.3333px;
+  line-height: 1.1666666666;
+  background: white;
+  color: #000;
+}
+
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- CLEARFIX --- */
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+a {
+	color: #00c;
+	text-decoration: underline
+}
+
 .logo{
-	display: block;
+	// display: block;
 	background-image: asset-url("logo.png");
   background-size:contain;
 	width: 175px;
 	height:72px;
+	margin-left: 10px;
 	// border: 1px solid black;
 }
 .logomain{
@@ -17,12 +68,7 @@
 	height:109px;
 	// border: 1px solid black;
 }
-.main-content{
-	background: #FEF9E7;
-	margin: 0 auto;
-	width: 900px;
-	padding: 20px;
-}
+
 .job-index-item{
 	margin-top: 20px;
 }
@@ -39,48 +85,9 @@
 	margin: 10px 0 10px 0;
 }
 
-.search-component{
-	position: relative;
-	background: lightblue;
-	padding: 20px;
-	margin: 0 auto;
-	width: 900px;
-}
-.searchField{
-	border: 1px solid grey;
-	background: white;
-	padding: 5px;
-	margin: 5px;
-}
-.search-button{
-	align-items: flex-start;
-	text-align: center;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-	background-color: blue;
-	box-sizing: border-box;
-	padding: 3px;
-	// border: 2px outset buttonface;
-	display: block;
-	margin: 6px 12px;
-}
 
-.dropdown-location{
-	position:absolute;
-	border: 1px solid black;
-	background: white;
-	cursor: pointer;
-	width:600px;
-}
-.dropdown-location-list{
-	display: block;
-	padding: 10px;
-}
-.dropdown-location-list:hover {
-	background: blue;
-	color: white;
-}
+
+
 
 
 

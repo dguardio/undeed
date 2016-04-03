@@ -32087,14 +32087,22 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        Link,
-	        { to: "/" },
-	        React.createElement(Logo, null)
+	        'div',
+	        { className: 'search-bar group' },
+	        React.createElement(
+	          Link,
+	          { className: 'logo-link', to: "/" },
+	          React.createElement(Logo, null)
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'search-bar-search' },
+	          React.createElement(JobSearch, null)
+	        )
 	      ),
-	      React.createElement(JobSearch, null),
 	      React.createElement(
 	        'div',
-	        { className: 'main-content' },
+	        { className: 'search-results' },
 	        jobs
 	      )
 	    );
@@ -32149,32 +32157,47 @@
 			if (!job) {
 				return React.createElement('div', null);
 			}
-			// debugger;
 			return React.createElement(
 				'div',
 				null,
 				React.createElement(
-					Link,
-					{ to: "/" },
-					React.createElement(Logo, null)
+					'div',
+					{ className: 'job-detail-search-bar group' },
+					React.createElement(
+						Link,
+						{ className: 'job-detail-logo-link', to: "/" },
+						React.createElement(Logo, null)
+					),
+					React.createElement(
+						'div',
+						{ className: 'job-detail-search-bar-search' },
+						React.createElement(JobSearch, null)
+					)
 				),
-				React.createElement(JobSearch, null),
 				React.createElement(
 					'div',
-					{ className: 'main-content' },
+					{ className: 'job-detail-content' },
 					React.createElement(
-						'h2',
-						{ className: 'job-detail-title' },
-						job.title
+						'div',
+						{ className: 'job-detail-header' },
+						React.createElement(
+							'h2',
+							{ className: 'job-detail-title' },
+							job.title
+						),
+						job.employer.name,
+						' - ',
+						job.location.city,
+						React.createElement('br', null),
+						'Salary: ',
+						job.salary,
+						React.createElement('br', null)
 					),
-					job.employer.name,
-					'-',
-					job.location.city,
-					React.createElement('br', null),
-					job.salary,
-					React.createElement('br', null),
-					job.description,
-					React.createElement('br', null)
+					React.createElement(
+						'div',
+						{ className: 'job-detail-detail' },
+						job.description
+					)
 				)
 			);
 		}
@@ -32192,7 +32215,11 @@
 
 
 		render: function () {
-			return React.createElement("div", { className: "logo" });
+			return React.createElement(
+				"div",
+				null,
+				React.createElement("div", { className: "logo" })
+			);
 		}
 
 	});
@@ -32246,38 +32273,37 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'search-component' },
+	      null,
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        { className: 'search-component group', onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'div',
-	          null,
+	          { className: 'what-field' },
 	          React.createElement(
 	            'label',
-	            null,
+	            { className: 'search-label' },
 	            'what:'
 	          ),
-	          React.createElement('input', { className: 'searchField', type: 'text', onChange: this.handleWhatFieldChange, value: this.state.whatField })
+	          React.createElement('input', { className: 'searchfield-what', type: 'text', onChange: this.handleWhatFieldChange, value: this.state.whatField })
 	        ),
 	        React.createElement(
 	          'div',
-	          null,
+	          { className: 'where-field' },
 	          React.createElement(
 	            'label',
-	            null,
+	            { className: 'search-label' },
 	            'where:'
 	          ),
-	          React.createElement('input', { className: 'searchField', type: 'text', onChange: this.handleWhereFieldChange, value: this.state.whereField })
+	          React.createElement('input', { className: 'searchfield-where', type: 'text', onChange: this.handleWhereFieldChange, value: this.state.whereField }),
+	          React.createElement(CityDropDown, { setLocation: this.setLocation, whereVisible: this.state.whereVisible })
 	        ),
 	        React.createElement(
 	          'button',
 	          { className: 'search-button' },
-	          'Search Job'
-	        ),
-	        React.createElement('br', null)
-	      ),
-	      React.createElement(CityDropDown, { setLocation: this.setLocation, whereVisible: this.state.whereVisible })
+	          'Find Jobs'
+	        )
+	      )
 	    );
 	  }
 
@@ -32351,23 +32377,28 @@
 
 		render: function () {
 			var job = this.props.job;
+			// debugger;
 			return React.createElement(
-				'li',
-				{ className: 'job-index-item' },
+				'div',
+				null,
 				React.createElement(
-					Link,
-					{ className: 'job-index-item-title', to: "/jobs/" + job.id },
-					job.title
-				),
-				React.createElement('br', null),
-				job.employer.name,
-				'-',
-				job.location.city,
-				React.createElement('br', null),
-				job.salary,
-				React.createElement('br', null),
-				job.description,
-				React.createElement('br', null)
+					'li',
+					{ className: 'job-index-item' },
+					React.createElement(
+						Link,
+						{ className: 'job-index-item-title', to: "/jobs/" + job.id },
+						job.title
+					),
+					React.createElement('br', null),
+					job.employer.name,
+					' - ',
+					job.location.city,
+					React.createElement('br', null),
+					job.salary,
+					React.createElement('br', null),
+					job.description.split(" ").slice(0, 10).join(" ") + "...",
+					React.createElement('br', null)
+				)
 			);
 		}
 
@@ -32555,8 +32586,12 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('div', { className: 'logomain' }),
-	      React.createElement(JobSearch, null)
+	      React.createElement(
+	        'div',
+	        { className: 'fontpage-content' },
+	        React.createElement('div', { className: 'logomain' }),
+	        React.createElement(JobSearch, null)
+	      )
 	    );
 	  }
 	});
@@ -32830,6 +32865,7 @@
 	    };
 	  },
 	  componentDidMount: function () {
+	    // debugger;
 	    this.setStateFromStore();
 	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
 	  },

@@ -1,0 +1,16 @@
+.dropdown-location{
+	position:absolute;
+	border: 1px solid black;
+	background: white;
+	cursor: pointer;
+	width:355px;
+	font-weight:bold;
+}
+.dropdown-location-list{
+	display: block;
+	padding: 3px 5px;
+}
+.dropdown-location-list:hover {
+	background: blue;
+	color: white;
+}

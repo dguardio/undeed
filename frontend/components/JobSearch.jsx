@@ -38,21 +38,21 @@ var JobSeach = React.createClass({
   },
   render: function() {
     return (
-      <div className="search-component">
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>what:</label>
-            <input className="searchField" type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
+      <div>
+        <form className="search-component group" onSubmit={this.handleSubmit}>
+          <div className="what-field">
+            <label className="search-label">what:</label>
+            <input className="searchfield-what" type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
           </div>
-          <div>
-            <label>where:</label>
-            <input className="searchField" type='text' onChange={this.handleWhereFieldChange} value={this.state.whereField}/>
+          <div className="where-field">
+            <label className="search-label">where:</label>
+            <input className="searchfield-where" type='text' onChange={this.handleWhereFieldChange} value={this.state.whereField}/>
+            <CityDropDown setLocation={this.setLocation} whereVisible={this.state.whereVisible}/>
           </div>
-          <button className="search-button">Search Job</button>
-          <br />
+          <button className="search-button">Find Jobs</button>
         </form>
 
-        <CityDropDown setLocation={this.setLocation} whereVisible={this.state.whereVisible}/>
+
       </div>
     );
   }

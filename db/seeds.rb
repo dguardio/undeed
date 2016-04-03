@@ -8,20 +8,21 @@ new_port = Location.create(city: "New Port")
 
 Job.destroy_all
 job1 = Job.create(
-		title: "Engineer",
-		jobtype:	"full_time",
-		salary:	100000,
-		location_id: 1,
-		description: "Good Job",
-		employer_id: 1,
-		status: true
+	title: "Engineer",
+	jobtype:	"full_time",
+	salary:	100000,
+	location_id: 1,
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	employer_id: 1,
+	status: true
 	)
 job2 = Job.create(
 	title: "Teacher",
 	jobtype:	"full_time",
 	salary:	900000,
 	location_id: 1,
-	description: "Damn Good Job",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	employer_id: 1,
 	employer_id: 1,
 	status: true
 )
@@ -30,7 +31,7 @@ job3 = Job.create(
 	jobtype:	"full_time",
 	salary:	1100000,
 	location_id: 1,
-	description: "OMG Good Job",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -39,7 +40,7 @@ job3 = Job.create(
 	jobtype:	"full_time",
 	salary:	100000,
 	location_id: 1,
-	description: "OKay I guess",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -48,7 +49,7 @@ job5 = Job.create(
 	jobtype:	"full_time",
 	salary:	900000,
 	location_id: 2,
-	description: "Decent job",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -57,7 +58,7 @@ job6 = Job.create(
 	jobtype:	"full_time",
 	salary:	1100000,
 	location_id: 2,
-	description: "Dreams",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -66,7 +67,7 @@ job7 = Job.create(
 	jobtype:	"part_time",
 	salary:	100000,
 	location_id: 1,
-	description: "Can't complain",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -75,7 +76,7 @@ job8 = Job.create(
 	jobtype:	"full_time",
 	salary:	900000,
 	location_id: 1,
-	description: "Damn Good Job",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -84,7 +85,7 @@ job9 = Job.create(
 	jobtype:	"full_time",
 	salary:	1100000,
 	location_id: 1,
-	description: "This is real",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 )
@@ -93,7 +94,7 @@ job10 = Job.create(
 	jobtype:	"full_time",
 	salary:	100000,
 	location_id: 1,
-	description: "OKay I guess",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 2,
 	status: true
 	)
@@ -102,7 +103,7 @@ job11 = Job.create(
 	jobtype:	"full_time",
 	salary:	900000,
 	location_id: 2,
-	description: "Decent job",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 	)
@@ -111,7 +112,7 @@ job12 = Job.create(
 	jobtype:	"full_time",
 	salary:	1100000,
 	location_id: 2,
-	description: "Dreams",
+	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	employer_id: 1,
 	status: true
 	)

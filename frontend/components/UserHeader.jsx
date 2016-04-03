@@ -11,6 +11,7 @@ var UserHeader = React.createClass({
     };
   },
   componentDidMount: function() {
+    // debugger;
     this.setStateFromStore();
     this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
   },

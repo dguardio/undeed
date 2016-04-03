@@ -41,18 +41,20 @@ var JobDetail = React.createClass({
  		if (!job){
 			return <div></div>;
 		}
-		// debugger;
 		return (
 
 		<div>
-
-			<Link to={"/"}><Logo /></Link>
-      <JobSearch />
-			<div className="main-content">
-				<h2 className="job-detail-title">{job.title}</h2>
-				{job.employer.name}-{job.location.city}<br />
-				{job.salary}<br />
-				{job.description}<br />
+			<div className="job-detail-search-bar group">
+				<Link className="job-detail-logo-link" to={"/"}><Logo /></Link>
+	      <div className="job-detail-search-bar-search"><JobSearch /></div>
+      </div>
+			<div className="job-detail-content">
+				<div className="job-detail-header">
+					<h2 className="job-detail-title">{job.title}</h2>
+					{job.employer.name} - {job.location.city}<br />
+					Salary: {job.salary}<br />
+				</div>
+				<div className="job-detail-detail">{job.description}</div>
 			</div>
 		</div>
 		);
