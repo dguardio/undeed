@@ -35,11 +35,13 @@ var updateMyJob = function(updatedMyJob){
 	}
 };
 var removeMyJob = function(removedMyJob){
-  _myjobs = _myjobs.map (function(myJob){
+  var newMyJobs = [];
+  _myjobs.forEach (function(myJob){
 		if (myJob.id !== removedMyJob.id){
-			return myjob;
+			newMyJobs.push(myJob);
     }
   });
+  _myJobs = newMyJobs;
 };
 
 MyJobStore.__onDispatch = function (payload) {

@@ -24954,21 +24954,19 @@
 	      }
 	    });
 	  },
-	  updateMyJobStatus: function (id, status, callback) {
+	  updateMyJobStatus: function (id, myjob, callback) {
 	    $.ajax({
 	      url: '/api/myjobs/' + id,
 	      method: 'PATCH',
-	      data: { myjob: status },
+	      data: { myjob: myjob },
 	      dataType: 'json',
 	      contentType: "application/json",
 
 	      success: function (myjob) {
-	        // debugger;
 	        JobActions.receiveMyJob(myjob);
 	        callback && callback();
 	      },
 	      error: function (no) {
-	        // debugger;
 	        console.log("Error: " + no);
 	      }
 	    });
@@ -24982,31 +24980,26 @@
 	      contentType: "application/json",
 
 	      success: function (myjob) {
-	        // debugger;
 	        JobActions.receiveMyJob(myjob);
 	        callback && callback();
 	      },
 	      error: function (no) {
-	        // debugger;
+
 	        console.log("Error: " + no);
 	      }
 	    });
 	  },
-	  destroyMyJob: function (id, callback) {
+	  destroyMyJob: function (id) {
 	    $.ajax({
 	      url: '/api/myjobs/' + id,
 	      method: 'DELETE',
-	      data: { myjob: myjob },
 	      dataType: 'json',
 	      contentType: "application/json",
 
 	      success: function (myjob) {
-	        // debugger;
 	        JobActions.removeMyJob(myjob);
-	        callback && callback();
 	      },
 	      error: function (no) {
-	        // debugger;
 	        console.log("Error: " + no);
 	      }
 	    });
@@ -33079,6 +33072,7 @@
 	var SessionStore = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(218);
 	var Link = __webpack_require__(159).Link;
+	var MyJobOptions = __webpack_require__(267);
 	var Shared = React.createClass({
 	  displayName: 'Shared',
 
@@ -33132,7 +33126,8 @@
 	          myjob.job.employer,
 	          '-',
 	          myjob.job.location
-	        )
+	        ),
+	        React.createElement(MyJobOptions, { myjob: myjob })
 	      );
 	    });
 	    return React.createElement(
@@ -33187,11 +33182,13 @@
 	  }
 	};
 	var removeMyJob = function (removedMyJob) {
-	  _myjobs = _myjobs.map(function (myJob) {
+	  var newMyJobs = [];
+	  _myjobs.forEach(function (myJob) {
 	    if (myJob.id !== removedMyJob.id) {
-	      return myjob;
+	      newMyJobs.push(myJob);
 	    }
 	  });
+	  _myJobs = newMyJobs;
 	};
 
 	MyJobStore.__onDispatch = function (payload) {
@@ -33375,6 +33372,84 @@
 	});
 
 	module.exports = MyJobArchived;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(218);
+
+	var MyJobOptions = React.createClass({
+	  displayName: 'MyJobOptions',
+
+	  handleOnClick: function (status) {
+	    var id = this.props.myjob.id;
+	    var job_id = this.props.myjob.job_id;
+	    var seeker_id = this.props.myjob.seeker_id;
+	    ApiUtil.updateMyJobStatus(id, {
+	      id: id,
+	      status: status,
+	      job_id: job_id,
+	      seeker_id: seeker_id
+	    });
+	  },
+	  handleRemove: function (e) {
+	    e.preventDefault();
+	    var id = this.props.myjob.id;
+
+	    ApiUtil.destroyMyJob(id);
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "saved") },
+	        ' Move to Saved'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "applied") },
+	        ' Move to Applied'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "interviewed") },
+	        ' Move to Interviewed'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "offered") },
+	        ' Move to Offered'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "hired") },
+	        ' Move to Hired'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "visited") },
+	        ' Move to Visited'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleOnClick.bind(null, "archived") },
+	        ' Move to Archived'
+	      ),
+	      React.createElement(
+	        'li',
+	        { onClick: this.handleRemove },
+	        ' Delete'
+	      )
+	    );
+	  }
+
+	});
+
+	module.exports = MyJobOptions;
 
 /***/ }
 /******/ ]);

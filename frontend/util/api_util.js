@@ -19,21 +19,19 @@ var ApiUtil = {
       }
     });
   },
-  updateMyJobStatus: function(id, status, callback){
+  updateMyJobStatus: function(id, myjob, callback){
       $.ajax({
         url: '/api/myjobs/' + id,
         method: 'PATCH',
-        data:{myjob: status},
+        data: {myjob: myjob},
         dataType: 'json',
         contentType: "application/json",
 
         success: function (myjob) {
-          // debugger;
           JobActions.receiveMyJob(myjob);
           callback && callback();
         },
         error: function(no){
-          // debugger;
           console.log("Error: " + no);
         }
       });
@@ -42,36 +40,31 @@ var ApiUtil = {
         $.ajax({
           url: '/api/myjobs/',
           method: 'POST',
-          data:{myjob: myjob},
+          data: {myjob: myjob},
           dataType: 'json',
           contentType: "application/json",
 
           success: function (myjob) {
-            // debugger;
             JobActions.receiveMyJob(myjob);
             callback && callback();
           },
           error: function(no){
-            // debugger;
+
             console.log("Error: " + no);
           }
         });
     },
-    destroyMyJob: function(id, callback){
+    destroyMyJob: function(id){
         $.ajax({
           url: '/api/myjobs/' + id,
           method: 'DELETE',
-          data:{myjob: myjob},
           dataType: 'json',
           contentType: "application/json",
 
           success: function (myjob) {
-            // debugger;
             JobActions.removeMyJob(myjob);
-            callback && callback();
           },
           error: function(no){
-            // debugger;
             console.log("Error: " + no);
           }
         });

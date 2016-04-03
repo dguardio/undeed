@@ -3,6 +3,7 @@ var MyJobStore = require('../../stores/myJob');
 var SessionStore = require('../../stores/session');
 var ApiUtil = require('../../util/api_util');
 var Link = require('react-router').Link;
+var MyJobOptions = require('./MyJobOptions');
 var Shared = React.createClass({
   getInitialState: function () {
 
@@ -39,6 +40,7 @@ var Shared = React.createClass({
         <ul className="myjob-job" key={myjob.id}>
           <li><Link to={"/jobs/"+ myjob.job_id}> {myjob.job.title}</Link></li>
           <li>{myjob.job.employer}-{myjob.job.location}</li>
+          <MyJobOptions myjob={myjob}/>
         </ul>
       );
     });
