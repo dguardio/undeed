@@ -32895,6 +32895,11 @@
 	                )
 	              ),
 	              React.createElement(
+	                'a',
+	                { href: '/auth/facebook' },
+	                'LOG IN WITH FACEBOOK'
+	              ),
+	              React.createElement(
 	                'button',
 	                { className: 'signin-button' },
 	                'Sign in with Facebook, Comming Soon...'

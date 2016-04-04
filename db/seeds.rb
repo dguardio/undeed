@@ -1,5 +1,5 @@
 User.destroy_all
-lei = User.create(email: "zhuleijia@gmail.com", password: "53080949", real_name: "Lei Corp")
+lei = User.create(email: "zhuleijia@aol.com", password: "53080949", real_name: "Lei Corp")
 guest = User.create(email: "guest@guest.com", password: "guestguest", real_name:"guest")
 
 Location.destroy_all

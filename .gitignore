@@ -16,3 +16,7 @@
 node_modules
 npm-debug.log
 app/assets/javascripts/bundle.js*
+secrets.yml
+
+# Ignore application configuration
+/config/application.yml

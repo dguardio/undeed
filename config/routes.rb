@@ -12,4 +12,6 @@ Rails.application.routes.draw do
     resource  :session, only: [:show, :create, :destroy]
   	resources :users, only: [:create, :new]
   end
+
+  get "auth/facebook/callback", to: "omniauth#facebook"
 end
