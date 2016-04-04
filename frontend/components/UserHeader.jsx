@@ -7,7 +7,8 @@ var UserHeader = React.createClass({
   getInitialState: function() {
     return {
       currentUser : SessionStore.currentUser(),
-      isLoggedIn : SessionStore.isLoggedIn()
+      isLoggedIn : SessionStore.isLoggedIn(),
+      classname:"user-hide"
     };
   },
   componentDidMount: function() {
@@ -24,7 +25,9 @@ var UserHeader = React.createClass({
   setStateFromStore: function () {
     this.setState({
       currentUser: SessionStore.currentUser(),
-      isLoggedIn: SessionStore.isLoggedIn()
+      isLoggedIn: SessionStore.isLoggedIn(),
+      classname: "user-hide"
+
     });
   },
 
@@ -40,6 +43,14 @@ var UserHeader = React.createClass({
     ApiUtil.logout();
     this.context.router.push("/");
   },
+  handleClick : function(){
+    // debugger
+    if (this.state.classname === "user-hide"){
+      this.setState({classname:"user-show"});
+    } else{
+      this.setState({classname:"user-hide"});
+    }
+  },
   render: function() {
     // debugger;
     if (this.state.isLoggedIn){
@@ -47,8 +58,8 @@ var UserHeader = React.createClass({
       return (
         <div className="group">
           <div className="user-header">
-            <div className="header-email">{this.state.currentUser.email}</div>
-            <ul className="header-dropdown">
+            <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
+            <ul className={this.state.classname}>
               <li><button onClick={this.handleLogOut}>Sign Out </button></li>
               <li><Link to={"/myjobs"}> My Jobs</Link></li>
             </ul>

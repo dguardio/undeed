@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						<IndexRoute component={MyJobSaved} />
 						<Route path="applied" component={MyJobApplied} />
 						<Route path="interviewed" component={MyJobInter} />
-						<Route path="offered" component={MyJobOfferred} />
+						<Route path="offerred" component={MyJobOfferred} />
 						<Route path="hired" component={MyJobHired} />
 						<Route path="visited" component={MyJobVisited} />
 						<Route path="archived" component={MyJobArchived} />

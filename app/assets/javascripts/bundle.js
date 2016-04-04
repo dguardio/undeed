@@ -112,7 +112,7 @@
 					React.createElement(IndexRoute, { component: MyJobSaved }),
 					React.createElement(Route, { path: 'applied', component: MyJobApplied }),
 					React.createElement(Route, { path: 'interviewed', component: MyJobInter }),
-					React.createElement(Route, { path: 'offered', component: MyJobOfferred }),
+					React.createElement(Route, { path: 'offerred', component: MyJobOfferred }),
 					React.createElement(Route, { path: 'hired', component: MyJobHired }),
 					React.createElement(Route, { path: 'visited', component: MyJobVisited }),
 					React.createElement(Route, { path: 'archived', component: MyJobArchived })
@@ -33077,7 +33077,8 @@
 	  getInitialState: function () {
 	    return {
 	      currentUser: SessionStore.currentUser(),
-	      isLoggedIn: SessionStore.isLoggedIn()
+	      isLoggedIn: SessionStore.isLoggedIn(),
+	      classname: "user-hide"
 	    };
 	  },
 	  componentDidMount: function () {
@@ -33094,7 +33095,9 @@
 	  setStateFromStore: function () {
 	    this.setState({
 	      currentUser: SessionStore.currentUser(),
-	      isLoggedIn: SessionStore.isLoggedIn()
+	      isLoggedIn: SessionStore.isLoggedIn(),
+	      classname: "user-hide"
+
 	    });
 	  },
 
@@ -33110,6 +33113,14 @@
 	    ApiUtil.logout();
 	    this.context.router.push("/");
 	  },
+	  handleClick: function () {
+	    // debugger
+	    if (this.state.classname === "user-hide") {
+	      this.setState({ classname: "user-show" });
+	    } else {
+	      this.setState({ classname: "user-hide" });
+	    }
+	  },
 	  render: function () {
 	    // debugger;
 	    if (this.state.isLoggedIn) {
@@ -33122,12 +33133,12 @@
 	          { className: 'user-header' },
 	          React.createElement(
 	            'div',
-	            { className: 'header-email' },
+	            { onClick: this.handleClick, className: 'header-email' },
 	            this.state.currentUser.email
 	          ),
 	          React.createElement(
 	            'ul',
-	            { className: 'header-dropdown' },
+	            { className: this.state.classname },
 	            React.createElement(
 	              'li',
 	              null,
@@ -33595,23 +33606,32 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
-	            ' Move to Applied'
-	          ),
-	          React.createElement(
-	            'li',
-	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
-	            ' Move to Interviewed'
-	          ),
-	          React.createElement(
-	            'li',
-	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	            ' Move to Archived'
-	          ),
-	          React.createElement(
-	            'li',
 	            { key: 'delete', onClick: this.handleRemove },
 	            ' Delete'
+	          ),
+	          React.createElement(
+	            'li',
+	            { onClick: this.handleClick },
+	            'Click to Show'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	              ' Move to Applied'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	              ' Move to Interviewing'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	              ' Archived'
+	            )
 	          )
 	        );
 	      case "applied":
@@ -33621,7 +33641,7 @@
 	          React.createElement(
 	            'li',
 	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
-	            ' Move to Interviewed'
+	            ' Got an interview?'
 	          ),
 	          React.createElement(
 	            'li',
@@ -33639,7 +33659,7 @@
 	            React.createElement(
 	              'li',
 	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	              ' Move to Archived'
+	              ' Archive'
 	            )
 	          )
 	        );
@@ -33650,22 +33670,31 @@
 	          React.createElement(
 	            'li',
 	            { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
-	            ' Move to Offerred'
+	            ' I got an Offer'
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
-	            ' Move to Applied'
+	            { onClick: this.handleClick },
+	            'Click to Show'
 	          ),
 	          React.createElement(
-	            'li',
-	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	            ' Move to Archived'
-	          ),
-	          React.createElement(
-	            'li',
-	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
-	            ' Move to Hired'
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	              ' Move to Applied'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	              ' Move to Archived'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	              ' Move to Hired'
+	            )
 	          )
 	        );
 	      case "offerred":
@@ -33675,17 +33704,26 @@
 	          React.createElement(
 	            'li',
 	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
-	            ' Move to Hired'
+	            ' I got Hired'
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	            ' Move to Archived'
+	            { onClick: this.handleClick },
+	            'Click to Show'
 	          ),
 	          React.createElement(
-	            'li',
-	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
-	            ' Move to Interviewed'
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	              ' Move to Interviewing'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	              ' Archiv'
+	            )
 	          )
 	        );
 	      case "hired":
@@ -33699,13 +33737,22 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	            ' Move to Archived'
+	            { onClick: this.handleClick },
+	            'Click to Show'
 	          ),
 	          React.createElement(
-	            'li',
-	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
-	            ' Move to Interviewed'
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	              ' Move to Archived'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	              ' Move to Interviewed'
+	            )
 	          )
 	        );
 	      case "visited":
@@ -33715,17 +33762,26 @@
 	          React.createElement(
 	            'li',
 	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
-	            ' Move to Saved'
+	            ' Save'
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
-	            ' Move to Applied'
+	            { onClick: this.handleClick },
+	            'Click to Show'
 	          ),
 	          React.createElement(
-	            'li',
-	            { key: 'delete', onClick: this.handleRemove },
-	            ' Delete'
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	              ' Move to Applied'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'delete', onClick: this.handleRemove },
+	              ' Delete'
+	            )
 	          )
 	        );
 	      case "archived":
@@ -33739,8 +33795,17 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'delete', onClick: this.handleRemove },
-	            ' Delete'
+	            { onClick: this.handleClick },
+	            'Click to Show'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'delete', onClick: this.handleRemove },
+	              ' Delete'
+	            )
 	          )
 	        );
 	      default:
