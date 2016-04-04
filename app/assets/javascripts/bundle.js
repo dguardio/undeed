@@ -67,6 +67,7 @@
 	var SignupForm = __webpack_require__(256);
 	var SessionStore = __webpack_require__(253);
 	var UserHeader = __webpack_require__(257);
+	var ErrorStore = __webpack_require__(290);
 
 	var MyJobSaved = __webpack_require__(258);
 	var MyJobApplied = __webpack_require__(261);
@@ -24937,6 +24938,7 @@
 
 	var JobActions = __webpack_require__(219);
 	var SessionActions = __webpack_require__(225);
+	var ErrorActions = __webpack_require__(288);
 	var ApiUtil = {
 	  fetchMyJobs: function (seeker_id) {
 	    $.ajax({
@@ -25079,7 +25081,7 @@
 	        callback && callback();
 	      },
 	      error: function (error) {
-	        SessionActions.errorReceived(error);
+	        ErrorActions.errorReceived(error);
 	      }
 	    });
 	  },
@@ -32749,6 +32751,7 @@
 	};
 
 	SessionStore.__onDispatch = function (payload) {
+	  // debugger;
 	  switch (payload.actionType) {
 	    case SessionConstants.CURRENT_USER_RECEIVED:
 	      _currentUser = payload.currentUser;
@@ -32801,6 +32804,7 @@
 	var ApiUtil = __webpack_require__(218);
 	var Link = __webpack_require__(159).Link;
 	var Logo = __webpack_require__(248);
+	var ErrorNotification = __webpack_require__(293);
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
 
@@ -32868,7 +32872,8 @@
 	                    { htmlFor: 'password' },
 	                    'Password'
 	                  ),
-	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password })
+	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	                  React.createElement(ErrorNotification, null)
 	                ),
 	                React.createElement(
 	                  'button',
@@ -33320,7 +33325,7 @@
 	  }
 	};
 	var removeMyJob = function (removedMyJob) {
-	  debugger;
+	  // debugger;
 	  var newMyJobs = [];
 	  _myjobs.forEach(function (myJob) {
 	    if (myJob.id !== removedMyJob.id) {
@@ -33544,50 +33549,199 @@
 	    ApiUtil.destroyMyJob(id);
 	  },
 	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'myjobs-option' },
-	      React.createElement(
-	        'li',
-	        { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
-	        ' Move to Saved'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
-	        ' Move to Applied'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
-	        ' Move to Interviewed'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
-	        ' Move to Offerred'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
-	        ' Move to Hired'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
-	        ' Move to Visited'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	        ' Move to Archived'
-	      ),
-	      React.createElement(
-	        'li',
-	        { key: 'delete', onClick: this.handleRemove },
-	        ' Delete'
-	      )
-	    );
+	    var status = this.props.myjob.status;
+	    switch (status) {
+	      case "saved":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	            ' Move to Applied'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            ' Move to Interviewed'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'delete', onClick: this.handleRemove },
+	            ' Delete'
+	          )
+	        );
+	      case "applied":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            ' Move to Interviewed'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
+	            ' Move to Saved'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          )
+	        );
+	      case "interviewed":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
+	            ' Move to Offerred'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	            ' Move to Applied'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            ' Move to Hired'
+	          )
+	        );
+	      case "offerred":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            ' Move to Hired'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            ' Move to Interviewed'
+	          )
+	        );
+	      case "hired":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            ' Move to Hired'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            ' Move to Interviewed'
+	          )
+	        );
+	      case "visited":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
+	            ' Move to Saved'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	            ' Move to Applied'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'delete', onClick: this.handleRemove },
+	            ' Delete'
+	          )
+	        );
+	      case "archived":
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
+	            ' Move to Visited'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'delete', onClick: this.handleRemove },
+	            ' Delete'
+	          )
+	        );
+	      default:
+	        return React.createElement(
+	          'div',
+	          { className: 'myjobs-option' },
+	          React.createElement(
+	            'li',
+	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
+	            ' Move to Saved'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
+	            ' Move to Applied'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            ' Move to Interviewed'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
+	            ' Move to Offerred'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            ' Move to Hired'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
+	            ' Move to Visited'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	            ' Move to Archived'
+	          ),
+	          React.createElement(
+	            'li',
+	            { key: 'delete', onClick: this.handleRemove },
+	            ' Delete'
+	          )
+	        );
+	    }
 	  }
 
 	});
@@ -35517,6 +35671,141 @@
 	  else this.add(className)
 	}
 
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(220);
+	var ErrorConstants = __webpack_require__(289);
+
+	var ErrorActions = {
+
+	  errorReceived: function (error) {
+	    AppDispatcher.dispatch({
+	      actionType: ErrorConstants.ERROR_RECEIVED,
+	      error: error
+	    });
+	  }
+	};
+
+	module.exports = ErrorActions;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports) {
+
+	var ErrorConstants = {
+	  ERROR_RECEIVED: "ERROR_RECEIVED"
+	};
+
+	module.exports = ErrorConstants;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(228).Store;
+	var ErrorConstants = __webpack_require__(289);
+	var AppDispatcher = __webpack_require__(220);
+
+	var ErrorStore = new Store(AppDispatcher);
+	var _errors = "";
+
+	ErrorStore.all = function () {
+	  return _errors.slice(12, -2);
+	};
+
+	ErrorStore.getError = function (error) {
+	  _errors = error;
+	};
+
+	ErrorStore.__onDispatch = function (payload) {
+	  // debugger;
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERROR_RECEIVED:
+	      this.getError(payload.error.responseText);
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	window.ErrorStore = ErrorStore;
+	module.exports = ErrorStore;
+
+/***/ },
+/* 291 */,
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(228).Store;
+	var ErrorConstants = __webpack_require__(289);
+	var AppDispatcher = __webpack_require__(220);
+
+	var ErrorStore = new Store(AppDispatcher);
+	var _errors = "";
+
+	ErrorStore.all = function () {
+	  return _errors.slice(12, -2);
+	};
+
+	ErrorStore.getError = function (error) {
+	  _errors = error;
+	};
+
+	ErrorStore.__onDispatch = function (payload) {
+	  // debugger;
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERROR_RECEIVED:
+	      this.getError(payload.error.responseText);
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	window.ErrorStore = ErrorStore;
+	module.exports = ErrorStore;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(218);
+	var ErrorStore = __webpack_require__(292);
+
+	var ErrorNotification = React.createClass({
+	  displayName: 'ErrorNotification',
+
+	  getInitialState: function () {
+	    return { error: "" };
+	  },
+	  componentDidMount: function () {
+	    this.errorStoreToken = ErrorStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.errorStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({ error: ErrorStore.all() });
+	  },
+	  render: function () {
+	    var error = this.state.error;
+	    if (error) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        error,
+	        ', please try again!'
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+	});
+
+	module.exports = ErrorNotification;
 
 /***/ }
 /******/ ]);

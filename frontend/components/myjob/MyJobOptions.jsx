@@ -25,18 +25,80 @@ var MyJobOptions = React.createClass({
       ApiUtil.destroyMyJob(id);
     },
   render: function() {
-    return (
-      <div className="myjobs-option">
-        <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
-        <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
-        <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
-        <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> Move to Offerred</li>
-        <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
-        <li key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
-        <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
-        <li key="delete" onClick={this.handleRemove}> Delete</li>
-      </div>
-    );
+    var status = this.props.myjob.status;
+    switch (status) {
+      case "saved":
+        return (
+          <div className="myjobs-option">
+            <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li key="delete" onClick={this.handleRemove}> Delete</li>
+          </div>
+        );
+      case "applied":
+        return (
+          <div className="myjobs-option">
+            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+            <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+          </div>
+        );
+      case "interviewed":
+        return (
+          <div className="myjobs-option">
+            <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> Move to Offerred</li>
+            <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+          </div>
+        );
+      case "offerred":
+        return (
+          <div className="myjobs-option">
+            <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+          </div>
+        );
+      case "hired":
+        return (
+          <div className="myjobs-option">
+            <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+          </div>
+        );
+      case "visited":
+        return (
+          <div className="myjobs-option">
+            <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+            <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            <li key="delete" onClick={this.handleRemove}> Delete</li>
+          </div>
+        );
+      case "archived":
+        return (
+          <div className="myjobs-option">
+            <li key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
+            <li key="delete" onClick={this.handleRemove}> Delete</li>
+          </div>
+        );
+      default:
+        return (
+          <div className="myjobs-option">
+            <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+            <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+            <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> Move to Offerred</li>
+            <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+            <li key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
+            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li key="delete" onClick={this.handleRemove}> Delete</li>
+          </div>
+        );
+    }
+
   }
 
 });

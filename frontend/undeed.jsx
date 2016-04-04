@@ -22,6 +22,7 @@ var LoginForm = require("./components/LoginForm.jsx");
 var SignupForm = require("./components/SignupForm.jsx");
 var SessionStore = require("./stores/session");
 var UserHeader =  require("./components/UserHeader.jsx");
+var ErrorStore = require('./stores/error');
 
 var MyJobSaved = require('./components/myjob/MyJobSaved');
 var MyJobApplied = require('./components/myjob/MyJobApplied');

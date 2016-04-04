@@ -46,7 +46,7 @@ var updateMyJob = function(updatedMyJob){
 	}
 };
 var removeMyJob = function(removedMyJob){
-  debugger;
+  // debugger;
   var newMyJobs = [];
   _myjobs.forEach (function(myJob){
 		if (myJob.id !== removedMyJob.id){

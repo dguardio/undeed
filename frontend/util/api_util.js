@@ -1,5 +1,6 @@
 var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
+var ErrorActions = require('../actions/error_actions');
 var ApiUtil = {
   fetchMyJobs: function(seeker_id){
     $.ajax({
@@ -142,7 +143,7 @@ var ApiUtil = {
           callback && callback();
         },
         error: function(error){
-          SessionActions.errorReceived(error);
+          ErrorActions.errorReceived(error);
         }
       });
     },

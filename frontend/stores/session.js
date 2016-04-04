@@ -20,6 +20,7 @@ SessionStore.currentUserHasBeenFetched = function() {
 };
 
 SessionStore.__onDispatch = function (payload) {
+  // debugger;
   switch (payload.actionType) {
     case SessionConstants.CURRENT_USER_RECEIVED:
       _currentUser = payload.currentUser;

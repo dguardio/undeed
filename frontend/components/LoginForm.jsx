@@ -2,6 +2,7 @@ var React = require('react');
 var ApiUtil = require('../util/api_util');
 var Link = require('react-router').Link;
 var Logo = require('./Logo');
+var ErrorNotification = require('./ErrorNotification.jsx');
 var LoginForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -31,6 +32,7 @@ var LoginForm = React.createClass({
 
                   <label htmlFor="password">Password</label>
                   <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+                  <ErrorNotification></ErrorNotification>
       					</div>
                 <button className="signin-button">Sign In</button>
               </form>

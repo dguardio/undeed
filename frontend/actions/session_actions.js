@@ -13,7 +13,7 @@ var SessionActions = {
     AppDispatcher.dispatch({
       actionType: SessionConstants.LOGOUT
     });
-  }
+  },
 };
 
 module.exports = SessionActions;
