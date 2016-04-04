@@ -6,17 +6,17 @@ var MyJobOptions = React.createClass({
     var id = this.props.myjob.id;
     var job_id = this.props.myjob.job_id;
     var seeker_id = this.props.myjob.seeker_id;
-    debugger;
+    // debugger;
     ApiUtil.updateMyJobStatus(id,
       {
         id: id,
         status: status,
         job_id: job_id,
         seeker_id: seeker_id
-      },
-      function(){
-
-      });
+      }
+      // function(){
+      // }
+      );
   },
     handleRemove : function(e){
       e.preventDefault();

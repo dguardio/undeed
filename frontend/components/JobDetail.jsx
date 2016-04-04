@@ -11,7 +11,6 @@ var Modal = require("react-modal");
 
 var JobDetail = React.createClass({
 	getInitialState: function () {
-
 		return this.getStateFromStore();
 	},
 
@@ -25,9 +24,10 @@ var JobDetail = React.createClass({
 				job_id: this.props.params.jobId,
 				seeker_id: this.state.currentUser.id
 			};
-			ApiUtil.createMyJob(myJob, function(){
-
-			});
+			ApiUtil.createMyJob(myJob
+			// 	function(){
+			// }
+			);
 		}
 	},
 

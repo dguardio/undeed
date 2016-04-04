@@ -29,7 +29,7 @@ var ApiUtil = {
 
         success: function (myjob) {
           JobActions.receiveMyJob(myjob);
-          callback && callback();
+          // callback && callback();
         },
         error: function(no){
           console.log("Error: " + no);
@@ -46,7 +46,7 @@ var ApiUtil = {
 
           success: function (myjob) {
             JobActions.receiveMyJob(myjob);
-            callback && callback();
+            // callback && callback();
           },
           error: function(no){
 

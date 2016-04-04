@@ -19,7 +19,7 @@ var searchCities = function(cities, cityString){
   _jobCities = cities;
   var searchedCities = [];
   _jobCities.forEach (function(location){
-    if (location.city.includes(cityString)){
+    if (location.city.toLowerCase().includes(cityString.toLowerCase())){
       searchedCities.push(location);
     }
   });

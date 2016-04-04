@@ -1,5 +1,6 @@
 var React = require('react');
 var SessionStore = require("../stores/session");
+var MyJobStore = require('../stores/myJob');
 var Link = require('react-router').Link;
 var Logo = require('./Logo');
 var MyJobIndex = React.createClass({
@@ -15,17 +16,20 @@ var MyJobIndex = React.createClass({
   componentDidMount: function() {
     this.setStateFromStore();
     this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
+    // this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
 
   },
 
   componentWillUnmount: function () {
     this.sessionStoreToken.remove();
+    // this.sessionStoreToken2.remove();
   },
 
   setStateFromStore: function () {
+    // debugger;
     this.setState({
       currentUser: SessionStore.currentUser(),
-      isLoggedIn: SessionStore.isLoggedIn()
+      isLoggedIn: SessionStore.isLoggedIn(),
     });
 
   },

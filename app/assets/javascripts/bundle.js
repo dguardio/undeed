@@ -24966,7 +24966,7 @@
 
 	      success: function (myjob) {
 	        JobActions.receiveMyJob(myjob);
-	        callback && callback();
+	        // callback && callback();
 	      },
 	      error: function (no) {
 	        console.log("Error: " + no);
@@ -24983,7 +24983,7 @@
 
 	      success: function (myjob) {
 	        JobActions.receiveMyJob(myjob);
-	        callback && callback();
+	        // callback && callback();
 	      },
 	      error: function (no) {
 
@@ -32095,7 +32095,7 @@
 	  _jobCities = cities;
 	  var searchedCities = [];
 	  _jobCities.forEach(function (location) {
-	    if (location.city.includes(cityString)) {
+	    if (location.city.toLowerCase().includes(cityString.toLowerCase())) {
 	      searchedCities.push(location);
 	    }
 	  });
@@ -32196,7 +32196,6 @@
 		displayName: 'JobDetail',
 
 		getInitialState: function () {
-
 			return this.getStateFromStore();
 		},
 
@@ -32210,7 +32209,10 @@
 					job_id: this.props.params.jobId,
 					seeker_id: this.state.currentUser.id
 				};
-				ApiUtil.createMyJob(myJob, function () {});
+				ApiUtil.createMyJob(myJob
+				// 	function(){
+				// }
+				);
 			}
 		},
 
@@ -32586,6 +32588,7 @@
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(253);
+	var MyJobStore = __webpack_require__(260);
 	var Link = __webpack_require__(159).Link;
 	var Logo = __webpack_require__(248);
 	var MyJobIndex = React.createClass({
@@ -32603,13 +32606,16 @@
 	  componentDidMount: function () {
 	    this.setStateFromStore();
 	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
+	    // this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
 	  },
 
 	  componentWillUnmount: function () {
 	    this.sessionStoreToken.remove();
+	    // this.sessionStoreToken2.remove();
 	  },
 
 	  setStateFromStore: function () {
+	    // debugger;
 	    this.setState({
 	      currentUser: SessionStore.currentUser(),
 	      isLoggedIn: SessionStore.isLoggedIn()
@@ -33509,13 +33515,16 @@
 	    var id = this.props.myjob.id;
 	    var job_id = this.props.myjob.job_id;
 	    var seeker_id = this.props.myjob.seeker_id;
-	    debugger;
+	    // debugger;
 	    ApiUtil.updateMyJobStatus(id, {
 	      id: id,
 	      status: status,
 	      job_id: job_id,
 	      seeker_id: seeker_id
-	    }, function () {});
+	    }
+	    // function(){
+	    // }
+	    );
 	  },
 	  handleRemove: function (e) {
 	    e.preventDefault();
