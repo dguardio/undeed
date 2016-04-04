@@ -67,7 +67,7 @@
 	var SignupForm = __webpack_require__(256);
 	var SessionStore = __webpack_require__(253);
 	var UserHeader = __webpack_require__(257);
-	var ErrorStore = __webpack_require__(290);
+	var ErrorStore = __webpack_require__(294);
 
 	var MyJobSaved = __webpack_require__(258);
 	var MyJobApplied = __webpack_require__(261);
@@ -35707,76 +35707,16 @@
 	module.exports = ErrorConstants;
 
 /***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(228).Store;
-	var ErrorConstants = __webpack_require__(289);
-	var AppDispatcher = __webpack_require__(220);
-
-	var ErrorStore = new Store(AppDispatcher);
-	var _errors = "";
-
-	ErrorStore.all = function () {
-	  return _errors.slice(12, -2);
-	};
-
-	ErrorStore.getError = function (error) {
-	  _errors = error;
-	};
-
-	ErrorStore.__onDispatch = function (payload) {
-	  // debugger;
-	  switch (payload.actionType) {
-	    case ErrorConstants.ERROR_RECEIVED:
-	      this.getError(payload.error.responseText);
-	      ErrorStore.__emitChange();
-	      break;
-	  }
-	};
-	window.ErrorStore = ErrorStore;
-	module.exports = ErrorStore;
-
-/***/ },
+/* 290 */,
 /* 291 */,
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(228).Store;
-	var ErrorConstants = __webpack_require__(289);
-	var AppDispatcher = __webpack_require__(220);
-
-	var ErrorStore = new Store(AppDispatcher);
-	var _errors = "";
-
-	ErrorStore.all = function () {
-	  return _errors.slice(12, -2);
-	};
-
-	ErrorStore.getError = function (error) {
-	  _errors = error;
-	};
-
-	ErrorStore.__onDispatch = function (payload) {
-	  // debugger;
-	  switch (payload.actionType) {
-	    case ErrorConstants.ERROR_RECEIVED:
-	      this.getError(payload.error.responseText);
-	      ErrorStore.__emitChange();
-	      break;
-	  }
-	};
-	window.ErrorStore = ErrorStore;
-	module.exports = ErrorStore;
-
-/***/ },
+/* 292 */,
 /* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(218);
-	var ErrorStore = __webpack_require__(292);
+	var ErrorStore = __webpack_require__(294);
 
 	var ErrorNotification = React.createClass({
 	  displayName: 'ErrorNotification',
@@ -35811,6 +35751,37 @@
 	});
 
 	module.exports = ErrorNotification;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(228).Store;
+	var ErrorConstants = __webpack_require__(289);
+	var AppDispatcher = __webpack_require__(220);
+
+	var ErrorStore = new Store(AppDispatcher);
+	var _errors = "";
+
+	ErrorStore.all = function () {
+	  return _errors.slice(12, -2);
+	};
+
+	ErrorStore.getError = function (error) {
+	  _errors = error;
+	};
+
+	ErrorStore.__onDispatch = function (payload) {
+	  // debugger;
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERROR_RECEIVED:
+	      this.getError(payload.error.responseText);
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	window.ErrorStore = ErrorStore;
+	module.exports = ErrorStore;
 
 /***/ }
 /******/ ]);

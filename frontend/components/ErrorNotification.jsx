@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ApiUtil = require('../util/api_util');
-var ErrorStore = require('../stores/Error');
+var ErrorStore = require('../stores/errorNotification');
 
 
 
