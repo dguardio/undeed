@@ -24956,13 +24956,13 @@
 	      }
 	    });
 	  },
-	  updateMyJobStatus: function (id, myjob, callback) {
+	  updateMyJobStatus: function (id, myjob) {
+	    // debugger;
 	    $.ajax({
 	      url: '/api/myjobs/' + id,
 	      method: 'PATCH',
 	      data: { myjob: myjob },
 	      dataType: 'json',
-	      contentType: "application/json",
 
 	      success: function (myjob) {
 	        JobActions.receiveMyJob(myjob);
@@ -24979,7 +24979,6 @@
 	      method: 'POST',
 	      data: { myjob: myjob },
 	      dataType: 'json',
-	      contentType: "application/json",
 
 	      success: function (myjob) {
 	        JobActions.receiveMyJob(myjob);
@@ -24996,7 +24995,6 @@
 	      url: '/api/myjobs/' + id,
 	      method: 'DELETE',
 	      dataType: 'json',
-	      contentType: "application/json",
 
 	      success: function (myjob) {
 	        JobActions.removeMyJob(myjob);
@@ -25081,7 +25079,7 @@
 	        callback && callback();
 	      },
 	      error: function (error) {
-	        // debugger;
+	        SessionActions.errorReceived(error);
 	      }
 	    });
 	  },
@@ -32203,7 +32201,7 @@
 			this.storeToken = JobStore.addListener(this.updateStateFromStore);
 			ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 			// debugger;
-			if (this.state.currentUser) {
+			if (this.state.currentUser && MyJobStore.exist(parseInt(this.props.params.jobId)) === false) {
 				var myJob = {
 					status: "visited",
 					job_id: this.props.params.jobId,
@@ -32758,6 +32756,7 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case SessionConstants.LOGOUT:
+	      console.log("logged out");
 	      _currentUser = null;
 	      SessionStore.__emitChange();
 	      break;
@@ -32903,11 +32902,11 @@
 	  },
 	  handleGuestSubmit: function (e) {
 	    e.preventDefault();
-	    // debugger;
-	    this.setState({ email: "guest@guest.com", password: "guestguest" });
+	    var newState = { email: "guest@guest.com", password: "guestguest" };
+	    this.setState(newState);
 	    // debugger;
 	    var router = this.context.router;
-	    ApiUtil.login(this.state, function () {
+	    ApiUtil.login(newState, function () {
 	      router.goBack();
 	    });
 	  },
@@ -33057,14 +33056,14 @@
 	  displayName: 'UserHeader',
 
 	  getInitialState: function () {
-	    // debugger;
 	    return {
 	      currentUser: SessionStore.currentUser(),
 	      isLoggedIn: SessionStore.isLoggedIn()
 	    };
 	  },
 	  componentDidMount: function () {
-	    // debugger;
+
+	    ApiUtil.fetchCurrentUser();
 	    this.setStateFromStore();
 	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
 	  },
@@ -33225,13 +33224,13 @@
 	      // debugger;
 	      return React.createElement(
 	        'div',
-	        null,
+	        { key: myjob.id },
 	        React.createElement(
 	          'div',
 	          { className: 'myjob-job-section group' },
 	          React.createElement(
 	            'div',
-	            { className: 'myjob-job', key: myjob.id },
+	            { className: 'myjob-job' },
 	            React.createElement(
 	              'li',
 	              null,
@@ -33292,6 +33291,17 @@
 	  }
 	  return result;
 	};
+
+	MyJobStore.exist = function (jobId) {
+	  // debugger;
+	  for (var i = 0; i < _myjobs.length; i++) {
+	    if (_myjobs[i].job_id === jobId) {
+	      console.log(true);
+	      return true;
+	    }
+	  }
+	  return false;
+	};
 	var resetMyJobs = function (jobs) {
 	  _myjobs = jobs;
 	};
@@ -33310,13 +33320,14 @@
 	  }
 	};
 	var removeMyJob = function (removedMyJob) {
+	  debugger;
 	  var newMyJobs = [];
 	  _myjobs.forEach(function (myJob) {
 	    if (myJob.id !== removedMyJob.id) {
 	      newMyJobs.push(myJob);
 	    }
 	  });
-	  _myJobs = newMyJobs;
+	  _myjobs = newMyJobs;
 	};
 
 	MyJobStore.__onDispatch = function (payload) {
@@ -33538,42 +33549,42 @@
 	      { className: 'myjobs-option' },
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "saved") },
+	        { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
 	        ' Move to Saved'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "applied") },
+	        { key: 'applied', onClick: this.handleOnClick.bind(null, "applied") },
 	        ' Move to Applied'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "interviewed") },
+	        { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
 	        ' Move to Interviewed'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "offered") },
-	        ' Move to Offered'
+	        { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
+	        ' Move to Offerred'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "hired") },
+	        { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
 	        ' Move to Hired'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "visited") },
+	        { key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
 	        ' Move to Visited'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleOnClick.bind(null, "archived") },
+	        { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
 	        ' Move to Archived'
 	      ),
 	      React.createElement(
 	        'li',
-	        { onClick: this.handleRemove },
+	        { key: 'delete', onClick: this.handleRemove },
 	        ' Delete'
 	      )
 	    );

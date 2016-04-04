@@ -37,14 +37,14 @@ var Shared = React.createClass({
     var myjobs = this.state.myjobs.map(function(myjob){
       // debugger;
       return (
-        <div>
+        <div key={myjob.id}>
           <div className="myjob-job-section group">
-            <div className="myjob-job" key={myjob.id}>
+            <div className="myjob-job">
               <li><Link to={"/jobs/"+ myjob.job_id}> {myjob.job.title}</Link></li>
               <li>{myjob.job.employer}-{myjob.job.location}</li>
             </div>
             <div className="myjob-options">
-              <MyJobOptions  myjob={myjob}/>
+            <MyJobOptions myjob={myjob}/>
             </div>
           </div>
         </div>

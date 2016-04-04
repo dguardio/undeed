@@ -18,7 +18,7 @@ var JobDetail = React.createClass({
 		this.storeToken = JobStore.addListener(this.updateStateFromStore);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 		// debugger;
-		if (this.state.currentUser){
+		if (this.state.currentUser && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
 			var myJob = {
 				status: "visited",
 				job_id: this.props.params.jobId,

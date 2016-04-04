@@ -19,13 +19,13 @@ var ApiUtil = {
       }
     });
   },
-  updateMyJobStatus: function(id, myjob, callback){
+  updateMyJobStatus: function(id, myjob){
+      // debugger;
       $.ajax({
         url: '/api/myjobs/' + id,
         method: 'PATCH',
         data: {myjob: myjob},
         dataType: 'json',
-        contentType: "application/json",
 
         success: function (myjob) {
           JobActions.receiveMyJob(myjob);
@@ -42,7 +42,6 @@ var ApiUtil = {
           method: 'POST',
           data: {myjob: myjob},
           dataType: 'json',
-          contentType: "application/json",
 
           success: function (myjob) {
             JobActions.receiveMyJob(myjob);
@@ -59,7 +58,6 @@ var ApiUtil = {
           url: '/api/myjobs/' + id,
           method: 'DELETE',
           dataType: 'json',
-          contentType: "application/json",
 
           success: function (myjob) {
             JobActions.removeMyJob(myjob);
@@ -144,7 +142,7 @@ var ApiUtil = {
           callback && callback();
         },
         error: function(error){
-          // debugger;
+          SessionActions.errorReceived(error);
         }
       });
     },

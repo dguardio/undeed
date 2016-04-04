@@ -5,7 +5,7 @@ class Api::MyjobsController < ApplicationController
   end
 
   def create
-    debugger
+    # debugger
     @myjob = Myjob.new(myjob_params)
 
     if @myjob.save

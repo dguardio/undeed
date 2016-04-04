@@ -27,14 +27,14 @@ var MyJobOptions = React.createClass({
   render: function() {
     return (
       <div className="myjobs-option">
-        <li onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
-        <li onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
-        <li onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
-        <li onClick={this.handleOnClick.bind(null,"offered")}> Move to Offered</li>
-        <li onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
-        <li onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
-        <li onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
-        <li onClick={this.handleRemove}> Delete</li>
+        <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+        <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+        <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+        <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> Move to Offerred</li>
+        <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+        <li key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
+        <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+        <li key="delete" onClick={this.handleRemove}> Delete</li>
       </div>
     );
   }

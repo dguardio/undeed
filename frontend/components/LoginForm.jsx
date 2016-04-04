@@ -50,11 +50,11 @@ var LoginForm = React.createClass({
   },
   handleGuestSubmit: function(e) {
     e.preventDefault();
-    // debugger;
-    this.setState({ email: "guest@guest.com", password: "guestguest" });
+    var newState ={ email: "guest@guest.com", password: "guestguest" };
+    this.setState(newState);
     // debugger;
     var router = this.context.router;
-    ApiUtil.login(this.state, function() {
+    ApiUtil.login(newState, function() {
         router.goBack();
     });
   },

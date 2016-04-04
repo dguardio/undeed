@@ -5,14 +5,14 @@ var ApiUtil = require('../util/api_util');
 
 var UserHeader = React.createClass({
   getInitialState: function() {
-    // debugger;
     return {
       currentUser : SessionStore.currentUser(),
       isLoggedIn : SessionStore.isLoggedIn()
     };
   },
   componentDidMount: function() {
-    // debugger;
+
+    ApiUtil.fetchCurrentUser();
     this.setStateFromStore();
     this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
   },
