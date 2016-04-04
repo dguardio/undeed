@@ -42,6 +42,7 @@
 
 }
 .myjob-options{
+  position:relative;
   width: 200px;
   float:left;
 	display: block;
@@ -49,4 +50,14 @@
 
 .myjobs-option li:hover{
   background:lightblue;
+}
+.option-hide{
+  display: none;
+  position: absolute;
+}
+
+
+.option-show{
+  position: absolute;
+  display:block;
 }

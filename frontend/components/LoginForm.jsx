@@ -18,7 +18,7 @@ var LoginForm = React.createClass({
   render: function() {
     return (
       <div>
-			  <Link to={"/"}><Logo /></Link>
+			  <Link className= "signinlogo" to={"/"}><Logo /></Link>
         <div className="main">
           <div className="content group">
         		<section className="signin-block group">
@@ -42,7 +42,6 @@ var LoginForm = React.createClass({
                    <button className="signin-button">Sign in as a guest</button>
                  </form>
                  <a href="/auth/facebook">LOG IN WITH FACEBOOK</a>
-                 <button className="signin-button">Sign in with Facebook, Comming Soon...</button>
 
                </section>
       			</section>

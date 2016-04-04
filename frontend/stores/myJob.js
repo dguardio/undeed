@@ -17,6 +17,19 @@ MyJobStore.find = function (status) {
 	}
   return result;
 };
+MyJobStore.count = function (status) {
+  var result = 0;
+  for( var i = 0; i < _myjobs.length; i++){
+		if( _myjobs[i].status === status) {
+			result += 1;
+		}
+	}
+  if (result === 0){
+    return "";
+  } else{
+    return result;
+  }
+};
 
 MyJobStore.exist = function (jobId) {
   // debugger;

@@ -32654,7 +32654,9 @@
 	                Link,
 	                { to: "myjobs/" },
 	                'Saved'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("saved")
 	            ),
 	            React.createElement(
 	              'li',
@@ -32663,7 +32665,9 @@
 	                Link,
 	                { to: "myjobs/applied" },
 	                'Applied'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("applied")
 	            ),
 	            React.createElement(
 	              'li',
@@ -32672,16 +32676,20 @@
 	                Link,
 	                { to: "myjobs/interviewed" },
 	                'Interviewed'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("interviewed")
 	            ),
 	            React.createElement(
 	              'li',
 	              null,
 	              React.createElement(
 	                Link,
-	                { to: "myjobs/offered" },
-	                'Offered'
-	              )
+	                { to: "myjobs/offerred" },
+	                'offerred'
+	              ),
+	              ' ',
+	              MyJobStore.count("offerred")
 	            ),
 	            React.createElement(
 	              'li',
@@ -32690,7 +32698,9 @@
 	                Link,
 	                { to: "myjobs/hired" },
 	                'Hired'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("hired")
 	            ),
 	            React.createElement(
 	              'li',
@@ -32699,7 +32709,9 @@
 	                Link,
 	                { to: "myjobs/visited" },
 	                'Visited'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("visited")
 	            ),
 	            React.createElement(
 	              'li',
@@ -32708,7 +32720,9 @@
 	                Link,
 	                { to: "myjobs/archived" },
 	                'Archived'
-	              )
+	              ),
+	              ' ',
+	              MyJobStore.count("archived")
 	            )
 	          )
 	        ),
@@ -32825,7 +32839,7 @@
 	      null,
 	      React.createElement(
 	        Link,
-	        { to: "/" },
+	        { className: 'signinlogo', to: "/" },
 	        React.createElement(Logo, null)
 	      ),
 	      React.createElement(
@@ -32898,11 +32912,6 @@
 	                'a',
 	                { href: '/auth/facebook' },
 	                'LOG IN WITH FACEBOOK'
-	              ),
-	              React.createElement(
-	                'button',
-	                { className: 'signin-button' },
-	                'Sign in with Facebook, Comming Soon...'
 	              )
 	            )
 	          )
@@ -33301,6 +33310,19 @@
 	  }
 	  return result;
 	};
+	MyJobStore.count = function (status) {
+	  var result = 0;
+	  for (var i = 0; i < _myjobs.length; i++) {
+	    if (_myjobs[i].status === status) {
+	      result += 1;
+	    }
+	  }
+	  if (result === 0) {
+	    return "";
+	  } else {
+	    return result;
+	  }
+	};
 
 	MyJobStore.exist = function (jobId) {
 	  // debugger;
@@ -33532,6 +33554,11 @@
 	var MyJobOptions = React.createClass({
 	  displayName: 'MyJobOptions',
 
+	  getInitialState: function () {
+	    return {
+	      classname: "option-hide"
+	    };
+	  },
 	  handleOnClick: function (status) {
 	    var id = this.props.myjob.id;
 	    var job_id = this.props.myjob.job_id;
@@ -33542,16 +33569,22 @@
 	      status: status,
 	      job_id: job_id,
 	      seeker_id: seeker_id
-	    }
-	    // function(){
-	    // }
-	    );
+	    });
 	  },
 	  handleRemove: function (e) {
 	    e.preventDefault();
 	    var id = this.props.myjob.id;
 
 	    ApiUtil.destroyMyJob(id);
+	  },
+
+	  handleClick: function () {
+	    // debugger
+	    if (this.state.classname === "option-hide") {
+	      this.setState({ classname: "option-show" });
+	    } else {
+	      this.setState({ classname: "option-hide" });
+	    }
 	  },
 	  render: function () {
 	    var status = this.props.myjob.status;
@@ -33592,13 +33625,22 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
-	            ' Move to Saved'
+	            { onClick: this.handleClick },
+	            'Click to Show'
 	          ),
 	          React.createElement(
-	            'li',
-	            { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
-	            ' Move to Archived'
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
+	              ' Move to Saved'
+	            ),
+	            React.createElement(
+	              'li',
+	              { key: 'archived', onClick: this.handleOnClick.bind(null, "archived") },
+	              ' Move to Archived'
+	            )
 	          )
 	        );
 	      case "interviewed":

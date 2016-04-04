@@ -10,8 +10,9 @@
   color: blue;
   cursor: pointer;
 }
-.header-dropdown {
+.header-dropdown li {
   display: block;
+  cursor: pointer;
   // background:red;
 }
 // .header-email:active{

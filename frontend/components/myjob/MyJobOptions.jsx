@@ -2,6 +2,11 @@ var React = require('react');
 var ApiUtil = require('../../util/api_util');
 
 var MyJobOptions = React.createClass({
+  getInitialState: function() {
+    return {
+      classname:"option-hide"
+    };
+  },
   handleOnClick : function(status){
     var id = this.props.myjob.id;
     var job_id = this.props.myjob.job_id;
@@ -13,17 +18,23 @@ var MyJobOptions = React.createClass({
         status: status,
         job_id: job_id,
         seeker_id: seeker_id
-      }
-      // function(){
-      // }
-      );
+      });
   },
-    handleRemove : function(e){
-      e.preventDefault();
-      var id = this.props.myjob.id;
+  handleRemove : function(e){
+    e.preventDefault();
+    var id = this.props.myjob.id;
 
-      ApiUtil.destroyMyJob(id);
-    },
+    ApiUtil.destroyMyJob(id);
+  },
+
+  handleClick : function(){
+    // debugger
+    if (this.state.classname === "option-hide"){
+      this.setState({classname:"option-show"});
+    } else{
+      this.setState({classname:"option-hide"});
+    }
+  },
   render: function() {
     var status = this.props.myjob.status;
     switch (status) {
@@ -39,9 +50,12 @@ var MyJobOptions = React.createClass({
       case "applied":
         return (
           <div className="myjobs-option">
-            <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
-            <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
-            <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            <li  key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
+            <li onClick={this.handleClick}>Click to Show</li>
+            <ul className={this.state.classname}>
+              <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+              <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
+            </ul>
           </div>
         );
       case "interviewed":

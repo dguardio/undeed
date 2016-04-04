@@ -44,13 +44,13 @@ var MyJobIndex = React.createClass({
     			  <Link to={"/"}><Logo /></Link>
             <ul>
               <h2>My Jobs</h2>
-              <li><Link to={"myjobs/"}>Saved</Link></li>
-              <li><Link to={"myjobs/applied"}>Applied</Link></li>
-              <li><Link to={"myjobs/interviewed"}>Interviewed</Link></li>
-              <li><Link to={"myjobs/offered"}>Offered</Link></li>
-              <li><Link to={"myjobs/hired"}>Hired</Link></li>
-              <li><Link to={"myjobs/visited"}>Visited</Link></li>
-              <li><Link to={"myjobs/archived"}>Archived</Link></li>
+              <li><Link to={"myjobs/"}>Saved</Link> {MyJobStore.count("saved")}</li>
+              <li><Link to={"myjobs/applied"}>Applied</Link> {MyJobStore.count("applied")}</li>
+              <li><Link to={"myjobs/interviewed"}>Interviewed</Link> {MyJobStore.count("interviewed")}</li>
+              <li><Link to={"myjobs/offerred"}>offerred</Link> {MyJobStore.count("offerred")}</li>
+              <li><Link to={"myjobs/hired"}>Hired</Link> {MyJobStore.count("hired")}</li>
+              <li><Link to={"myjobs/visited"}>Visited</Link> {MyJobStore.count("visited")}</li>
+              <li><Link to={"myjobs/archived"}>Archived</Link> {MyJobStore.count("archived")}</li>
             </ul>
           </div>
           <div className="myjob-content">
