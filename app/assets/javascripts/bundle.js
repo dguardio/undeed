@@ -32252,14 +32252,12 @@
 					backgroundColor: 'rgba(255, 255, 255, 0.75)'
 				},
 				content: {
-					position: 'fixed',
-					top: '100px',
-					left: '150px',
-					right: '150px',
-					bottom: '100px',
+					position: 'absolute',
 					border: '1px solid #ccc',
-					padding: '10px'
-
+					padding: '10px',
+					margin: "auto auto",
+					width: '700px',
+					height: '500px'
 				}
 			};
 
@@ -32323,44 +32321,54 @@
 						React.createElement(
 							'div',
 							{ className: 'application-logo' },
-							React.createElement(Logo, null)
+							React.createElement(Logo, { className: 'application-img' })
 						),
 						React.createElement(
 							'div',
 							{ className: 'application-content' },
 							React.createElement(
-								'h2',
-								null,
-								job.title
-							),
-							job.employer.name,
-							' - ',
-							job.location.city,
-							React.createElement(
-								'form',
-								null,
+								'div',
+								{ className: 'application-innercontent' },
 								React.createElement(
-									'label',
-									{ htmlFor: 'email' },
-									'Email'
+									'div',
+									{ className: 'application-title' },
+									job.title
 								),
-								React.createElement('input', { type: 'text' }),
+								job.employer.name,
+								' - ',
+								job.location.city,
 								React.createElement(
-									'label',
-									{ htmlFor: 'coverletter' },
-									'Cover Letter'
-								),
-								React.createElement('input', { type: 'text' }),
-								React.createElement(
-									'button',
+									'form',
 									null,
-									'Submit Application (sends an email, not implemented yet)'
+									React.createElement(
+										'label',
+										{ htmlFor: 'realname' },
+										'Name'
+									),
+									React.createElement('input', { className: 'application-input', type: 'text' }),
+									React.createElement(
+										'label',
+										{ htmlFor: 'email' },
+										'Email'
+									),
+									React.createElement('input', { className: 'application-input', type: 'text' }),
+									React.createElement(
+										'label',
+										{ htmlFor: 'coverletter' },
+										'Cover Letter'
+									),
+									React.createElement('input', { className: 'application-input-field', type: 'textarea' }),
+									React.createElement(
+										'button',
+										{ className: 'app-button' },
+										'Submit Application (sends an email, not implemented yet)'
+									)
+								),
+								React.createElement(
+									'a',
+									{ className: 'app-cancel', onClick: this.closeModal },
+									'Cancel'
 								)
-							),
-							React.createElement(
-								'button',
-								{ onClick: this.closeModal },
-								'Cancel'
 							)
 						)
 					)
@@ -32891,7 +32899,7 @@
 	    e.preventDefault();
 	    // debugger;
 	    this.setState({ email: "guest@guest.com", password: "guestguest" });
-	    debugger;
+	    // debugger;
 	    var router = this.context.router;
 	    ApiUtil.login(this.state, function () {
 	      router.goBack();
@@ -33210,26 +33218,38 @@
 	    var myjobs = this.state.myjobs.map(function (myjob) {
 	      // debugger;
 	      return React.createElement(
-	        'ul',
-	        { className: 'myjob-job', key: myjob.id },
+	        'div',
+	        null,
 	        React.createElement(
-	          'li',
-	          null,
+	          'div',
+	          { className: 'myjob-job-section group' },
 	          React.createElement(
-	            Link,
-	            { to: "/jobs/" + myjob.job_id },
-	            ' ',
-	            myjob.job.title
+	            'div',
+	            { className: 'myjob-job', key: myjob.id },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "/jobs/" + myjob.job_id },
+	                ' ',
+	                myjob.job.title
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              myjob.job.employer,
+	              '-',
+	              myjob.job.location
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'myjob-options' },
+	            React.createElement(MyJobOptions, { myjob: myjob })
 	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          myjob.job.employer,
-	          '-',
-	          myjob.job.location
-	        ),
-	        React.createElement(MyJobOptions, { myjob: myjob })
+	        )
 	      );
 	    });
 	    return React.createElement(
@@ -33506,7 +33526,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'myjobs-option' },
 	      React.createElement(
 	        'li',
 	        { onClick: this.handleOnClick.bind(null, "saved") },

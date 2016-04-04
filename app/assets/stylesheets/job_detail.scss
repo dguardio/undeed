@@ -59,10 +59,59 @@
   float:left;
   height: 100%;
   background: lightgray;
-  width: 80%;
+  width: 70%;
 }
 .application-logo {
   float:left;
-  width: 20%;
-  min-width:200px;
+  display: block;
+  margin: 175px auto;
+  width: 30%;
+}
+.application-innercontent{
+  padding: 20px;
+
+}
+.application-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.application-input{
+	background: white;
+	display: block;
+	width:100px;
+	border: 1px solid lightgrey;
+	margin-bottom: 10px;
+}
+.application-input-field{
+  vertical-align: top;
+	background: white;
+	display: block;
+	width:370px;
+  height:250px;
+	border: 1px solid lightgrey;
+	margin-bottom: 10px;
+}
+
+
+.app-button{
+	align-items: flex-start;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+	background-color: blue;
+	box-sizing: border-box;
+	padding: 6px 9px;
+	// border: 2px outset buttonface;
+	display: block;
+	margin: 5px 0px;
+  font-size: 15px;
+  float: left;
+}
+.app-button:hover{
+  background-color: #6599F3;
+}
+.app-cancel{
+  cursor: pointer;
+	margin: 5px 0px;
+	padding: 6px 9px;
 }

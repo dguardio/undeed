@@ -30,13 +30,23 @@
   font-weight: bold;
   padding: 10px 0px;
 }
-.myjob-job {
+.myjob-job-section {
   font-size: 16px;
   padding: 15px 0 15px 0px;
   border-bottom: 1px solid lightgray;
 }
-.myjob-job li {
-
+.myjob-job{
+  float:left;
+  width: 300px;
   padding: 3px 0 3px 0px;
 
+}
+.myjob-options{
+  width: 200px;
+  float:left;
+	display: block;
+}
+
+.myjobs-option li:hover{
+  background:lightblue;
 }

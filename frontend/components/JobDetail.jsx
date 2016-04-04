@@ -70,14 +70,12 @@ var JobDetail = React.createClass({
 		    backgroundColor : 'rgba(255, 255, 255, 0.75)',
 		  },
 		  content : {
-		    position        : 'fixed',
-		    top             : '100px',
-		    left            : '150px',
-		    right           : '150px',
-		    bottom          : '100px',
+		    position				:	'absolute',
 		    border          : '1px solid #ccc',
 		    padding         : '10px',
-
+				margin: "auto auto",
+				width						: '700px',
+				height					: '500px'
 		  }
 		};
 
@@ -105,20 +103,24 @@ var JobDetail = React.createClass({
 	          isOpen={this.state.modalIsOpen}
 	          onRequestClose={this.closeModal}
 	          style={customStyles} >
-						<div className="application-logo"><Logo></Logo></div>
+						<div className="application-logo"><Logo className="application-img"></Logo></div>
 						<div className="application-content">
-		          <h2>{job.title}</h2>
-							{job.employer.name} - {job.location.city}
+							<div className="application-innercontent">
+			          <div className="application-title">{job.title}</div>
+								{job.employer.name} - {job.location.city}
 
-		          <form>
-		  					<label htmlFor="email">Email</label>
-								<input type="text" />
-		  					<label htmlFor="coverletter">Cover Letter</label>
-								<input type="text" />
-		            <button>Submit Application (sends an email, not implemented yet)</button>
+			          <form>
+			  					<label htmlFor="realname">Name</label>
+									<input className="application-input"type="text" />
+			  					<label htmlFor="email">Email</label>
+									<input className="application-input"type="text" />
+			  					<label htmlFor="coverletter">Cover Letter</label>
+									<input className="application-input-field" type="textarea" />
+			            <button className="app-button">Submit Application (sends an email, not implemented yet)</button>
 
-		          </form>
-						<button onClick={this.closeModal}>Cancel</button>
+			          </form>
+							<a className="app-cancel" onClick={this.closeModal}>Cancel</a>
+						</div>
 						</div>
 	      </Modal>
 			</div>

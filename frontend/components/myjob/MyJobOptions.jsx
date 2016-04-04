@@ -15,7 +15,7 @@ var MyJobOptions = React.createClass({
         seeker_id: seeker_id
       },
       function(){
-        
+
       });
   },
     handleRemove : function(e){
@@ -26,7 +26,7 @@ var MyJobOptions = React.createClass({
     },
   render: function() {
     return (
-      <div>
+      <div className="myjobs-option">
         <li onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
         <li onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
         <li onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>

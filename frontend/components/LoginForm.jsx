@@ -52,7 +52,7 @@ var LoginForm = React.createClass({
     e.preventDefault();
     // debugger;
     this.setState({ email: "guest@guest.com", password: "guestguest" });
-    debugger;
+    // debugger;
     var router = this.context.router;
     ApiUtil.login(this.state, function() {
         router.goBack();
