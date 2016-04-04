@@ -25054,6 +25054,23 @@
 	      }
 	    });
 	  },
+	  searchJobtitle: function (jobtitle) {
+	    // debugger;
+	    $.ajax({
+	      url: '/api/jobs',
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (jobs) {
+	        // debugger;
+	        JobActions.searchAll(jobs, jobtitle);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
 	  searchCity: function (cityString) {
 	    $.ajax({
 	      url: '/api/locations',
@@ -25180,6 +25197,14 @@
 	      actionType: JobConstants.CITIES_RECEIVED,
 	      cities: cities,
 	      cityString: cityString
+	    });
+	  },
+	  receiveJobTitles: function (jobs, jobtitle) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.JOBTITLES_RECEIVED,
+	      jobs: jobs,
+	      jobtitle: jobtitle
 	    });
 	  }
 
