@@ -2,6 +2,26 @@ var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
 var ApiUtil = {
+  createNewJob: function(job,callback){
+    // debugger;
+      $.ajax({
+        url: '/api/jobs/',
+        method: 'POST',
+        data: {job: job},
+        dataType: 'json',
+
+        success: function (job) {
+          // debugger;
+          var jobID = job.id;
+          JobActions.receiveSingleJob(job);
+          callback && callback(jobID);
+        },
+        error: function(no){
+
+          console.log("Error: " + no);
+        }
+      });
+  },
   fetchMyJobs: function(seeker_id){
     $.ajax({
       url: '/api/myjobs',

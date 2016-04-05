@@ -15,20 +15,15 @@ var JobDetail = React.createClass({
 	},
 
 	componentDidMount: function (){
-		// debugger;
 		this.storeToken = JobStore.addListener(this.updateStateFromStore);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
-		// debugger;
 		if (this.state.currentUser && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
 			var myJob = {
 				status: "visited",
 				job_id: this.props.params.jobId,
 				seeker_id: this.state.currentUser.id
 			};
-			ApiUtil.createMyJob(myJob
-			// 	function(){
-			// }
-			);
+			ApiUtil.createMyJob(myJob);
 		}
 	},
 
@@ -37,7 +32,9 @@ var JobDetail = React.createClass({
 	},
 
 	getStateFromStore: function () {
+		// ApiUtil.fetchJobs();
 		var job = JobStore.find(parseInt(this.props.params.jobId));
+		// debugger;
 		return {
 			job: job,
 			currentUser: SessionStore.currentUser(),
@@ -82,6 +79,7 @@ var JobDetail = React.createClass({
 
 		var job = this.state.job;
 		var email = "";
+		// debugger;
  		if (!job){
 			return <div></div>;
 		}
