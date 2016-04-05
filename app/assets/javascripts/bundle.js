@@ -34120,7 +34120,9 @@
 
 	  componentDidMount: function () {
 	    this.jobStoreToken = JobStore.addListener(this._onChange);
-	    // ApiUtil.fetchJobs();
+	    var city = this.props.location.query.where;
+	    var title = this.props.location.query.what;
+	    ApiUtil.searchJobs({ whatField: title, whereField: city });
 	  },
 	  componentWillUnmount: function () {
 	    this.jobStoreToken.remove();
@@ -34131,6 +34133,7 @@
 	      // debugger;
 	      return React.createElement(JobIndexItem, { key: job.id, job: job });
 	    });
+	    // debugger;
 	    return React.createElement(
 	      'div',
 	      null,
@@ -34180,6 +34183,7 @@
 		},
 
 		componentDidMount: function () {
+			// debugger;
 			this.storeToken = JobStore.addListener(this.updateStateFromStore);
 			ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 			// debugger;
@@ -34284,11 +34288,7 @@
 						job.salary,
 						React.createElement('br', null)
 					),
-					React.createElement(
-						'div',
-						{ className: 'job-detail-detail' },
-						job.description
-					),
+					React.createElement('div', { className: 'job-detail-detail', dangerouslySetInnerHTML: { __html: job.description } }),
 					React.createElement(
 						'button',
 						{ className: 'job-detail-apply', onClick: this.openModal },
@@ -34408,7 +34408,11 @@
 	    event.preventDefault();
 	    var whatwhere = Object.assign({}, this.state);
 	    ApiUtil.searchJobs(whatwhere);
-	    this.context.router.push("/jobs");
+	    // debugger
+	    this.context.router.push({
+	      pathname: '/jobs',
+	      query: { what: this.state.whatField, where: this.state.whereField }
+	    });
 	  },
 
 	  handleWhatFieldChange: function (e) {
@@ -34440,6 +34444,7 @@
 	    this.setState({ whatVisible: false });
 	  },
 	  render: function () {
+	    // debugger;
 	    return React.createElement(
 	      'div',
 	      null,
@@ -34637,25 +34642,27 @@
 	    return {
 	      currentUser: "",
 	      isLoggedIn: true,
-	      status: "saved"
+	      status: "saved",
+	      allmyjob: []
 	    };
 	  },
 	  componentDidMount: function () {
 	    this.setStateFromStore();
 	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
-	    // this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
+	    this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
 	  },
 
 	  componentWillUnmount: function () {
 	    this.sessionStoreToken.remove();
-	    // this.sessionStoreToken2.remove();
+	    this.sessionStoreToken2.remove();
 	  },
 
 	  setStateFromStore: function () {
 	    // debugger;
 	    this.setState({
 	      currentUser: SessionStore.currentUser(),
-	      isLoggedIn: SessionStore.isLoggedIn()
+	      isLoggedIn: SessionStore.isLoggedIn(),
+	      allmyjob: MyJobStore.all()
 	    });
 	  },
 	  render: function () {

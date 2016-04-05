@@ -10,19 +10,20 @@ var MyJobIndex = React.createClass({
     return {
       currentUser : "",
       isLoggedIn : true,
-      status: "saved"
+      status: "saved",
+      allmyjob:[]
     };
   },
   componentDidMount: function() {
     this.setStateFromStore();
     this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
-    // this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
+    this.sessionStoreToken2 = MyJobStore.addListener(this.setStateFromStore);
 
   },
 
   componentWillUnmount: function () {
     this.sessionStoreToken.remove();
-    // this.sessionStoreToken2.remove();
+    this.sessionStoreToken2.remove();
   },
 
   setStateFromStore: function () {
@@ -30,6 +31,7 @@ var MyJobIndex = React.createClass({
     this.setState({
       currentUser: SessionStore.currentUser(),
       isLoggedIn: SessionStore.isLoggedIn(),
+      allmyjob: MyJobStore.all()
     });
 
   },

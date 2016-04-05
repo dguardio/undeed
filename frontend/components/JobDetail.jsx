@@ -15,6 +15,7 @@ var JobDetail = React.createClass({
 	},
 
 	componentDidMount: function (){
+		// debugger;
 		this.storeToken = JobStore.addListener(this.updateStateFromStore);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 		// debugger;
@@ -97,7 +98,7 @@ var JobDetail = React.createClass({
 					{job.employer.name} - {job.location.city}<br />
 					Salary: {job.salary}<br />
 				</div>
-				<div className="job-detail-detail">{job.description}</div>
+				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
 				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
 				<Modal className="group"
 	          isOpen={this.state.modalIsOpen}

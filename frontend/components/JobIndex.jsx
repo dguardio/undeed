@@ -18,7 +18,9 @@ var JobIndex = React.createClass({
 
   componentDidMount: function() {
     this.jobStoreToken = JobStore.addListener(this._onChange);
-    // ApiUtil.fetchJobs();
+    var city = this.props.location.query.where;
+    var title = this.props.location.query.what;
+    ApiUtil.searchJobs({whatField: title, whereField: city});
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
@@ -27,9 +29,10 @@ var JobIndex = React.createClass({
   render: function() {
     var jobs = this.state.jobs.map(function(job) {
 			// debugger;
-      return <JobIndexItem key= {job.id} job = {job} />;
+      return <JobIndexItem key={job.id} job={job} />;
 
     });
+    // debugger;
       return (
         <div>
           <div className="search-bar group">

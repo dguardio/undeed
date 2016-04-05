@@ -18,7 +18,11 @@ var JobSeach = React.createClass({
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobs(whatwhere);
-    this.context.router.push("/jobs");
+    // debugger
+    this.context.router.push({
+      pathname:'/jobs',
+      query:{what : this.state.whatField, where: this.state.whereField}
+    });
   },
 
   handleWhatFieldChange: function (e) {
@@ -50,6 +54,7 @@ var JobSeach = React.createClass({
     this.setState({ whatVisible: false });
   },
   render: function() {
+    // debugger;
     return (
       <div>
         <form className="search-component group" onSubmit={this.handleSubmit}>
