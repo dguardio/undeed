@@ -34397,8 +34397,8 @@
 
 	  getInitialState: function () {
 	    return {
-	      whatField: "",
-	      whereField: "",
+	      whatField: "Engineer",
+	      whereField: "New York",
 	      whereVisible: false,
 	      whatVisible: false
 	    };
@@ -35290,7 +35290,7 @@
 	      // debugger;
 	      return React.createElement(
 	        'div',
-	        { className: 'group' },
+	        { className: 'the-header group' },
 	        React.createElement(
 	          'div',
 	          { className: 'user-header' },
@@ -35326,7 +35326,7 @@
 	    } else {
 	      return React.createElement(
 	        'div',
-	        { className: 'group' },
+	        { className: ' the-header group' },
 	        React.createElement(
 	          'div',
 	          { className: 'user-header' },
@@ -35550,13 +35550,13 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
+	            { className: 'myjob-optionbutton', key: 'interviewed', onClick: this.handleOnClick.bind(null, "interviewed") },
 	            ' Got an interview?'
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',
@@ -35584,8 +35584,8 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',
@@ -35613,13 +35613,13 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            { className: 'myjob-optionbutton', key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
 	            ' I got Hired'
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',
@@ -35642,13 +35642,13 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
+	            { className: 'myjob-optionbutton', key: 'hired', onClick: this.handleOnClick.bind(null, "hired") },
 	            ' Move to Hired'
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',
@@ -35671,13 +35671,13 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
+	            { className: 'myjob-optionbutton', key: 'saved', onClick: this.handleOnClick.bind(null, "saved") },
 	            ' Save'
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',
@@ -35700,13 +35700,13 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
+	            { className: 'myjob-optionbutton', key: 'visited', onClick: this.handleOnClick.bind(null, "visited") },
 	            ' Move to Visited'
 	          ),
 	          React.createElement(
 	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            { className: 'myjob-dropdown', onClick: this.handleClick },
+	            '↓'
 	          ),
 	          React.createElement(
 	            'ul',

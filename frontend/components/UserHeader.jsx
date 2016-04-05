@@ -56,7 +56,7 @@ var UserHeader = React.createClass({
     if (this.state.isLoggedIn){
       // debugger;
       return (
-        <div className="group">
+        <div className="the-header group">
           <div className="user-header">
             <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
             <ul className={this.state.classname}>
@@ -68,7 +68,7 @@ var UserHeader = React.createClass({
       );
     } else {
       return (
-        <div className="group">
+        <div className=" the-header group">
           <div className="user-header">
             <button onClick={this.handleLogIn}>Sign In</button>
           </div>

@@ -10,9 +10,39 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 
 - [x] Create an account
 - [x] Log in / Log out
-- [ ] Search / read / save jobs
-- [ ] Organize Myjobs
+- [x] Search / read jobs
+- [x] Automatically record visited jobs in My Jobs
+- [x] Organize jobs with different statuses in My Jobs
 - [ ] Create job applications
+
+## Technical implementation details
+- One Page App using React, Flux , React Router
+- Secure Password encryption with Brcypt
+- CSRF Authenticity Token enabled
+- Log In with facebook with OmniAuth Using OAuth2 Strategy
+- Real Time Search Dropdown List
+- TBD
+- TBD
+
+## Technology
+- Ruby on Rails
+- React.js
+- Postgresql
+
+### Libraries / Gems Implemented
+* ReactJS
+* Figaro
+* omniauth-facebook
+* JBuilder
+* ReactRouter
+* Flux
+
+### Languages
+* JavaScript
+* Ruby
+* HTML
+* CSS
+* SQL
 
 ## Design Docs
 * [View Wireframes][views]
@@ -26,6 +56,15 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 [stores]: ./docs/stores.md
 [api-endpoints]: ./docs/api-endpoints.md
 [schema]: ./docs/schema.md
+
+
+
+### TODOs / Future Features (TBD)
+- [ ] More Job Search filters
+- [ ] Upload Resume
+- [ ] Employer account to create jobs
+- [ ] Email application confirmation
+- [ ] Search History
 
 ## Implementation Timeline
 
@@ -46,7 +85,7 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 - [x] create `Job` model
 - [x] seed the database with a small amount of test data
 - [x] read Job (`JobsController`)
-- [x] jBuilder views for Jobs
+- [x] jBuilder views for `Jobs`
 - [x] setup Webpack & Flux scaffold
 - [x] setup `APIUtil` to interact with the API
 - [x] test out API interaction in the console.
@@ -59,30 +98,33 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 
 ### Phase 3: Searching jobs and styling (2 days)
 
-**Objective:** Jobs can be searched by User
+**Objective:** `Job`s can be searched by `User`
 
-- [ ] Add stores, actions and other flux structure.
+- [x] Add stores, actions and other flux structure.
   - [x] search by job title
   - [x] search by job location
   - [x] real time dropdown selection for job location
-  - [ ] real time dropdown selection for job title
+  - [x] real time dropdown selection for job title
 - [x] add new components
   - [x] `JobSearch`
+  - [x] `CityDropdown`
+  - [x] `TitleDropDown`
 - [x] add styling
 
-### Phase 4: Myjobs (1.5 days)
+### Phase 4: MyJobs (1.5 days)
 
-**Objective:** Jobs can be organized with myjobs
+**Objective:** `Job`s can be organized with `MyJob`s
 
 - [x] create `Myjob` model and join table
 - build out API, Flux loop, and components for:
   - [x] fetching myjobs for user
-  - [ ] update myjobs to one of the Myjob status
-  - [ ] automatically create 'Myjob' and assign "visited" status when a signed-in user visited a job detail page
-- [ ] Style new elements
+  - [x] update myjobs to one of the Myjob status
+  - [x] automatically create `MyJob` and assign `visited` status when a signed-in user visited a job detail page
+- [x] Style new elements
 
 
 ### Bonus Features (TBD)
+- [ ] More Job Search filters
 - [ ] Upload Resume
 - [ ] Employer account to create jobs
 - [ ] Email application confirmation

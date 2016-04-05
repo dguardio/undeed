@@ -7,8 +7,8 @@ var JobSeach = React.createClass({
 
   getInitialState: function() {
     return {
-      whatField: "",
-      whereField: "",
+      whatField: "Engineer",
+      whereField: "New York",
       whereVisible: false,
       whatVisible: false
     };
