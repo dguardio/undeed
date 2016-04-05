@@ -35579,7 +35579,7 @@
 	          { className: 'myjobs-option' },
 	          React.createElement(
 	            'li',
-	            { key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
+	            { className: 'myjob-optionbutton', key: 'offerred', onClick: this.handleOnClick.bind(null, "offerred") },
 	            ' I got an Offer'
 	          ),
 	          React.createElement(

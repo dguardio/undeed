@@ -66,7 +66,7 @@ var MyJobOptions = React.createClass({
       case "interviewed":
         return (
           <div className="myjobs-option">
-            <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> I got an Offer</li>
+            <li className="myjob-optionbutton" key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> I got an Offer</li>
             <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
             <ul className={this.state.classname}>
               <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
