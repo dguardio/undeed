@@ -11,6 +11,7 @@ var hashHistory =ReactRouter.hashHistory;
 var ApiUtil = require('./util/api_util');
 var JobStore = require('./stores/job');
 var CityStore = require('./stores/jobCity');
+var JobTitleStore = require('./stores/jobTitle');
 var JobIndex = require('./components/JobIndex');
 var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');

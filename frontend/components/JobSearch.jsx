@@ -1,6 +1,7 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var CityDropDown = require('./CityDropdown');
+var TitleDropDown = require('./TitleDropdown');
 var JobSeach = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
 
@@ -8,7 +9,8 @@ var JobSeach = React.createClass({
     return {
       whatField: "",
       whereField: "",
-      whereVisible: false
+      whereVisible: false,
+      whatVisible: false
     };
   },
 
@@ -20,7 +22,14 @@ var JobSeach = React.createClass({
   },
 
   handleWhatFieldChange: function (e) {
+    // debugger;
     this.setState({ whatField: e.currentTarget.value });
+    if (e.currentTarget.value.length > 0){
+      ApiUtil.searchJobtitle(e.currentTarget.value);
+      this.setState({ whatVisible: true });
+    } else {
+      this.setState({ whatVisible: false });
+    }
   },
 
   handleWhereFieldChange: function (e) {
@@ -36,6 +45,10 @@ var JobSeach = React.createClass({
     this.setState({whereField: name});
     this.setState({ whereVisible: false });
   },
+  setJobTitle: function(name){
+    this.setState({whatField: name});
+    this.setState({ whatVisible: false });
+  },
   render: function() {
     return (
       <div>
@@ -43,6 +56,7 @@ var JobSeach = React.createClass({
           <div className="what-field">
             <label className="search-label">what:</label>
             <input className="searchfield-what" type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
+            <TitleDropDown setTitle={this.setJobTitle} whatVisible={this.state.whatVisible}/>
           </div>
           <div className="where-field">
             <label className="search-label">where:</label>

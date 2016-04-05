@@ -1,16 +1,16 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ApiUtil = require('../util/api_util');
-var JobStore = require('../stores/job');
+var JobTitleStore = require('../stores/jobTitle');
 
 
 
 var TitleDropDown  = React.createClass({
   getInitialState: function() {
-    return { titles : []};
+    return { jobTitles : []};
   },
   componentDidMount: function() {
-    this.jobStoreToken = JobStore.addListener(this.setStateFromStore);
+    this.jobStoreToken = JobTitleStore.addListener(this.setStateFromStore);
   },
 
   componentWillUnmount: function () {
@@ -18,21 +18,25 @@ var TitleDropDown  = React.createClass({
   },
 
   setStateFromStore: function () {
-    this.setState({ jobs: JobStore.all()} );
+    this.setState({ jobTitles: JobTitleStore.all()} );
   },
   render: function() {
-    var jobs = this.state.jobs.map(function (location) {
+    // console.log(JobTitleStore.all());
+    // debugger;
+    var keyNum = 0;
+    var jobTitles = this.state.jobTitles.map(function (jobTitle) {
+      keyNum++;
       return (
         <li className="dropdown-location-list"
-          onClick={this.props.setLocation.bind(null,location.job)}
-          key={location.id} >
-          {location.job}
+          onClick={this.props.setTitle.bind(null,jobTitle)}
+          key={keyNum} >
+          {jobTitle}
         </li>);
     }.bind(this));
-    if (this.props.whatVisible === true && jobs.length > 0 ){
+    if (this.props.whatVisible === true && jobTitles.length > 0 ){
       return (
         <div className="dropdown-location">
-          {jobs}
+          {jobTitles}
         </div>
       );
     } else {

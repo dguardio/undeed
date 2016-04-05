@@ -116,23 +116,23 @@ var ApiUtil = {
         }
   		});
     },
-    searchJobtitle: function(jobtitle){
-        // debugger;
-        $.ajax({
-    			url: '/api/jobs',
-    			method: 'GET',
-    			dataType: 'json',
-    			contentType: "application/json",
+  searchJobtitle: function(jobtitle){
+      // debugger;
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+  			dataType: 'json',
+  			contentType: "application/json",
 
-    			success: function (jobs) {
-            // debugger;
-            JobActions.searchAll(jobs, jobtitle);
-          },
-          error: function(no){
-            console.log("Error: " + no);
-          }
-    		});
-    },
+  			success: function (jobs) {
+          // debugger;
+          JobActions.receiveJobTitles(jobs, jobtitle);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+  },
   searchCity: function(cityString){
       $.ajax({
   			url: '/api/locations',
