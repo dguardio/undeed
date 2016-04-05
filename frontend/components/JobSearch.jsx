@@ -1,7 +1,7 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var CityDropDown = require('./CityDropdown');
-var TitleDropDown = require('./TitleDropdown');
+var TitleDropDown = require('./TitleDropDown');
 var JobSeach = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
 
