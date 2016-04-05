@@ -41,8 +41,10 @@ var MyJobOptions = React.createClass({
       case "saved":
         return (
           <div className="myjobs-option">
-            <li key="delete" onClick={this.handleRemove}> Delete</li>
-            <li onClick={this.handleClick}>Click to Show</li>
+            <div className="myjobs-button">
+              <li className="myjob-optionbutton" key="delete" onClick={this.handleRemove}> Delete</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
               <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewing</li>

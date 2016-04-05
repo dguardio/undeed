@@ -35511,14 +35511,18 @@
 	          'div',
 	          { className: 'myjobs-option' },
 	          React.createElement(
-	            'li',
-	            { key: 'delete', onClick: this.handleRemove },
-	            ' Delete'
-	          ),
-	          React.createElement(
-	            'li',
-	            { onClick: this.handleClick },
-	            'Click to Show'
+	            'div',
+	            { className: 'myjobs-button' },
+	            React.createElement(
+	              'li',
+	              { className: 'myjob-optionbutton', key: 'delete', onClick: this.handleRemove },
+	              ' Delete'
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'myjob-dropdown', onClick: this.handleClick },
+	              '↓'
+	            )
 	          ),
 	          React.createElement(
 	            'ul',
