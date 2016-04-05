@@ -34397,8 +34397,8 @@
 
 	  getInitialState: function () {
 	    return {
-	      whatField: "Engineer",
-	      whereField: "New York",
+	      whatField: "",
+	      whereField: "",
 	      whereVisible: false,
 	      whatVisible: false
 	    };
