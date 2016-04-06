@@ -15,26 +15,16 @@ var NewJobForm = React.createClass({
       // location_id:"",
       salary:"",
       description: "",
-      employer_id: "",
       location: ""
       // isLoggedIn: false
     };
   },
   componentDidMount: function() {
-    ApiUtil.fetchCurrentUser();
-    this.setStateFromStore();
-    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
+    // ApiUtil.fetchCurrentUser();
   },
-  setStateFromStore: function () {
 
-    this.setState({
-
-      employer_id: SessionStore.currentUser().id,
-      // isLoggedIn: SessionStore.isLoggedIn(),
-    });
-  },
   componentWillUnmount: function() {
-    this.sessionStoreToken.remove();
+    // this.sessionStoreToken.remove();
   },
   updateJobTitle: function(e) {
     this.setState({ title: e.currentTarget.value });
@@ -51,21 +41,23 @@ var NewJobForm = React.createClass({
   handleSubmit: function(e){
     e.preventDefault();
     // debugger;
-    var location;
+    // var location;
     // debugger;
-    ApiUtil.searchCity(this.state.location);
-    var location_id = JobCityStore.findCity(this.state.location);
-    debugger;
-    if (!location_id){
-      ApiUtil.createCity(this.state.location);
-      location_id = JobCityStore.findCity(this.state.location).id;
-    }
+    // ApiUtil.searchCity(this.state.location);
+      // location = JobCityStore.findCity(this.state.location);
+    // debugger;
+    // if (!location){
+    //   ApiUtil.createCity(this.state.location);
+    //   location_id = location.id;
+    // } else{
+    //   location_id = location.id;
+    // }
+    // debugger;
     var jobObject = {
       title: this.state.title,
       salary: this.state.salary,
       description: this.state.description,
-      employer_id: this.state.employer_id,
-      location_id: location_id
+      location: this.state.location
     };
 
 

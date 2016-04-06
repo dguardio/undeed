@@ -3,21 +3,16 @@ var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
 var ApiUtil = {
   createCity: function(city){
-    // debugger;
       $.ajax({
-        url: '/api/cities/',
+        url: '/api/locations/',
         method: 'POST',
-        data: {job: job},
+        data: {location: city},
         dataType: 'json',
 
-        success: function (job) {
-          // debugger;
-          var jobID = job.id;
-          JobActions.receiveSingleJob(job);
-          callback && callback(jobID);
+        success: function (city) {
+          JobActions.receiveSingleCity(city);
         },
         error: function(no){
-
           console.log("Error: " + no);
         }
       });
@@ -157,6 +152,22 @@ var ApiUtil = {
         }
   		});
     },
+    searchJobsPaginate: function(cityString){
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+        data     : {limit: 10, offset: 0},
+  			dataType: 'json',
+
+  			success: function (jobs) {
+          // debugger;
+          JobActions.searchAll(jobs, whatwhere);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+    },
   searchJobtitle: function(jobtitle){
       // debugger;
       $.ajax({
@@ -179,7 +190,7 @@ var ApiUtil = {
   			url: '/api/locations',
   			method: 'GET',
   			dataType: 'json',
-  			contentType: "application/json",
+  			data: {limit: 10, offset: 0},
 
   			success: function (cities) {
           // debugger;
@@ -191,6 +202,7 @@ var ApiUtil = {
         }
   		});
     },
+
     findExactCity: function(cityString){
         $.ajax({
     			url: '/api/locations',

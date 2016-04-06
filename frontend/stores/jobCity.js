@@ -9,7 +9,7 @@ JobCityStore.all = function () {
 };
 
 JobCityStore.find = function(id) {
-  debugger;
+  // debugger;
 	for( var i = 0; i < _jobCities.length; i++){
 		if( _jobCities[i].id == id) {
 			return _jobCities[i];
@@ -44,12 +44,19 @@ var searchCity = function(cities, cityString){
   });
   _jobCities = searchedCities;
 };
-
+var getSingleCity = function(city){
+  // debugger
+  _jobCities = [city];
+};
 JobCityStore.__onDispatch = function (payload) {
-  debugger;
+  // debugger;
   switch(payload.actionType) {
     case JobCityConstants.CITIES_RECEIVED:
       searchCities(payload.cities,payload.cityString);
+      JobCityStore.__emitChange();
+      break;
+    case JobCityConstants.LOCATIONCITY_RECEIVED:
+      getSingleCity(payload.city);
       JobCityStore.__emitChange();
       break;
     case JobCityConstants.CITY_RECEIVED:

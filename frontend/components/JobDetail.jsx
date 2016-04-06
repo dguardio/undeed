@@ -108,7 +108,7 @@ var JobDetail = React.createClass({
 			          <div className="application-title">{job.title}</div>
 								{job.employer.name} - {job.location.city}
 
-			          <form>
+			          <form onSubmit={this.handleSubmit}>
 			  					<label htmlFor="realname">Name</label>
 									<input className="application-input"type="text" />
 			  					<label htmlFor="email">Email</label>
@@ -125,6 +125,15 @@ var JobDetail = React.createClass({
 			</div>
 		</div>
 		);
+	},
+	handleSubmit: function() {
+		e.preventDefault();
+		var email ={
+			employer_email: job.employer.email,
+			 name: "guestguest",
+			 user_email: "",
+			 coverletter: "" };
+		ApiUtil.submitEmail(email);
 	}
 });
 module.exports = JobDetail;

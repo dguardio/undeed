@@ -57,29 +57,29 @@
 	var ApiUtil = __webpack_require__(238);
 	var JobStore = __webpack_require__(249);
 	var CityStore = __webpack_require__(267);
-	var JobTitleStore = __webpack_require__(292);
-	var JobIndex = __webpack_require__(268);
-	var JobIndexItem = __webpack_require__(268);
-	var JobDetail = __webpack_require__(269);
-	var JobSearch = __webpack_require__(271);
-	var NewJobForm = __webpack_require__(295);
+	var JobTitleStore = __webpack_require__(268);
+	var JobIndex = __webpack_require__(269);
+	var JobIndexItem = __webpack_require__(269);
+	var JobDetail = __webpack_require__(270);
+	var JobSearch = __webpack_require__(272);
+	var NewJobForm = __webpack_require__(284);
 	// Auth
-	var FrontPage = __webpack_require__(277);
-	var LoginForm = __webpack_require__(278);
-	var SignupForm = __webpack_require__(281);
-	var SessionStore = __webpack_require__(273);
-	var UserHeader = __webpack_require__(282);
-	var ErrorStore = __webpack_require__(280);
+	var FrontPage = __webpack_require__(285);
+	var LoginForm = __webpack_require__(286);
+	var SignupForm = __webpack_require__(289);
+	var SessionStore = __webpack_require__(275);
+	var UserHeader = __webpack_require__(290);
+	var ErrorStore = __webpack_require__(288);
 	// MyJob
-	var MyJobIndex = __webpack_require__(275);
-	var MyJobSaved = __webpack_require__(283);
-	var MyJobApplied = __webpack_require__(286);
-	var MyJobInter = __webpack_require__(287);
-	var MyJobOfferred = __webpack_require__(288);
-	var MyJobHired = __webpack_require__(289);
-	var MyJobVisited = __webpack_require__(290);
-	var MyJobArchived = __webpack_require__(291);
-	var MyJobStore = __webpack_require__(276);
+	var MyJobIndex = __webpack_require__(291);
+	var MyJobSaved = __webpack_require__(293);
+	var MyJobApplied = __webpack_require__(296);
+	var MyJobInter = __webpack_require__(297);
+	var MyJobOfferred = __webpack_require__(298);
+	var MyJobHired = __webpack_require__(299);
+	var MyJobVisited = __webpack_require__(300);
+	var MyJobArchived = __webpack_require__(301);
+	var MyJobStore = __webpack_require__(292);
 
 	var App = React.createClass({
 		displayName: 'App',
@@ -26869,21 +26869,16 @@
 	var ErrorActions = __webpack_require__(247);
 	var ApiUtil = {
 	  createCity: function (city) {
-	    // debugger;
 	    $.ajax({
-	      url: '/api/cities/',
+	      url: '/api/locations/',
 	      method: 'POST',
-	      data: { job: job },
+	      data: { location: city },
 	      dataType: 'json',
 
-	      success: function (job) {
-	        // debugger;
-	        var jobID = job.id;
-	        JobActions.receiveSingleJob(job);
-	        callback && callback(jobID);
+	      success: function (city) {
+	        JobActions.receiveSingleCity(city);
 	      },
 	      error: function (no) {
-
 	        console.log("Error: " + no);
 	      }
 	    });
@@ -27023,6 +27018,22 @@
 	      }
 	    });
 	  },
+	  searchJobsPaginate: function (cityString) {
+	    $.ajax({
+	      url: '/api/jobs',
+	      method: 'GET',
+	      data: { limit: 10, offset: 0 },
+	      dataType: 'json',
+
+	      success: function (jobs) {
+	        // debugger;
+	        JobActions.searchAll(jobs, whatwhere);
+	      },
+	      error: function (no) {
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
 	  searchJobtitle: function (jobtitle) {
 	    // debugger;
 	    $.ajax({
@@ -27045,7 +27056,7 @@
 	      url: '/api/locations',
 	      method: 'GET',
 	      dataType: 'json',
-	      contentType: "application/json",
+	      data: { limit: 10, offset: 0 },
 
 	      success: function (cities) {
 	        // debugger;
@@ -27057,6 +27068,7 @@
 	      }
 	    });
 	  },
+
 	  findExactCity: function (cityString) {
 	    $.ajax({
 	      url: '/api/locations',
@@ -27184,6 +27196,13 @@
 	      actionType: JobConstants.CITIES_RECEIVED,
 	      cities: cities,
 	      cityString: cityString
+	    });
+	  },
+	  receiveSingleCity: function (city) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.LOCATIONCITY_RECEIVED,
+	      city: city
 	    });
 	  },
 	  receiveCity: function (cities, cityString) {
@@ -27536,6 +27555,7 @@
 	  JOBS_SEARCHED: "JOBS_SEARCHED",
 	  CITIES_RECEIVED: "CITIES_RECEIVED",
 	  CITY_RECEIVED: "CITY_RECEIVED",
+	  LOCATIONCITY_RECEIVED: "LOCATIONCITY_RECEIVED",
 	  JOBTITLES_RECEIVED: "JOBTITLES_RECEIVED"
 	};
 
@@ -34136,7 +34156,7 @@
 	};
 
 	JobCityStore.find = function (id) {
-	  debugger;
+	  // debugger;
 	  for (var i = 0; i < _jobCities.length; i++) {
 	    if (_jobCities[i].id == id) {
 	      return _jobCities[i];
@@ -34171,12 +34191,19 @@
 	  });
 	  _jobCities = searchedCities;
 	};
-
+	var getSingleCity = function (city) {
+	  // debugger
+	  _jobCities = [city];
+	};
 	JobCityStore.__onDispatch = function (payload) {
-	  debugger;
+	  // debugger;
 	  switch (payload.actionType) {
 	    case JobCityConstants.CITIES_RECEIVED:
 	      searchCities(payload.cities, payload.cityString);
+	      JobCityStore.__emitChange();
+	      break;
+	    case JobCityConstants.LOCATIONCITY_RECEIVED:
+	      getSingleCity(payload.city);
 	      JobCityStore.__emitChange();
 	      break;
 	    case JobCityConstants.CITY_RECEIVED:
@@ -34193,34 +34220,98 @@
 /* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(250).Store;
+	var AppDispatcher = __webpack_require__(240);
+	var JobTitleConstants = __webpack_require__(244);
+	var _jobTitles = [];
+	var JobTitleStore = new Store(AppDispatcher);
+
+	JobTitleStore.all = function () {
+	  return _jobTitles.slice(0);
+	};
+
+	JobTitleStore.find = function (id) {
+	  for (var i = 0; i < _jobTitles.length; i++) {
+	    if (_jobTitles[i].id == id) {
+	      return _jobTitles[i];
+	    }
+	  }
+	};
+	var searchTitles = function (jobs, jobtitle) {
+	  newjobTitles = [];
+	  var searchedTitles = [];
+	  var capJobtitle = jobtitle[0].toUpperCase() + jobtitle.slice(1);
+	  jobs.forEach(function (job) {
+	    if (!newjobTitles.includes(job.title) && job.title.toLowerCase().includes(jobtitle.toLowerCase())) {
+	      newjobTitles.push(job.title);
+	    }
+	  });
+	  // debugger;
+	  _jobTitles = newjobTitles;
+	};
+
+	JobTitleStore.__onDispatch = function (payload) {
+	  // debugger;
+	  switch (payload.actionType) {
+	    case JobTitleConstants.JOBTITLES_RECEIVED:
+	      searchTitles(payload.jobs, payload.jobtitle);
+	      JobTitleStore.__emitChange();
+	      break;
+	  }
+	};
+	window.JobTitleStore = JobTitleStore;
+
+	module.exports = JobTitleStore;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(238);
 	var JobStore = __webpack_require__(249);
-	var JobDetail = __webpack_require__(269);
-	var JobIndexItem = __webpack_require__(274);
-	var JobSearch = __webpack_require__(271);
-	var Logo = __webpack_require__(270);
+	var JobDetail = __webpack_require__(270);
+	var JobIndexItem = __webpack_require__(276);
+	var JobSearch = __webpack_require__(272);
+	var Logo = __webpack_require__(271);
 	var Link = __webpack_require__(159).Link;
+	var ReactPaginate = __webpack_require__(277);
 	var JobIndex = React.createClass({
 	  displayName: 'JobIndex',
 
 	  getInitialState: function () {
-	    return { jobs: [] };
+	    return {
+	      jobs: []
+	    };
 	  },
+	  // pageNum: 1
 	  _onChange: function () {
-	    this.setState({ jobs: JobStore.all() });
+	    this.setState({
+	      jobs: JobStore.all()
+	    });
 	  },
 
+	  // pageNum: Math.ceil(job.meta.total_count / job.meta.limit)
 	  componentDidMount: function () {
 	    this.jobStoreToken = JobStore.addListener(this._onChange);
 	    var city = this.props.location.query.where;
 	    var title = this.props.location.query.what;
 	    ApiUtil.searchJobs({ whatField: title, whereField: city });
+	    // ApiUtil.searchJobsPaginate({whatField: title, whereField: city});
 	  },
 	  componentWillUnmount: function () {
 	    this.jobStoreToken.remove();
 	  },
+	  // handlePageClick :function (jobs){
+	  //   var selected = data.selected;
+	  //   var offset = Math.ceil(selected * 10);
+	  //
+	  //   this.setState(
+	  //     {offset: offset},
+	  //     this.loadCommentsFromServer();
+	  //   });
+	  // },
 
 	  render: function () {
 	    var jobs = this.state.jobs.map(function (job) {
@@ -34256,17 +34347,17 @@
 	module.exports = JobIndex;
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ApiUtil = __webpack_require__(238);
 	var JobStore = __webpack_require__(249);
-	var Logo = __webpack_require__(270);
+	var Logo = __webpack_require__(271);
 	var Link = __webpack_require__(159).Link;
-	var JobSearch = __webpack_require__(271);
-	var SessionStore = __webpack_require__(273);
+	var JobSearch = __webpack_require__(272);
+	var SessionStore = __webpack_require__(275);
 	var Modal = __webpack_require__(218);
 
 	var JobDetail = React.createClass({
@@ -34413,7 +34504,7 @@
 								job.location.city,
 								React.createElement(
 									'form',
-									null,
+									{ onSubmit: this.handleSubmit },
 									React.createElement(
 										'label',
 										{ htmlFor: 'realname' },
@@ -34448,12 +34539,21 @@
 					)
 				)
 			);
+		},
+		handleSubmit: function () {
+			e.preventDefault();
+			var email = {
+				employer_email: job.employer.email,
+				name: "guestguest",
+				user_email: "",
+				coverletter: "" };
+			ApiUtil.submitEmail(email);
 		}
 	});
 	module.exports = JobDetail;
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34475,13 +34575,13 @@
 	module.exports = Logo;
 
 /***/ },
-/* 271 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(238);
-	var CityDropDown = __webpack_require__(272);
-	var TitleDropDown = __webpack_require__(294);
+	var CityDropDown = __webpack_require__(273);
+	var TitleDropDown = __webpack_require__(274);
 	var JobSeach = React.createClass({
 	  displayName: 'JobSeach',
 
@@ -34579,7 +34679,7 @@
 	module.exports = JobSeach;
 
 /***/ },
-/* 272 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34630,7 +34730,62 @@
 	module.exports = CityDropDown;
 
 /***/ },
-/* 273 */
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(238);
+	var JobTitleStore = __webpack_require__(268);
+
+	var TitleDropDown = React.createClass({
+	  displayName: 'TitleDropDown',
+
+	  getInitialState: function () {
+	    return { jobTitles: [] };
+	  },
+	  componentDidMount: function () {
+	    this.jobStoreToken = JobTitleStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.jobStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({ jobTitles: JobTitleStore.all() });
+	  },
+	  render: function () {
+	    // console.log(JobTitleStore.all());
+	    // debugger;
+	    var keyNum = 0;
+	    var jobTitles = this.state.jobTitles.map(function (jobTitle) {
+	      keyNum++;
+	      return React.createElement(
+	        'li',
+	        { className: 'dropdown-location-list',
+	          onClick: this.props.setTitle.bind(null, jobTitle),
+	          key: keyNum },
+	        jobTitle
+	      );
+	    }.bind(this));
+	    if (this.props.whatVisible === true && jobTitles.length > 0) {
+	      return React.createElement(
+	        'div',
+	        { className: 'dropdown-location' },
+	        jobTitles
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+
+	});
+
+	module.exports = TitleDropDown;
+
+/***/ },
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(250).Store;
@@ -34673,7 +34828,7 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34717,14 +34872,1124 @@
 	module.exports = JobIndexItem;
 
 /***/ },
-/* 275 */
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _PaginationBoxView = __webpack_require__(278);
+
+	var _PaginationBoxView2 = _interopRequireDefault(_PaginationBoxView);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = _PaginationBoxView2.default;
+	//# sourceMappingURL=index.js.map
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(279);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _reactAddonsCreateFragment = __webpack_require__(280);
+
+	var _reactAddonsCreateFragment2 = _interopRequireDefault(_reactAddonsCreateFragment);
+
+	var _PageView = __webpack_require__(282);
+
+	var _PageView2 = _interopRequireDefault(_PageView);
+
+	var _BreakView = __webpack_require__(283);
+
+	var _BreakView2 = _interopRequireDefault(_BreakView);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PaginationBoxView = function (_Component) {
+	  _inherits(PaginationBoxView, _Component);
+
+	  function PaginationBoxView(props) {
+	    _classCallCheck(this, PaginationBoxView);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PaginationBoxView).call(this, props));
+
+	    _this.handlePreviousPage = function (evt) {
+	      evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
+	      if (_this.state.selected > 0) {
+	        _this.handlePageSelected(_this.state.selected - 1, evt);
+	      }
+	    };
+
+	    _this.handleNextPage = function (evt) {
+	      evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
+	      if (_this.state.selected < _this.props.pageNum - 1) {
+	        _this.handlePageSelected(_this.state.selected + 1, evt);
+	      }
+	    };
+
+	    _this.handlePageSelected = function (selected, evt) {
+	      evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
+
+	      if (_this.state.selected === selected) return;
+
+	      _this.setState({ selected: selected });
+
+	      // Call the callback with the new selected item:
+	      _this.callCallback(selected);
+	    };
+
+	    _this.callCallback = function (selectedItem) {
+	      if (typeof _this.props.clickCallback !== "undefined" && typeof _this.props.clickCallback === "function") {
+	        _this.props.clickCallback({ selected: selectedItem });
+	      }
+	    };
+
+	    _this.pagination = function () {
+	      var items = {};
+
+	      if (_this.props.pageNum <= _this.props.pageRangeDisplayed) {
+
+	        for (var index = 0; index < _this.props.pageNum; index++) {
+	          items['key' + index] = _react2.default.createElement(_PageView2.default, {
+	            onClick: _this.handlePageSelected.bind(null, index),
+	            selected: _this.state.selected === index,
+	            pageClassName: _this.props.pageClassName,
+	            pageLinkClassName: _this.props.pageLinkClassName,
+	            activeClassName: _this.props.activeClassName,
+	            page: index + 1 });
+	        }
+	      } else {
+
+	        var leftSide = _this.props.pageRangeDisplayed / 2;
+	        var rightSide = _this.props.pageRangeDisplayed - leftSide;
+
+	        if (_this.state.selected > _this.props.pageNum - _this.props.pageRangeDisplayed / 2) {
+	          rightSide = _this.props.pageNum - _this.state.selected;
+	          leftSide = _this.props.pageRangeDisplayed - rightSide;
+	        } else if (_this.state.selected < _this.props.pageRangeDisplayed / 2) {
+	          leftSide = _this.state.selected;
+	          rightSide = _this.props.pageRangeDisplayed - leftSide;
+	        }
+
+	        var _index = void 0;
+	        var page = void 0;
+	        var breakView = void 0;
+
+	        for (_index = 0; _index < _this.props.pageNum; _index++) {
+
+	          page = _index + 1;
+
+	          var pageView = _react2.default.createElement(_PageView2.default, {
+	            onClick: _this.handlePageSelected.bind(null, _index),
+	            selected: _this.state.selected === _index,
+	            pageClassName: _this.props.pageClassName,
+	            pageLinkClassName: _this.props.pageLinkClassName,
+	            activeClassName: _this.props.activeClassName,
+	            page: _index + 1 });
+
+	          if (page <= _this.props.marginPagesDisplayed) {
+	            items['key' + _index] = pageView;
+	            continue;
+	          }
+
+	          if (page > _this.props.pageNum - _this.props.marginPagesDisplayed) {
+	            items['key' + _index] = pageView;
+	            continue;
+	          }
+
+	          if (_index >= _this.state.selected - leftSide && _index <= _this.state.selected + rightSide) {
+	            items['key' + _index] = pageView;
+	            continue;
+	          }
+
+	          var keys = Object.keys(items);
+	          var breakLabelKey = keys[keys.length - 1];
+	          var breakLabelValue = items[breakLabelKey];
+
+	          if (_this.props.breakLabel && breakLabelValue !== breakView) {
+	            breakView = _react2.default.createElement(_BreakView2.default, { breakLabel: _this.props.breakLabel });
+
+	            items['key' + _index] = breakView;
+	          }
+	        }
+	      }
+
+	      return items;
+	    };
+
+	    _this.state = {
+	      selected: props.initialSelected ? props.initialSelected : props.forceSelected ? props.forceSelected : 0
+	    };
+	    return _this;
+	  }
+
+	  _createClass(PaginationBoxView, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // Call the callback with the initialSelected item:
+	      if (typeof this.props.initialSelected !== 'undefined') {
+	        this.callCallback(this.props.initialSelected);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var disabled = this.props.disabledClassName;
+
+	      var previousClasses = (0, _classnames2.default)(this.props.previousClassName, { disabled: this.state.selected === 0 });
+
+	      var nextClasses = (0, _classnames2.default)(this.props.nextClassName, { disabled: this.state.selected === this.props.pageNum - 1 });
+
+	      return _react2.default.createElement(
+	        'ul',
+	        { className: this.props.containerClassName },
+	        _react2.default.createElement(
+	          'li',
+	          { onClick: this.handlePreviousPage, className: previousClasses },
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', className: this.props.previousLinkClassName },
+	            this.props.previousLabel
+	          )
+	        ),
+	        (0, _reactAddonsCreateFragment2.default)(this.pagination()),
+	        _react2.default.createElement(
+	          'li',
+	          { onClick: this.handleNextPage, className: nextClasses },
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', className: this.props.nextLinkClassName },
+	            this.props.nextLabel
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PaginationBoxView;
+	}(_react.Component);
+
+	PaginationBoxView.propTypes = {
+	  pageNum: _react.PropTypes.number.isRequired,
+	  pageRangeDisplayed: _react.PropTypes.number.isRequired,
+	  marginPagesDisplayed: _react.PropTypes.number.isRequired,
+	  previousLabel: _react.PropTypes.node,
+	  nextLabel: _react.PropTypes.node,
+	  breakLabel: _react.PropTypes.node,
+	  clickCallback: _react.PropTypes.func,
+	  initialSelected: _react.PropTypes.number,
+	  forceSelected: _react.PropTypes.number,
+	  containerClassName: _react.PropTypes.string,
+	  subContainerClassName: _react.PropTypes.string,
+	  pageClassName: _react.PropTypes.string,
+	  pageLinkClassName: _react.PropTypes.string,
+	  activeClassName: _react.PropTypes.string,
+	  previousClassName: _react.PropTypes.string,
+	  nextClassName: _react.PropTypes.string,
+	  previousLinkClassName: _react.PropTypes.string,
+	  nextLinkClassName: _react.PropTypes.string,
+	  disabledClassName: _react.PropTypes.string
+	};
+	PaginationBoxView.defaultProps = {
+	  pageNum: 10,
+	  pageRangeDisplayed: 2,
+	  marginPagesDisplayed: 3,
+	  activeClassName: "selected",
+	  previousClassName: "previous",
+	  nextClassName: "next",
+	  previousLabel: "Previous",
+	  nextLabel: "Next",
+	  breakLabel: "...",
+	  disabledClassName: "disabled"
+	};
+	exports.default = PaginationBoxView;
+	;
+	//# sourceMappingURL=PaginationBoxView.js.map
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+
+	function classNames() {
+		var classes = '';
+		var arg;
+
+		for (var i = 0; i < arguments.length; i++) {
+			arg = arguments[i];
+			if (!arg) {
+				continue;
+			}
+
+			if ('string' === typeof arg || 'number' === typeof arg) {
+				classes += ' ' + arg;
+			} else if (Object.prototype.toString.call(arg) === '[object Array]') {
+				classes += ' ' + classNames.apply(null, arg);
+			} else if ('object' === typeof arg) {
+				for (var key in arg) {
+					if (!arg.hasOwnProperty(key) || !arg[key]) {
+						continue;
+					}
+					classes += ' ' + key;
+				}
+			}
+		}
+		return classes.substr(1);
+	}
+
+	// safely export classNames for node / browserify
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	}
+
+	// safely export classNames for RequireJS
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+			return classNames;
+		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}
+
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(281).create;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactFragment
+	 */
+
+	'use strict';
+
+	var ReactChildren = __webpack_require__(110);
+	var ReactElement = __webpack_require__(42);
+
+	var emptyFunction = __webpack_require__(15);
+	var invariant = __webpack_require__(13);
+	var warning = __webpack_require__(25);
+
+	/**
+	 * We used to allow keyed objects to serve as a collection of ReactElements,
+	 * or nested sets. This allowed us a way to explicitly key a set a fragment of
+	 * components. This is now being replaced with an opaque data structure.
+	 * The upgrade path is to call React.addons.createFragment({ key: value }) to
+	 * create a keyed fragment. The resulting data structure is an array.
+	 */
+
+	var numericPropertyRegex = /^\d+$/;
+
+	var warnedAboutNumeric = false;
+
+	var ReactFragment = {
+	  // Wrap a keyed object in an opaque proxy that warns you if you access any
+	  // of its properties.
+	  create: function (object) {
+	    if (typeof object !== 'object' || !object || Array.isArray(object)) {
+	      process.env.NODE_ENV !== 'production' ? warning(false, 'React.addons.createFragment only accepts a single object. Got: %s', object) : undefined;
+	      return object;
+	    }
+	    if (ReactElement.isValidElement(object)) {
+	      process.env.NODE_ENV !== 'production' ? warning(false, 'React.addons.createFragment does not accept a ReactElement ' + 'without a wrapper object.') : undefined;
+	      return object;
+	    }
+
+	    !(object.nodeType !== 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'React.addons.createFragment(...): Encountered an invalid child; DOM ' + 'elements are not valid children of React components.') : invariant(false) : undefined;
+
+	    var result = [];
+
+	    for (var key in object) {
+	      if (process.env.NODE_ENV !== 'production') {
+	        if (!warnedAboutNumeric && numericPropertyRegex.test(key)) {
+	          process.env.NODE_ENV !== 'production' ? warning(false, 'React.addons.createFragment(...): Child objects should have ' + 'non-numeric keys so ordering is preserved.') : undefined;
+	          warnedAboutNumeric = true;
+	        }
+	      }
+	      ReactChildren.mapIntoWithKeyPrefixInternal(object[key], result, key, emptyFunction.thatReturnsArgument);
+	    }
+
+	    return result;
+	  }
+	};
+
+	module.exports = ReactFragment;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PageView = function (_React$Component) {
+	  _inherits(PageView, _React$Component);
+
+	  function PageView() {
+	    _classCallCheck(this, PageView);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PageView).apply(this, arguments));
+	  }
+
+	  _createClass(PageView, [{
+	    key: 'render',
+	    value: function render() {
+	      var linkClassName = this.props.pageLinkClassName;
+	      var cssClassName = this.props.pageClassName;
+
+	      if (this.props.selected) {
+	        if (typeof cssClassName !== 'undefined') {
+	          cssClassName = cssClassName + ' ' + this.props.activeClassName;
+	        } else {
+	          cssClassName = this.props.activeClassName;
+	        }
+	      }
+
+	      return _react2.default.createElement(
+	        'li',
+	        { className: cssClassName },
+	        _react2.default.createElement(
+	          'a',
+	          _extends({}, this.props, { href: '', className: linkClassName }),
+	          this.props.page
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PageView;
+	}(_react2.default.Component);
+
+	exports.default = PageView;
+	;
+	//# sourceMappingURL=PageView.js.map
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var BreakView = function (_React$Component) {
+	  _inherits(BreakView, _React$Component);
+
+	  function BreakView() {
+	    _classCallCheck(this, BreakView);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BreakView).apply(this, arguments));
+	  }
+
+	  _createClass(BreakView, [{
+	    key: 'render',
+	    value: function render() {
+	      var label = this.props.breakLabel;
+
+	      return _react2.default.createElement(
+	        'li',
+	        { className: 'break' },
+	        label
+	      );
+	    }
+	  }]);
+
+	  return BreakView;
+	}(_react2.default.Component);
+
+	exports.default = BreakView;
+	;
+	//# sourceMappingURL=BreakView.js.map
+
+/***/ },
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(273);
-	var MyJobStore = __webpack_require__(276);
+	var ApiUtil = __webpack_require__(238);
 	var Link = __webpack_require__(159).Link;
-	var Logo = __webpack_require__(270);
+	var Logo = __webpack_require__(271);
+	var SessionStore = __webpack_require__(275);
+	var JobCityStore = __webpack_require__(267);
+	var NewJobForm = React.createClass({
+	  displayName: 'NewJobForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      title: "",
+	      // location_id:"",
+	      salary: "",
+	      description: "",
+	      location: ""
+	      // isLoggedIn: false
+	    };
+	  },
+	  componentDidMount: function () {
+	    // ApiUtil.fetchCurrentUser();
+	  },
+
+	  componentWillUnmount: function () {
+	    // this.sessionStoreToken.remove();
+	  },
+	  updateJobTitle: function (e) {
+	    this.setState({ title: e.currentTarget.value });
+	  },
+	  updateJobLocation: function (e) {
+	    this.setState({ location: e.currentTarget.value });
+	  },
+	  updateJobDescription: function (e) {
+	    this.setState({ description: e.currentTarget.value });
+	  },
+	  updateJobSalary: function (e) {
+	    this.setState({ salary: e.currentTarget.value });
+	  },
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    // debugger;
+	    // var location;
+	    // debugger;
+	    // ApiUtil.searchCity(this.state.location);
+	    // location = JobCityStore.findCity(this.state.location);
+	    // debugger;
+	    // if (!location){
+	    //   ApiUtil.createCity(this.state.location);
+	    //   location_id = location.id;
+	    // } else{
+	    //   location_id = location.id;
+	    // }
+	    // debugger;
+	    var jobObject = {
+	      title: this.state.title,
+	      salary: this.state.salary,
+	      description: this.state.description,
+	      location: this.state.location
+	    };
+
+	    var router = this.context.router;
+	    ApiUtil.createNewJob(jobObject, function (jobID) {
+	      // debugger;
+	      router.push("/jobs/" + jobID);
+	    });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Create New Job!'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'div',
+	          { className: 'newjob-input-block' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'jobTitle' },
+	            'Job Title'
+	          ),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobTitle, type: 'text', value: this.state.title }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'jobLocation' },
+	            'Job Location'
+	          ),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobLocation, type: 'text', value: this.state.location }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'Salary' },
+	            'Salary'
+	          ),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobSalary, type: 'text', value: this.state.salary }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'jobDescription' },
+	            'Job Description'
+	          ),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobDescription, type: 'textarea', value: this.state.description })
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'signin-button' },
+	          'Post New Job'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = NewJobForm;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+
+	var JobSearch = __webpack_require__(272);
+	var FrontPage = React.createClass({
+	  displayName: 'FrontPage',
+
+
+	  render: function () {
+	    // debugger;
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'fontpage-content' },
+	        React.createElement('div', { className: 'logomain' }),
+	        React.createElement(JobSearch, null)
+	      )
+	    );
+	  }
+	});
+	module.exports = FrontPage;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(238);
+	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(271);
+	var ErrorNotification = __webpack_require__(287);
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        Link,
+	        { className: 'signinlogo', to: "/" },
+	        React.createElement(Logo, null)
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'main' },
+	        React.createElement(
+	          'div',
+	          { className: 'content group' },
+	          React.createElement(
+	            'section',
+	            { className: 'signin-block group' },
+	            React.createElement(
+	              'section',
+	              { className: 'main-signin' },
+	              React.createElement(
+	                'h1',
+	                { className: 'signin-title' },
+	                'Sign In'
+	              ),
+	              React.createElement(
+	                'text',
+	                { className: 'link-to-sign-up' },
+	                'Not a member?',
+	                React.createElement(
+	                  Link,
+	                  { to: "/signup" },
+	                  'Create an account free'
+	                )
+	              ),
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-block' },
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'email' },
+	                    'Email'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'password' },
+	                    'Password'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	                  React.createElement(ErrorNotification, null)
+	                ),
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Sign In'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'section',
+	              { className: 'facebook-signin' },
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleGuestSubmit },
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Sign in as a guest'
+	                )
+	              ),
+	              React.createElement(
+	                'a',
+	                { href: '/auth/facebook' },
+	                'LOG IN WITH FACEBOOK'
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  },
+	  handleGuestSubmit: function (e) {
+	    e.preventDefault();
+	    var newState = { email: "guest@guest.com", password: "guestguest" };
+	    this.setState(newState);
+	    // debugger;
+	    var router = this.context.router;
+	    ApiUtil.login(newState, function () {
+	      router.goBack();
+	    });
+	  },
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.goBack();
+	    });
+	  },
+
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+
+	});
+
+	module.exports = LoginForm;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ApiUtil = __webpack_require__(238);
+	var ErrorStore = __webpack_require__(288);
+
+	var ErrorNotification = React.createClass({
+	  displayName: 'ErrorNotification',
+
+	  getInitialState: function () {
+	    return { error: "" };
+	  },
+	  componentDidMount: function () {
+	    this.errorStoreToken = ErrorStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.errorStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({ error: ErrorStore.all() });
+	  },
+	  render: function () {
+	    var error = this.state.error;
+	    if (error) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        error,
+	        ', please try again!'
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+	});
+
+	module.exports = ErrorNotification;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(250).Store;
+	var ErrorConstants = __webpack_require__(248);
+	var AppDispatcher = __webpack_require__(240);
+
+	var ErrorStore = new Store(AppDispatcher);
+	var _errors = "";
+
+	ErrorStore.all = function () {
+	  return _errors.slice(12, -2);
+	};
+
+	ErrorStore.getError = function (error) {
+	  _errors = error;
+	};
+
+	ErrorStore.__onDispatch = function (payload) {
+	  // debugger;
+	  switch (payload.actionType) {
+	    case ErrorConstants.ERROR_RECEIVED:
+	      this.getError(payload.error.responseText);
+	      ErrorStore.__emitChange();
+	      break;
+	  }
+	};
+	window.ErrorStore = ErrorStore;
+	module.exports = ErrorStore;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(238);
+	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(271);
+	var SignupForm = React.createClass({
+	  displayName: 'SignupForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "/" },
+	        React.createElement(Logo, null)
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'main' },
+	        React.createElement(
+	          'div',
+	          { className: 'content group' },
+	          React.createElement(
+	            'section',
+	            { className: 'signin-block group' },
+	            React.createElement(
+	              'section',
+	              { className: 'main-signin' },
+	              React.createElement(
+	                'h1',
+	                { className: 'signin-title' },
+	                'Create an account'
+	              ),
+	              React.createElement(
+	                'text',
+	                { className: 'link-to-sign-up' },
+	                'Already have an account?',
+	                React.createElement(
+	                  Link,
+	                  { to: "/login" },
+	                  'Sign in'
+	                )
+	              ),
+	              React.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-block' },
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'email' },
+	                    'Email'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'password' },
+	                    'Password'
+	                  ),
+	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password })
+	                ),
+	                React.createElement(
+	                  'button',
+	                  { className: 'signin-button' },
+	                  'Create an account'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var router = this.context.router;
+	    ApiUtil.signup(this.state, function () {
+	      // debugger;
+	      router.push("/");
+	    });
+	  },
+
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+
+	});
+
+	module.exports = SignupForm;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	var SessionStore = __webpack_require__(275);
+	var ApiUtil = __webpack_require__(238);
+
+	var UserHeader = React.createClass({
+	  displayName: 'UserHeader',
+
+	  getInitialState: function () {
+	    return {
+	      currentUser: SessionStore.currentUser(),
+	      isLoggedIn: SessionStore.isLoggedIn(),
+	      classname: "user-hide"
+	    };
+	  },
+	  componentDidMount: function () {
+
+	    ApiUtil.fetchCurrentUser();
+	    this.setStateFromStore();
+	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+
+	  setStateFromStore: function () {
+	    this.setState({
+	      currentUser: SessionStore.currentUser(),
+	      isLoggedIn: SessionStore.isLoggedIn(),
+	      classname: "user-hide"
+
+	    });
+	  },
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  handleLogIn: function () {
+	    this.context.router.push("/login");
+	  },
+
+	  handleLogOut: function () {
+	    ApiUtil.logout();
+	    this.context.router.push("/");
+	  },
+	  handleClick: function () {
+	    // debugger
+	    if (this.state.classname === "user-hide") {
+	      this.setState({ classname: "user-show" });
+	    } else {
+	      this.setState({ classname: "user-hide" });
+	    }
+	  },
+	  render: function () {
+	    // debugger;
+	    if (this.state.isLoggedIn) {
+	      // debugger;
+	      return React.createElement(
+	        'div',
+	        { className: 'the-header group' },
+	        React.createElement(
+	          'div',
+	          { className: 'find-header' },
+	          React.createElement(
+	            Link,
+	            { to: "/newjob" },
+	            'Employer/Post a new Job'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'user-header' },
+	          React.createElement(
+	            'div',
+	            { onClick: this.handleClick, className: 'header-email' },
+	            this.state.currentUser.email
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: this.state.classname },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                { onClick: this.handleLogOut },
+	                'Sign Out '
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "/myjobs" },
+	                ' My Jobs'
+	              )
+	            )
+	          )
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        { className: ' the-header group' },
+	        React.createElement(
+	          'div',
+	          { className: 'user-header' },
+	          React.createElement(
+	            'button',
+	            { onClick: this.handleLogIn },
+	            'Sign In'
+	          )
+	        )
+	      );
+	    }
+	  }
+
+	});
+
+	module.exports = UserHeader;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(275);
+	var MyJobStore = __webpack_require__(292);
+	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(271);
 	var MyJobIndex = React.createClass({
 	  displayName: 'MyJobIndex',
 
@@ -34876,7 +36141,7 @@
 	module.exports = MyJobIndex;
 
 /***/ },
-/* 276 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(250).Store;
@@ -34971,493 +36236,11 @@
 	module.exports = MyJobStore;
 
 /***/ },
-/* 277 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-
-	var JobSearch = __webpack_require__(271);
-	var FrontPage = React.createClass({
-	  displayName: 'FrontPage',
-
-
-	  render: function () {
-	    // debugger;
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'fontpage-content' },
-	        React.createElement('div', { className: 'logomain' }),
-	        React.createElement(JobSearch, null)
-	      )
-	    );
-	  }
-	});
-	module.exports = FrontPage;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(238);
-	var Link = __webpack_require__(159).Link;
-	var Logo = __webpack_require__(270);
-	var ErrorNotification = __webpack_require__(279);
-	var LoginForm = React.createClass({
-	  displayName: 'LoginForm',
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {
-	      email: "",
-	      password: ""
-	    };
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        Link,
-	        { className: 'signinlogo', to: "/" },
-	        React.createElement(Logo, null)
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'main' },
-	        React.createElement(
-	          'div',
-	          { className: 'content group' },
-	          React.createElement(
-	            'section',
-	            { className: 'signin-block group' },
-	            React.createElement(
-	              'section',
-	              { className: 'main-signin' },
-	              React.createElement(
-	                'h1',
-	                { className: 'signin-title' },
-	                'Sign In'
-	              ),
-	              React.createElement(
-	                'text',
-	                { className: 'link-to-sign-up' },
-	                'Not a member?',
-	                React.createElement(
-	                  Link,
-	                  { to: "/signup" },
-	                  'Create an account free'
-	                )
-	              ),
-	              React.createElement(
-	                'form',
-	                { onSubmit: this.handleSubmit },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-block' },
-	                  React.createElement(
-	                    'label',
-	                    { htmlFor: 'email' },
-	                    'Email'
-	                  ),
-	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
-	                  React.createElement(
-	                    'label',
-	                    { htmlFor: 'password' },
-	                    'Password'
-	                  ),
-	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	                  React.createElement(ErrorNotification, null)
-	                ),
-	                React.createElement(
-	                  'button',
-	                  { className: 'signin-button' },
-	                  'Sign In'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'section',
-	              { className: 'facebook-signin' },
-	              React.createElement(
-	                'form',
-	                { onSubmit: this.handleGuestSubmit },
-	                React.createElement(
-	                  'button',
-	                  { className: 'signin-button' },
-	                  'Sign in as a guest'
-	                )
-	              ),
-	              React.createElement(
-	                'a',
-	                { href: '/auth/facebook' },
-	                'LOG IN WITH FACEBOOK'
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  },
-	  handleGuestSubmit: function (e) {
-	    e.preventDefault();
-	    var newState = { email: "guest@guest.com", password: "guestguest" };
-	    this.setState(newState);
-	    // debugger;
-	    var router = this.context.router;
-	    ApiUtil.login(newState, function () {
-	      router.goBack();
-	    });
-	  },
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-
-	    var router = this.context.router;
-	    ApiUtil.login(this.state, function () {
-	      router.goBack();
-	    });
-	  },
-
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-
-	});
-
-	module.exports = LoginForm;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var ApiUtil = __webpack_require__(238);
-	var ErrorStore = __webpack_require__(280);
-
-	var ErrorNotification = React.createClass({
-	  displayName: 'ErrorNotification',
-
-	  getInitialState: function () {
-	    return { error: "" };
-	  },
-	  componentDidMount: function () {
-	    this.errorStoreToken = ErrorStore.addListener(this.setStateFromStore);
-	  },
-
-	  componentWillUnmount: function () {
-	    this.errorStoreToken.remove();
-	  },
-
-	  setStateFromStore: function () {
-	    this.setState({ error: ErrorStore.all() });
-	  },
-	  render: function () {
-	    var error = this.state.error;
-	    if (error) {
-	      return React.createElement(
-	        'div',
-	        null,
-	        error,
-	        ', please try again!'
-	      );
-	    } else {
-	      return React.createElement('div', null);
-	    }
-	  }
-	});
-
-	module.exports = ErrorNotification;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(250).Store;
-	var ErrorConstants = __webpack_require__(248);
-	var AppDispatcher = __webpack_require__(240);
-
-	var ErrorStore = new Store(AppDispatcher);
-	var _errors = "";
-
-	ErrorStore.all = function () {
-	  return _errors.slice(12, -2);
-	};
-
-	ErrorStore.getError = function (error) {
-	  _errors = error;
-	};
-
-	ErrorStore.__onDispatch = function (payload) {
-	  // debugger;
-	  switch (payload.actionType) {
-	    case ErrorConstants.ERROR_RECEIVED:
-	      this.getError(payload.error.responseText);
-	      ErrorStore.__emitChange();
-	      break;
-	  }
-	};
-	window.ErrorStore = ErrorStore;
-	module.exports = ErrorStore;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(238);
-	var Link = __webpack_require__(159).Link;
-	var Logo = __webpack_require__(270);
-	var SignupForm = React.createClass({
-	  displayName: 'SignupForm',
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {
-	      email: "",
-	      password: ""
-	    };
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        Link,
-	        { to: "/" },
-	        React.createElement(Logo, null)
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'main' },
-	        React.createElement(
-	          'div',
-	          { className: 'content group' },
-	          React.createElement(
-	            'section',
-	            { className: 'signin-block group' },
-	            React.createElement(
-	              'section',
-	              { className: 'main-signin' },
-	              React.createElement(
-	                'h1',
-	                { className: 'signin-title' },
-	                'Create an account'
-	              ),
-	              React.createElement(
-	                'text',
-	                { className: 'link-to-sign-up' },
-	                'Already have an account?',
-	                React.createElement(
-	                  Link,
-	                  { to: "/login" },
-	                  'Sign in'
-	                )
-	              ),
-	              React.createElement(
-	                'form',
-	                { onSubmit: this.handleSubmit },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-block' },
-	                  React.createElement(
-	                    'label',
-	                    { htmlFor: 'email' },
-	                    'Email'
-	                  ),
-	                  React.createElement('input', { className: 'input-field', onChange: this.updateEmail, type: 'text', value: this.state.email }),
-	                  React.createElement(
-	                    'label',
-	                    { htmlFor: 'password' },
-	                    'Password'
-	                  ),
-	                  React.createElement('input', { className: 'input-field', onChange: this.updatePassword, type: 'password', value: this.state.password })
-	                ),
-	                React.createElement(
-	                  'button',
-	                  { className: 'signin-button' },
-	                  'Create an account'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  },
-
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-
-	    var router = this.context.router;
-	    ApiUtil.signup(this.state, function () {
-	      // debugger;
-	      router.push("/");
-	    });
-	  },
-
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-
-	});
-
-	module.exports = SignupForm;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-	var SessionStore = __webpack_require__(273);
-	var ApiUtil = __webpack_require__(238);
-
-	var UserHeader = React.createClass({
-	  displayName: 'UserHeader',
-
-	  getInitialState: function () {
-	    return {
-	      currentUser: SessionStore.currentUser(),
-	      isLoggedIn: SessionStore.isLoggedIn(),
-	      classname: "user-hide"
-	    };
-	  },
-	  componentDidMount: function () {
-
-	    ApiUtil.fetchCurrentUser();
-	    this.setStateFromStore();
-	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
-	  },
-
-	  componentWillUnmount: function () {
-	    this.sessionStoreToken.remove();
-	  },
-
-	  setStateFromStore: function () {
-	    this.setState({
-	      currentUser: SessionStore.currentUser(),
-	      isLoggedIn: SessionStore.isLoggedIn(),
-	      classname: "user-hide"
-
-	    });
-	  },
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  handleLogIn: function () {
-	    this.context.router.push("/login");
-	  },
-
-	  handleLogOut: function () {
-	    ApiUtil.logout();
-	    this.context.router.push("/");
-	  },
-	  handleClick: function () {
-	    // debugger
-	    if (this.state.classname === "user-hide") {
-	      this.setState({ classname: "user-show" });
-	    } else {
-	      this.setState({ classname: "user-hide" });
-	    }
-	  },
-	  render: function () {
-	    // debugger;
-	    if (this.state.isLoggedIn) {
-	      // debugger;
-	      return React.createElement(
-	        'div',
-	        { className: 'the-header group' },
-	        React.createElement(
-	          'div',
-	          { className: 'find-header' },
-	          React.createElement(
-	            Link,
-	            { to: "/newjob" },
-	            'Employer/Post a new Job'
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'user-header' },
-	          React.createElement(
-	            'div',
-	            { onClick: this.handleClick, className: 'header-email' },
-	            this.state.currentUser.email
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: this.state.classname },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'button',
-	                { onClick: this.handleLogOut },
-	                'Sign Out '
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                Link,
-	                { to: "/myjobs" },
-	                ' My Jobs'
-	              )
-	            )
-	          )
-	        )
-	      );
-	    } else {
-	      return React.createElement(
-	        'div',
-	        { className: ' the-header group' },
-	        React.createElement(
-	          'div',
-	          { className: 'user-header' },
-	          React.createElement(
-	            'button',
-	            { onClick: this.handleLogIn },
-	            'Sign In'
-	          )
-	        )
-	      );
-	    }
-	  }
-
-	});
-
-	module.exports = UserHeader;
-
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobSaved = React.createClass({
 	  displayName: 'MyJobSaved',
 
@@ -35480,15 +36263,15 @@
 	module.exports = MyJobSaved;
 
 /***/ },
-/* 284 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var MyJobStore = __webpack_require__(276);
-	var SessionStore = __webpack_require__(273);
+	var MyJobStore = __webpack_require__(292);
+	var SessionStore = __webpack_require__(275);
 	var ApiUtil = __webpack_require__(238);
 	var Link = __webpack_require__(159).Link;
-	var MyJobOptions = __webpack_require__(285);
+	var MyJobOptions = __webpack_require__(295);
 	var Shared = React.createClass({
 	  displayName: 'Shared',
 
@@ -35570,7 +36353,7 @@
 	module.exports = Shared;
 
 /***/ },
-/* 285 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35879,11 +36662,11 @@
 	module.exports = MyJobOptions;
 
 /***/ },
-/* 286 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobApplied = React.createClass({
 	  displayName: 'MyJobApplied',
 
@@ -35906,11 +36689,11 @@
 	module.exports = MyJobApplied;
 
 /***/ },
-/* 287 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobInter = React.createClass({
 	  displayName: 'MyJobInter',
 
@@ -35933,11 +36716,11 @@
 	module.exports = MyJobInter;
 
 /***/ },
-/* 288 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobOfferred = React.createClass({
 	  displayName: 'MyJobOfferred',
 
@@ -35960,11 +36743,11 @@
 	module.exports = MyJobOfferred;
 
 /***/ },
-/* 289 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobHired = React.createClass({
 	  displayName: 'MyJobHired',
 
@@ -35987,11 +36770,11 @@
 	module.exports = MyJobHired;
 
 /***/ },
-/* 290 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobVisited = React.createClass({
 	  displayName: 'MyJobVisited',
 
@@ -36014,11 +36797,11 @@
 	module.exports = MyJobVisited;
 
 /***/ },
-/* 291 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Shared = __webpack_require__(284);
+	var Shared = __webpack_require__(294);
 	var MyJobArchived = React.createClass({
 	  displayName: 'MyJobArchived',
 
@@ -36039,243 +36822,6 @@
 	});
 
 	module.exports = MyJobArchived;
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(250).Store;
-	var AppDispatcher = __webpack_require__(240);
-	var JobTitleConstants = __webpack_require__(244);
-	var _jobTitles = [];
-	var JobTitleStore = new Store(AppDispatcher);
-
-	JobTitleStore.all = function () {
-	  return _jobTitles.slice(0);
-	};
-
-	JobTitleStore.find = function (id) {
-	  for (var i = 0; i < _jobTitles.length; i++) {
-	    if (_jobTitles[i].id == id) {
-	      return _jobTitles[i];
-	    }
-	  }
-	};
-	var searchTitles = function (jobs, jobtitle) {
-	  newjobTitles = [];
-	  var searchedTitles = [];
-	  var capJobtitle = jobtitle[0].toUpperCase() + jobtitle.slice(1);
-	  jobs.forEach(function (job) {
-	    if (!newjobTitles.includes(job.title) && job.title.toLowerCase().includes(jobtitle.toLowerCase())) {
-	      newjobTitles.push(job.title);
-	    }
-	  });
-	  // debugger;
-	  _jobTitles = newjobTitles;
-	};
-
-	JobTitleStore.__onDispatch = function (payload) {
-	  // debugger;
-	  switch (payload.actionType) {
-	    case JobTitleConstants.JOBTITLES_RECEIVED:
-	      searchTitles(payload.jobs, payload.jobtitle);
-	      JobTitleStore.__emitChange();
-	      break;
-	  }
-	};
-	window.JobTitleStore = JobTitleStore;
-
-	module.exports = JobTitleStore;
-
-/***/ },
-/* 293 */,
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var ApiUtil = __webpack_require__(238);
-	var JobTitleStore = __webpack_require__(292);
-
-	var TitleDropDown = React.createClass({
-	  displayName: 'TitleDropDown',
-
-	  getInitialState: function () {
-	    return { jobTitles: [] };
-	  },
-	  componentDidMount: function () {
-	    this.jobStoreToken = JobTitleStore.addListener(this.setStateFromStore);
-	  },
-
-	  componentWillUnmount: function () {
-	    this.jobStoreToken.remove();
-	  },
-
-	  setStateFromStore: function () {
-	    this.setState({ jobTitles: JobTitleStore.all() });
-	  },
-	  render: function () {
-	    // console.log(JobTitleStore.all());
-	    // debugger;
-	    var keyNum = 0;
-	    var jobTitles = this.state.jobTitles.map(function (jobTitle) {
-	      keyNum++;
-	      return React.createElement(
-	        'li',
-	        { className: 'dropdown-location-list',
-	          onClick: this.props.setTitle.bind(null, jobTitle),
-	          key: keyNum },
-	        jobTitle
-	      );
-	    }.bind(this));
-	    if (this.props.whatVisible === true && jobTitles.length > 0) {
-	      return React.createElement(
-	        'div',
-	        { className: 'dropdown-location' },
-	        jobTitles
-	      );
-	    } else {
-	      return React.createElement('div', null);
-	    }
-	  }
-
-	});
-
-	module.exports = TitleDropDown;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(238);
-	var Link = __webpack_require__(159).Link;
-	var Logo = __webpack_require__(270);
-	var SessionStore = __webpack_require__(273);
-	var JobCityStore = __webpack_require__(267);
-	var NewJobForm = React.createClass({
-	  displayName: 'NewJobForm',
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {
-	      title: "",
-	      // location_id:"",
-	      salary: "",
-	      description: "",
-	      employer_id: "",
-	      location: ""
-	      // isLoggedIn: false
-	    };
-	  },
-	  componentDidMount: function () {
-	    ApiUtil.fetchCurrentUser();
-	    this.setStateFromStore();
-	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
-	  },
-	  setStateFromStore: function () {
-
-	    this.setState({
-
-	      employer_id: SessionStore.currentUser().id
-	    });
-	  },
-	  // isLoggedIn: SessionStore.isLoggedIn(),
-	  componentWillUnmount: function () {
-	    this.sessionStoreToken.remove();
-	  },
-	  updateJobTitle: function (e) {
-	    this.setState({ title: e.currentTarget.value });
-	  },
-	  updateJobLocation: function (e) {
-	    this.setState({ location: e.currentTarget.value });
-	  },
-	  updateJobDescription: function (e) {
-	    this.setState({ description: e.currentTarget.value });
-	  },
-	  updateJobSalary: function (e) {
-	    this.setState({ salary: e.currentTarget.value });
-	  },
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    // debugger;
-	    var location;
-	    // debugger;
-	    ApiUtil.searchCity(this.state.location);
-	    var location_id = JobCityStore.findCity(this.state.location);
-	    debugger;
-	    if (!location_id) {
-	      ApiUtil.createCity(this.state.location);
-	      location_id = JobCityStore.findCity(this.state.location).id;
-	    }
-	    var jobObject = {
-	      title: this.state.title,
-	      salary: this.state.salary,
-	      description: this.state.description,
-	      employer_id: this.state.employer_id,
-	      location_id: location_id
-	    };
-
-	    var router = this.context.router;
-	    ApiUtil.createNewJob(jobObject, function (jobID) {
-	      // debugger;
-	      router.push("/jobs/" + jobID);
-	    });
-	  },
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Create New Job!'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'div',
-	          { className: 'newjob-input-block' },
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobTitle' },
-	            'Job Title'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobTitle, type: 'text', value: this.state.title }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobLocation' },
-	            'Job Location'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobLocation, type: 'text', value: this.state.location }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'Salary' },
-	            'Salary'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobSalary, type: 'text', value: this.state.salary }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobDescription' },
-	            'Job Description'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobDescription, type: 'textarea', value: this.state.description })
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'signin-button' },
-	          'Post New Job'
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = NewJobForm;
 
 /***/ }
 /******/ ]);

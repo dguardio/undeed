@@ -49,6 +49,13 @@ ApiActions = {
       cityString: cityString
     });
   },
+  receiveSingleCity: function(city){
+    // debugger;
+    AppDispatcher.dispatch({
+      actionType: JobConstants.LOCATIONCITY_RECEIVED,
+      city: city,
+    });
+  },
   receiveCity: function(cities, cityString){
     // debugger;
     AppDispatcher.dispatch({

@@ -1,4 +1,5 @@
 class Api::JobsController < ApplicationController
+	before_action :require_signed_in!, only: [:create]
 	def index
 		@jobs = Job.all
 	end
@@ -9,7 +10,12 @@ class Api::JobsController < ApplicationController
 	end
 
 	def create
-		@job = Job.new(job_params)
+		city = params.require(:job)[:location]
+		location = Location.find_or_create_by(city: city)
+
+		# job_params[:location_id] = location.id
+		@job = location.jobs.new(job_params)
+		@job.employer_id = current_user.id
     if @job.save
       render :show
     else
@@ -18,6 +24,6 @@ class Api::JobsController < ApplicationController
 	end
 
   def job_params
-    params.require(:job).permit(:title, :jobtype, :salary, :description, :employer_id, :location_id, :status)
+    params.require(:job).permit(:title, :jobtype, :salary, :description, :status)
   end
 end

@@ -8,10 +8,9 @@ Rails.application.routes.draw do
 	namespace :api, defaults: {format: :json} do
     resources :jobs, only: [:index, :show, :create]
     resources :myjobs, only: [:index, :show, :create, :destroy, :update]
-    resources :locations, only:[:index, :show]
+    resources :locations, only:[:index, :show, :create]
     resource  :session, only: [:show, :create, :destroy]
   	resources :users, only: [:create, :new]
-  	resources :cities, only: [:create, :new, :show]
   end
 
   get "auth/facebook/callback", to: "omniauth#facebook"

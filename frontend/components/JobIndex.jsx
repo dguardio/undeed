@@ -7,12 +7,19 @@ var JobIndexItem = require('./JobIndexItem');
 var JobSearch = require('./JobSearch');
 var Logo = require('./Logo');
 var Link = require('react-router').Link;
+var ReactPaginate =require('react-paginate');
 var JobIndex = React.createClass({
   getInitialState: function() {
-    return { jobs: [] };
+    return {
+      jobs: [],
+      // pageNum: 1
+    };
   },
   _onChange: function () {
-		this.setState({ jobs: JobStore.all() });
+		this.setState({
+      jobs: JobStore.all(),
+      // pageNum: Math.ceil(job.meta.total_count / job.meta.limit)
+     });
 	},
 
 
@@ -21,10 +28,20 @@ var JobIndex = React.createClass({
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     ApiUtil.searchJobs({whatField: title, whereField: city});
+    // ApiUtil.searchJobsPaginate({whatField: title, whereField: city});
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
   },
+  // handlePageClick :function (jobs){
+  //   var selected = data.selected;
+  //   var offset = Math.ceil(selected * 10);
+  //
+  //   this.setState(
+  //     {offset: offset},
+  //     this.loadCommentsFromServer();
+  //   });
+  // },
 
   render: function() {
     var jobs = this.state.jobs.map(function(job) {

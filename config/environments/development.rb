@@ -38,4 +38,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  
+  # Remember the letter_opener gem? It won't send real emails; it
+  # just opens them in another tab. (Remember to add the letter_opener
+  # gem to your development group in the Gemfile)
+  ActionMailer::Base.delivery_method = :letter_opener
 end
