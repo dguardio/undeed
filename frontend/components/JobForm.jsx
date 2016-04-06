@@ -4,7 +4,7 @@ var Link = require('react-router').Link;
 var Logo = require('./Logo');
 var SessionStore = require("../stores/session");
 var JobCityStore = require("../stores/jobCity");
-var NewJobForm = React.createClass({
+var JobForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
   },
@@ -63,4 +63,4 @@ var NewJobForm = React.createClass({
   },
 });
 
-module.exports = NewJobForm;
+module.exports = JobForm;
