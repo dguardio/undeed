@@ -27642,6 +27642,7 @@
 	var JobConstants = __webpack_require__(244);
 	var _jobs = [];
 	var _numPage = 0;
+	var _PreviousPage = 0;
 	var JobStore = new Store(AppDispatcher);
 
 	JobStore.all = function () {
@@ -27649,6 +27650,9 @@
 	};
 	JobStore.numPage = function () {
 	  return _numPage;
+	};
+	JobStore.calculateOffset = function () {
+	  return _PreviousPage * 10;
 	};
 	JobStore.find = function (id) {
 	  // debugger;
@@ -27697,6 +27701,7 @@
 	  });
 	  // debugger;
 	  _numPage = Math.ceil(searchedJobs.length / 10);
+	  _PreviousPage = offset / 10;
 	  _jobs = searchedJobs.slice(offset, offset + limit);
 	};
 
@@ -34313,7 +34318,7 @@
 	    return {
 	      jobs: [],
 	      pageNum: 1,
-	      offset: 0
+	      offset: JobStore.calculateOffset()
 	    };
 	  },
 	  _onChange: function () {
@@ -34587,7 +34592,7 @@
 				)
 			);
 		},
-		handleSubmit: function () {
+		handleSubmit: function (e) {
 			e.preventDefault();
 			var email = {
 				employer_email: job.employer.email,
@@ -34643,10 +34648,11 @@
 	    };
 	  },
 
+	  // offset: 0
 	  handleSubmit: function (event) {
 	    event.preventDefault();
 	    var whatwhere = Object.assign({}, this.state);
-	    ApiUtil.searchJobs(whatwhere);
+	    ApiUtil.searchJobsPaginate(whatwhere, 0);
 	    // debugger
 	    this.context.router.push({
 	      pathname: '/jobs',

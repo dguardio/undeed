@@ -126,7 +126,7 @@ var JobDetail = React.createClass({
 		</div>
 		);
 	},
-	handleSubmit: function() {
+	handleSubmit: function(e) {
 		e.preventDefault();
 		var email ={
 			employer_email: job.employer.email,

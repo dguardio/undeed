@@ -10,14 +10,15 @@ var JobSeach = React.createClass({
       whatField: "",
       whereField: "",
       whereVisible: false,
-      whatVisible: false
+      whatVisible: false,
+      // offset: 0
     };
   },
 
   handleSubmit: function(event){
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
-    ApiUtil.searchJobs(whatwhere);
+    ApiUtil.searchJobsPaginate(whatwhere, 0);
     // debugger
     this.context.router.push({
       pathname:'/jobs',

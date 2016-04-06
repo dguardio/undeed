@@ -13,7 +13,7 @@ var JobIndex = React.createClass({
     return {
       jobs: [],
       pageNum: 1,
-      offset: 0
+      offset: JobStore.calculateOffset()
     };
   },
   _onChange: function () {

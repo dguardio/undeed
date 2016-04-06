@@ -3,6 +3,7 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var JobConstants = require('../constants/job_constants');
 var _jobs = [];
 var _numPage = 0;
+var _PreviousPage = 0;
 var JobStore = new Store(AppDispatcher);
 
 JobStore.all = function () {
@@ -10,6 +11,9 @@ JobStore.all = function () {
 };
 JobStore.numPage = function (){
   return _numPage;
+};
+JobStore.calculateOffset = function(){
+  return _PreviousPage*10;
 };
 JobStore.find = function(id) {
   // debugger;
@@ -60,6 +64,7 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   });
 // debugger;
   _numPage = Math.ceil(searchedJobs.length / 10);
+  _PreviousPage = offset/10;
   _jobs = searchedJobs.slice(offset, offset+limit);
 };
 
