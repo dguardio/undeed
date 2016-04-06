@@ -27019,16 +27019,15 @@
 	      }
 	    });
 	  },
-	  searchJobsPaginate: function (cityString) {
+	  searchJobsPaginate: function (whatwhere, offset) {
 	    $.ajax({
 	      url: '/api/jobs',
 	      method: 'GET',
-	      data: { limit: 10, offset: 0 },
 	      dataType: 'json',
 
 	      success: function (jobs) {
 	        // debugger;
-	        JobActions.searchAll(jobs, whatwhere);
+	        JobActions.searchLIMIT(jobs, whatwhere, 10, offset);
 	      },
 	      error: function (no) {
 	        console.log("Error: " + no);
@@ -27189,6 +27188,15 @@
 	      actionType: JobConstants.JOBS_SEARCHED,
 	      jobs: jobs,
 	      whatwhere: whatwhere
+	    });
+	  },
+	  searchLIMIT: function (jobs, whatwhere, limit, offset) {
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.JOBS_SEARCHEDLIMIT,
+	      jobs: jobs,
+	      whatwhere: whatwhere,
+	      limit: limit,
+	      offset: offset
 	    });
 	  },
 	  receiveCities: function (cities, cityString) {
@@ -27554,6 +27562,7 @@
 	  JOBS_RECEIVED: "JOBS_RECEIVED",
 	  JOB_RECEIVED: "JOB_RECEIVED",
 	  JOBS_SEARCHED: "JOBS_SEARCHED",
+	  JOBS_SEARCHEDLIMIT: "JOBS_SEARCHEDLIMIT",
 	  CITIES_RECEIVED: "CITIES_RECEIVED",
 	  CITY_RECEIVED: "CITY_RECEIVED",
 	  LOCATIONCITY_RECEIVED: "LOCATIONCITY_RECEIVED",
@@ -27632,12 +27641,15 @@
 	var AppDispatcher = __webpack_require__(240);
 	var JobConstants = __webpack_require__(244);
 	var _jobs = [];
+	var _numPage = 0;
 	var JobStore = new Store(AppDispatcher);
 
 	JobStore.all = function () {
 	  return _jobs.slice(0);
 	};
-
+	JobStore.numPage = function () {
+	  return _numPage;
+	};
 	JobStore.find = function (id) {
 	  // debugger;
 	  for (var i = 0; i < _jobs.length; i++) {
@@ -27672,8 +27684,20 @@
 	      searchedJobs.push(job);
 	    }
 	  });
-
 	  _jobs = searchedJobs;
+	};
+	var searchJobsLIMIT = function (jobs, whatwhere, limit, offset) {
+	  _jobs = jobs;
+	  var searchedJobs = [];
+
+	  _jobs.forEach(function (job) {
+	    if (job.location.city.includes(whatwhere.whereField) && job.title.includes(whatwhere.whatField)) {
+	      searchedJobs.push(job);
+	    }
+	  });
+	  // debugger;
+	  _numPage = Math.ceil(searchedJobs.length / 10);
+	  _jobs = searchedJobs.slice(offset, offset + limit);
 	};
 
 	JobStore.__onDispatch = function (payload) {
@@ -27688,6 +27712,10 @@
 	      break;
 	    case JobConstants.JOBS_SEARCHED:
 	      searchJobs(payload.jobs, payload.whatwhere);
+	      JobStore.__emitChange();
+	      break;
+	    case JobConstants.JOBS_SEARCHEDLIMIT:
+	      searchJobsLIMIT(payload.jobs, payload.whatwhere, payload.limit, payload.offset);
 	      JobStore.__emitChange();
 	      break;
 	  }
@@ -34283,36 +34311,40 @@
 
 	  getInitialState: function () {
 	    return {
-	      jobs: []
+	      jobs: [],
+	      pageNum: 1,
+	      offset: 0
 	    };
 	  },
-	  // pageNum: 1
 	  _onChange: function () {
+	    // debugger;
 	    this.setState({
-	      jobs: JobStore.all()
+	      jobs: JobStore.all(),
+	      pageNum: JobStore.numPage()
 	    });
 	  },
 
-	  // pageNum: Math.ceil(job.meta.total_count / job.meta.limit)
+	  // offset: 0
 	  componentDidMount: function () {
 	    this.jobStoreToken = JobStore.addListener(this._onChange);
 	    var city = this.props.location.query.where;
 	    var title = this.props.location.query.what;
-	    ApiUtil.searchJobs({ whatField: title, whereField: city });
-	    // ApiUtil.searchJobsPaginate({whatField: title, whereField: city});
+	    // debugger;
+	    // ApiUtil.searchJobs({whatField: title, whereField: city});
+	    ApiUtil.searchJobsPaginate({ whatField: title, whereField: city }, this.state.offset);
 	  },
 	  componentWillUnmount: function () {
 	    this.jobStoreToken.remove();
 	  },
-	  // handlePageClick :function (jobs){
-	  //   var selected = data.selected;
-	  //   var offset = Math.ceil(selected * 10);
-	  //
-	  //   this.setState(
-	  //     {offset: offset},
-	  //     this.loadCommentsFromServer();
-	  //   });
-	  // },
+	  handlePageClick: function (data) {
+	    // var selected = data.selected;
+	    // var offset = Math.ceil(selected * 10);
+	    var city = this.props.location.query.where;
+	    var title = this.props.location.query.what;
+	    var offset = Math.ceil(data.selected * 10);
+	    // debugger;
+	    this.setState({ offset: offset }, ApiUtil.searchJobsPaginate({ whatField: title, whereField: city }, offset));
+	  },
 
 	  render: function () {
 	    var jobs = this.state.jobs.map(function (job) {
@@ -34341,7 +34373,21 @@
 	        'div',
 	        { className: 'search-results' },
 	        jobs
-	      )
+	      ),
+	      React.createElement(ReactPaginate, { previousLabel: "previous",
+	        nextLabel: "next",
+	        breakLabel: React.createElement(
+	          'a',
+	          { href: '' },
+	          '...'
+	        ),
+	        pageNum: this.state.pageNum,
+	        marginPagesDisplayed: 2,
+	        pageRangeDisplayed: 5,
+	        clickCallback: this.handlePageClick,
+	        containerClassName: "pagination",
+	        subContainerClassName: "pages pagination",
+	        activeClassName: "active" })
 	    );
 	  }
 	});

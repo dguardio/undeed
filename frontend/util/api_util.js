@@ -152,16 +152,15 @@ var ApiUtil = {
         }
   		});
     },
-    searchJobsPaginate: function(cityString){
+    searchJobsPaginate: function(whatwhere, offset){
       $.ajax({
   			url: '/api/jobs',
   			method: 'GET',
-        data     : {limit: 10, offset: 0},
   			dataType: 'json',
 
   			success: function (jobs) {
           // debugger;
-          JobActions.searchAll(jobs, whatwhere);
+          JobActions.searchLIMIT(jobs, whatwhere, 10, offset);
         },
         error: function(no){
           console.log("Error: " + no);

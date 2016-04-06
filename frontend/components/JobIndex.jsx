@@ -12,13 +12,16 @@ var JobIndex = React.createClass({
   getInitialState: function() {
     return {
       jobs: [],
-      // pageNum: 1
+      pageNum: 1,
+      offset: 0
     };
   },
   _onChange: function () {
+    // debugger;
 		this.setState({
       jobs: JobStore.all(),
-      // pageNum: Math.ceil(job.meta.total_count / job.meta.limit)
+      pageNum: JobStore.numPage(),
+      // offset: 0
      });
 	},
 
@@ -27,21 +30,25 @@ var JobIndex = React.createClass({
     this.jobStoreToken = JobStore.addListener(this._onChange);
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
-    ApiUtil.searchJobs({whatField: title, whereField: city});
-    // ApiUtil.searchJobsPaginate({whatField: title, whereField: city});
+    // debugger;
+    // ApiUtil.searchJobs({whatField: title, whereField: city});
+    ApiUtil.searchJobsPaginate({whatField: title, whereField: city},this.state.offset);
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
   },
-  // handlePageClick :function (jobs){
-  //   var selected = data.selected;
-  //   var offset = Math.ceil(selected * 10);
-  //
-  //   this.setState(
-  //     {offset: offset},
-  //     this.loadCommentsFromServer();
-  //   });
-  // },
+  handlePageClick :function (data){
+    // var selected = data.selected;
+    // var offset = Math.ceil(selected * 10);
+    var city = this.props.location.query.where;
+    var title = this.props.location.query.what;
+    var offset = Math.ceil(data.selected * 10);
+    // debugger;
+    this.setState(
+      {offset: offset},
+      ApiUtil.searchJobsPaginate({whatField: title, whereField: city}, offset)
+    );
+  },
 
   render: function() {
     var jobs = this.state.jobs.map(function(job) {
@@ -59,6 +66,16 @@ var JobIndex = React.createClass({
           <div className="search-results">
             {jobs}
           </div>
+          <ReactPaginate previousLabel={"previous"}
+                       nextLabel={"next"}
+                       breakLabel={<a href="">...</a>}
+                       pageNum={this.state.pageNum}
+                       marginPagesDisplayed={2}
+                       pageRangeDisplayed={5}
+                       clickCallback={this.handlePageClick}
+                       containerClassName={"pagination"}
+                       subContainerClassName={"pages pagination"}
+                       activeClassName={"active"} />
         </div>
       );
   }

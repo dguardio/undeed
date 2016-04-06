@@ -2,12 +2,15 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var JobConstants = require('../constants/job_constants');
 var _jobs = [];
+var _numPage = 0;
 var JobStore = new Store(AppDispatcher);
 
 JobStore.all = function () {
   return _jobs.slice(0);
 };
-
+JobStore.numPage = function (){
+  return _numPage;
+};
 JobStore.find = function(id) {
   // debugger;
 	for( var i = 0; i < _jobs.length; i++){
@@ -43,8 +46,21 @@ var searchJobs = function(jobs, whatwhere){
       searchedJobs.push(job);
     }
   });
-
   _jobs = searchedJobs;
+};
+var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
+  _jobs = jobs;
+  var searchedJobs = [];
+
+  _jobs.forEach (function(job){
+    if (job.location.city.includes(whatwhere.whereField) &&
+        job.title.includes(whatwhere.whatField)){
+      searchedJobs.push(job);
+    }
+  });
+// debugger;
+  _numPage = Math.ceil(searchedJobs.length / 10);
+  _jobs = searchedJobs.slice(offset, offset+limit);
 };
 
 JobStore.__onDispatch = function (payload) {
@@ -59,6 +75,10 @@ JobStore.__onDispatch = function (payload) {
 			break;
     case JobConstants.JOBS_SEARCHED:
       searchJobs(payload.jobs, payload.whatwhere);
+      JobStore.__emitChange();
+      break;
+    case JobConstants.JOBS_SEARCHEDLIMIT:
+      searchJobsLIMIT(payload.jobs, payload.whatwhere, payload.limit, payload.offset);
       JobStore.__emitChange();
       break;
   }

@@ -41,6 +41,15 @@ ApiActions = {
       whatwhere: whatwhere
     });
   },
+  searchLIMIT: function(jobs, whatwhere, limit, offset){
+    AppDispatcher.dispatch({
+      actionType: JobConstants.JOBS_SEARCHEDLIMIT,
+      jobs: jobs,
+      whatwhere: whatwhere,
+      limit: limit,
+      offset: offset
+    });
+  },
   receiveCities: function(cities, cityString){
     // debugger;
     AppDispatcher.dispatch({
