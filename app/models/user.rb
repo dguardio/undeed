@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
 	validates :email, :session_token, uniqueness: true
 	validates :password, length: { minimum: 6, allow_nil: true }
 
+	has_attached_file :resume, default_url: "missing.pdf"
+	validates_attachment_content_type :resume, :content_type => ['application/pdf']
+
 	has_many(
  	:jobs,
  	class_name: "Job",

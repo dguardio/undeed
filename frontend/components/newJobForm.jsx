@@ -40,6 +40,7 @@ var NewJobForm = React.createClass({
   render: function() {
     return (
       <div>
+        <Link className= "signinlogo" to={"/"}><Logo /></Link>
         <h1>Create New Job!</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="newjob-input-block">

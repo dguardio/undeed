@@ -108,7 +108,7 @@ var JobDetail = React.createClass({
 			          <div className="application-title">{job.title}</div>
 								{job.employer.name} - {job.location.city}
 
-			          <form onSubmit={this.handleSubmit}>
+			          <form>
 			  					<label htmlFor="realname">Name</label>
 									<input className="application-input"type="text" />
 			  					<label htmlFor="email">Email</label>

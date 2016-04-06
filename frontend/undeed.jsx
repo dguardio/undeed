@@ -9,6 +9,7 @@ var hashHistory =ReactRouter.hashHistory;
 
 //Jobs
 var NewJobForm = require('./components/NewJobForm.jsx');
+var UserForm = require('./components/UserForm.jsx');
 var ApiUtil = require('./util/api_util');
 var JobStore = require('./stores/job');
 var CityStore = require('./stores/jobCity');
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<Route path="/jobs" component={JobIndex}/>
 					<Route path="/jobs/:jobId" component={JobDetail}/>
 					<Route path="newjob" component={NewJobForm} onEnter={_requireLoggedIn}/>
+					<Route path="userform" component={UserForm} onEnter={_requireLoggedIn}/>
 					<Route path="myjobs" component={MyJobIndex} onEnter={_requireLoggedIn}>
 						<IndexRoute component={MyJobSaved} />
 						<Route path="applied" component={MyJobApplied} />

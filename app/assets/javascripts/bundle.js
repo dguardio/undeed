@@ -55,6 +55,7 @@
 
 	//Jobs
 	var NewJobForm = __webpack_require__(284);
+	var UserForm = __webpack_require__(302);
 	var ApiUtil = __webpack_require__(238);
 	var JobStore = __webpack_require__(249);
 	var CityStore = __webpack_require__(267);
@@ -111,6 +112,7 @@
 				React.createElement(Route, { path: '/jobs', component: JobIndex }),
 				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
 				React.createElement(Route, { path: 'newjob', component: NewJobForm, onEnter: _requireLoggedIn }),
+				React.createElement(Route, { path: 'userform', component: UserForm, onEnter: _requireLoggedIn }),
 				React.createElement(
 					Route,
 					{ path: 'myjobs', component: MyJobIndex, onEnter: _requireLoggedIn },
@@ -34556,7 +34558,7 @@
 								job.location.city,
 								React.createElement(
 									'form',
-									{ onSubmit: this.handleSubmit },
+									null,
 									React.createElement(
 										'label',
 										{ htmlFor: 'realname' },
@@ -35476,6 +35478,11 @@
 	      'div',
 	      null,
 	      React.createElement(
+	        Link,
+	        { className: 'signinlogo', to: "/" },
+	        React.createElement(Logo, null)
+	      ),
+	      React.createElement(
 	        'h1',
 	        null,
 	        'Create New Job!'
@@ -35955,6 +35962,15 @@
 	        React.createElement(
 	          'div',
 	          { className: 'user-header' },
+	          React.createElement(
+	            'div',
+	            { className: 'find-header' },
+	            React.createElement(
+	              Link,
+	              { to: "/userform" },
+	              'Upload resume'
+	            )
+	          ),
 	          React.createElement(
 	            'div',
 	            { onClick: this.handleClick, className: 'header-email' },
@@ -36846,6 +36862,85 @@
 	});
 
 	module.exports = MyJobArchived;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(238);
+	var Link = __webpack_require__(159).Link;
+	var Logo = __webpack_require__(271);
+	var UserForm = React.createClass({
+	  displayName: 'UserForm',
+
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {
+	      resumeFile: null,
+	      resumeUrl: null
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        Link,
+	        { className: 'signinlogo', to: "/" },
+	        React.createElement(Logo, null)
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          null,
+	          'Resume',
+	          React.createElement('input', {
+	            type: 'file',
+	            onChange: this.handleFileChange
+	          })
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'submit', value: 'Upload' })
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Preview:'
+	      ),
+	      React.createElement('img', { className: 'preview-resume', src: this.state.resumeUrl })
+	    );
+	  },
+	  handleFileChange: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var reader = new FileReader();
+
+	    reader.onloadend = function () {
+	      var result = reader.result;
+	      this.setState({ resumeFile: file, resumeUrl: result });
+	    }.bind(this);
+
+	    reader.readAsDataURL(file);
+	  },
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append("user[resume]", this.state.imageFile);
+
+	    ApiUtil.createPost(formData, function () {
+	      router.push("/");
+	    });
+	  }
+
+	});
+
+	module.exports = UserForm;
 
 /***/ }
 /******/ ]);
