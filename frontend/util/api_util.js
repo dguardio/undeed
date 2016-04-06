@@ -2,6 +2,27 @@ var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
 var ApiUtil = {
+  createCity: function(city){
+    // debugger;
+      $.ajax({
+        url: '/api/cities/',
+        method: 'POST',
+        data: {job: job},
+        dataType: 'json',
+
+        success: function (job) {
+          // debugger;
+          var jobID = job.id;
+          JobActions.receiveSingleJob(job);
+          callback && callback(jobID);
+        },
+        error: function(no){
+
+          console.log("Error: " + no);
+        }
+      });
+  },
+
   createNewJob: function(job,callback){
     // debugger;
       $.ajax({
@@ -165,10 +186,28 @@ var ApiUtil = {
           JobActions.receiveCities(cities, cityString);
         },
         error: function(no){
+          // debugger;
           console.log("Error: " + no);
         }
   		});
     },
+    findExactCity: function(cityString){
+        $.ajax({
+    			url: '/api/locations',
+    			method: 'GET',
+    			dataType: 'json',
+    			contentType: "application/json",
+
+    			success: function (cities) {
+            // debugger;
+            JobActions.receiveCity(cities, cityString);
+          },
+          error: function(no){
+            // debugger;
+            console.log("Error: " + no);
+          }
+    		});
+      },
     login: function(credentials, callback) {
       $.ajax({
         type: "POST",

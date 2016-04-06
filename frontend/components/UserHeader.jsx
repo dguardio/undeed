@@ -57,6 +57,7 @@ var UserHeader = React.createClass({
       // debugger;
       return (
         <div className="the-header group">
+          <div className="find-header"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>
           <div className="user-header">
             <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
             <ul className={this.state.classname}>

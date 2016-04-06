@@ -9,13 +9,22 @@ JobCityStore.all = function () {
 };
 
 JobCityStore.find = function(id) {
+  debugger;
 	for( var i = 0; i < _jobCities.length; i++){
 		if( _jobCities[i].id == id) {
 			return _jobCities[i];
 		}
 	}
 };
+JobCityStore.findCity = function(cityName) {
+	for( var i = 0; i < _jobCities.length; i++){
+		if( _jobCities[i].city === cityName) {
+			return _jobCities[i];
+		}
+	}
+};
 var searchCities = function(cities, cityString){
+  // debugger;
   _jobCities = cities;
   var searchedCities = [];
   _jobCities.forEach (function(location){
@@ -23,14 +32,28 @@ var searchCities = function(cities, cityString){
       searchedCities.push(location);
     }
   });
-
+  _jobCities = searchedCities;
+};
+var searchCity = function(cities, cityString){
+  _jobCities = cities;
+  var searchedCities = [];
+  _jobCities.forEach (function(location){
+    if (location.city.toLowerCase()===(cityString.toLowerCase())){
+      searchedCities.push(location);
+    }
+  });
   _jobCities = searchedCities;
 };
 
 JobCityStore.__onDispatch = function (payload) {
+  debugger;
   switch(payload.actionType) {
     case JobCityConstants.CITIES_RECEIVED:
       searchCities(payload.cities,payload.cityString);
+      JobCityStore.__emitChange();
+      break;
+    case JobCityConstants.CITY_RECEIVED:
+      searchCity(payload.cities,payload.cityString);
       JobCityStore.__emitChange();
       break;
   }

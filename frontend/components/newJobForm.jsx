@@ -3,7 +3,7 @@ var ApiUtil = require('../util/api_util');
 var Link = require('react-router').Link;
 var Logo = require('./Logo');
 var SessionStore = require("../stores/session");
-
+var JobCityStore = require("../stores/jobCity");
 var NewJobForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -12,10 +12,11 @@ var NewJobForm = React.createClass({
   getInitialState: function() {
     return {
       title: "",
-      location_id:"",
+      // location_id:"",
       salary:"",
       description: "",
       employer_id: "",
+      location: ""
       // isLoggedIn: false
     };
   },
@@ -25,9 +26,9 @@ var NewJobForm = React.createClass({
     this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
   },
   setStateFromStore: function () {
-    // debugger;
+
     this.setState({
-      // debugger;
+
       employer_id: SessionStore.currentUser().id,
       // isLoggedIn: SessionStore.isLoggedIn(),
     });
@@ -39,7 +40,7 @@ var NewJobForm = React.createClass({
     this.setState({ title: e.currentTarget.value });
   },
   updateJobLocation: function(e) {
-    this.setState({ location_id: parseInt(e.currentTarget.value) });
+    this.setState({ location: e.currentTarget.value});
   },
   updateJobDescription: function(e) {
     this.setState({ description: e.currentTarget.value });
@@ -49,9 +50,28 @@ var NewJobForm = React.createClass({
   },
   handleSubmit: function(e){
     e.preventDefault();
+    // debugger;
+    var location;
+    // debugger;
+    ApiUtil.searchCity(this.state.location);
+    var location_id = JobCityStore.findCity(this.state.location);
+    debugger;
+    if (!location_id){
+      ApiUtil.createCity(this.state.location);
+      location_id = JobCityStore.findCity(this.state.location).id;
+    }
+    var jobObject = {
+      title: this.state.title,
+      salary: this.state.salary,
+      description: this.state.description,
+      employer_id: this.state.employer_id,
+      location_id: location_id
+    };
+
+
 
     var router = this.context.router;
-    ApiUtil.createNewJob(this.state, function(jobID) {
+    ApiUtil.createNewJob(jobObject, function(jobID) {
       // debugger;
         router.push("/jobs/"+ jobID);
     });
@@ -66,12 +86,13 @@ var NewJobForm = React.createClass({
             <input className="input-field" onChange={this.updateJobTitle} type="text" value={this.state.title}/>
 
             <label htmlFor="jobLocation">Job Location</label>
-            <input className="input-field" onChange={this.updateJobLocation} type="text" value={this.state.location_id}/>
+            <input className="input-field" onChange={this.updateJobLocation} type="text" value={this.state.location}/>
 
-            <label htmlFor="jobDescription">Job Description</label>
-            <input className="input-field" onChange={this.updateJobDescription} type="text" value={this.state.description}/>
             <label htmlFor="Salary">Salary</label>
             <input className="input-field" onChange={this.updateJobSalary} type="text" value={this.state.salary}/>
+
+            <label htmlFor="jobDescription">Job Description</label>
+            <input className="input-field" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
           </div>
           <button className="signin-button">Post New Job</button>
         </form>

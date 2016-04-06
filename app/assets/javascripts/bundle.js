@@ -26868,6 +26868,27 @@
 	var SessionActions = __webpack_require__(245);
 	var ErrorActions = __webpack_require__(247);
 	var ApiUtil = {
+	  createCity: function (city) {
+	    // debugger;
+	    $.ajax({
+	      url: '/api/cities/',
+	      method: 'POST',
+	      data: { job: job },
+	      dataType: 'json',
+
+	      success: function (job) {
+	        // debugger;
+	        var jobID = job.id;
+	        JobActions.receiveSingleJob(job);
+	        callback && callback(jobID);
+	      },
+	      error: function (no) {
+
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+
 	  createNewJob: function (job, callback) {
 	    // debugger;
 	    $.ajax({
@@ -27031,6 +27052,24 @@
 	        JobActions.receiveCities(cities, cityString);
 	      },
 	      error: function (no) {
+	        // debugger;
+	        console.log("Error: " + no);
+	      }
+	    });
+	  },
+	  findExactCity: function (cityString) {
+	    $.ajax({
+	      url: '/api/locations',
+	      method: 'GET',
+	      dataType: 'json',
+	      contentType: "application/json",
+
+	      success: function (cities) {
+	        // debugger;
+	        JobActions.receiveCity(cities, cityString);
+	      },
+	      error: function (no) {
+	        // debugger;
 	        console.log("Error: " + no);
 	      }
 	    });
@@ -27143,6 +27182,14 @@
 	    // debugger;
 	    AppDispatcher.dispatch({
 	      actionType: JobConstants.CITIES_RECEIVED,
+	      cities: cities,
+	      cityString: cityString
+	    });
+	  },
+	  receiveCity: function (cities, cityString) {
+	    // debugger;
+	    AppDispatcher.dispatch({
+	      actionType: JobConstants.CITY_RECEIVED,
 	      cities: cities,
 	      cityString: cityString
 	    });
@@ -27488,6 +27535,7 @@
 	  JOB_RECEIVED: "JOB_RECEIVED",
 	  JOBS_SEARCHED: "JOBS_SEARCHED",
 	  CITIES_RECEIVED: "CITIES_RECEIVED",
+	  CITY_RECEIVED: "CITY_RECEIVED",
 	  JOBTITLES_RECEIVED: "JOBTITLES_RECEIVED"
 	};
 
@@ -34088,13 +34136,22 @@
 	};
 
 	JobCityStore.find = function (id) {
+	  debugger;
 	  for (var i = 0; i < _jobCities.length; i++) {
 	    if (_jobCities[i].id == id) {
 	      return _jobCities[i];
 	    }
 	  }
 	};
+	JobCityStore.findCity = function (cityName) {
+	  for (var i = 0; i < _jobCities.length; i++) {
+	    if (_jobCities[i].city === cityName) {
+	      return _jobCities[i];
+	    }
+	  }
+	};
 	var searchCities = function (cities, cityString) {
+	  // debugger;
 	  _jobCities = cities;
 	  var searchedCities = [];
 	  _jobCities.forEach(function (location) {
@@ -34102,14 +34159,28 @@
 	      searchedCities.push(location);
 	    }
 	  });
-
+	  _jobCities = searchedCities;
+	};
+	var searchCity = function (cities, cityString) {
+	  _jobCities = cities;
+	  var searchedCities = [];
+	  _jobCities.forEach(function (location) {
+	    if (location.city.toLowerCase() === cityString.toLowerCase()) {
+	      searchedCities.push(location);
+	    }
+	  });
 	  _jobCities = searchedCities;
 	};
 
 	JobCityStore.__onDispatch = function (payload) {
+	  debugger;
 	  switch (payload.actionType) {
 	    case JobCityConstants.CITIES_RECEIVED:
 	      searchCities(payload.cities, payload.cityString);
+	      JobCityStore.__emitChange();
+	      break;
+	    case JobCityConstants.CITY_RECEIVED:
+	      searchCity(payload.cities, payload.cityString);
 	      JobCityStore.__emitChange();
 	      break;
 	  }
@@ -35321,6 +35392,15 @@
 	        { className: 'the-header group' },
 	        React.createElement(
 	          'div',
+	          { className: 'find-header' },
+	          React.createElement(
+	            Link,
+	            { to: "/newjob" },
+	            'Employer/Post a new Job'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
 	          { className: 'user-header' },
 	          React.createElement(
 	            'div',
@@ -36072,7 +36152,7 @@
 	var Link = __webpack_require__(159).Link;
 	var Logo = __webpack_require__(270);
 	var SessionStore = __webpack_require__(273);
-
+	var JobCityStore = __webpack_require__(267);
 	var NewJobForm = React.createClass({
 	  displayName: 'NewJobForm',
 
@@ -36083,22 +36163,23 @@
 	  getInitialState: function () {
 	    return {
 	      title: "",
-	      location_id: "",
+	      // location_id:"",
 	      salary: "",
 	      description: "",
-	      employer_id: ""
+	      employer_id: "",
+	      location: ""
+	      // isLoggedIn: false
 	    };
 	  },
-	  // isLoggedIn: false
 	  componentDidMount: function () {
 	    ApiUtil.fetchCurrentUser();
 	    this.setStateFromStore();
 	    this.sessionStoreToken = SessionStore.addListener(this.setStateFromStore);
 	  },
 	  setStateFromStore: function () {
-	    // debugger;
+
 	    this.setState({
-	      // debugger;
+
 	      employer_id: SessionStore.currentUser().id
 	    });
 	  },
@@ -36110,7 +36191,7 @@
 	    this.setState({ title: e.currentTarget.value });
 	  },
 	  updateJobLocation: function (e) {
-	    this.setState({ location_id: parseInt(e.currentTarget.value) });
+	    this.setState({ location: e.currentTarget.value });
 	  },
 	  updateJobDescription: function (e) {
 	    this.setState({ description: e.currentTarget.value });
@@ -36120,9 +36201,26 @@
 	  },
 	  handleSubmit: function (e) {
 	    e.preventDefault();
+	    // debugger;
+	    var location;
+	    // debugger;
+	    ApiUtil.searchCity(this.state.location);
+	    var location_id = JobCityStore.findCity(this.state.location);
+	    debugger;
+	    if (!location_id) {
+	      ApiUtil.createCity(this.state.location);
+	      location_id = JobCityStore.findCity(this.state.location).id;
+	    }
+	    var jobObject = {
+	      title: this.state.title,
+	      salary: this.state.salary,
+	      description: this.state.description,
+	      employer_id: this.state.employer_id,
+	      location_id: location_id
+	    };
 
 	    var router = this.context.router;
-	    ApiUtil.createNewJob(this.state, function (jobID) {
+	    ApiUtil.createNewJob(jobObject, function (jobID) {
 	      // debugger;
 	      router.push("/jobs/" + jobID);
 	    });
@@ -36153,19 +36251,19 @@
 	            { htmlFor: 'jobLocation' },
 	            'Job Location'
 	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobLocation, type: 'text', value: this.state.location_id }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobDescription' },
-	            'Job Description'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobDescription, type: 'text', value: this.state.description }),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobLocation, type: 'text', value: this.state.location }),
 	          React.createElement(
 	            'label',
 	            { htmlFor: 'Salary' },
 	            'Salary'
 	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobSalary, type: 'text', value: this.state.salary })
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobSalary, type: 'text', value: this.state.salary }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'jobDescription' },
+	            'Job Description'
+	          ),
+	          React.createElement('input', { className: 'input-field', onChange: this.updateJobDescription, type: 'textarea', value: this.state.description })
 	        ),
 	        React.createElement(
 	          'button',
