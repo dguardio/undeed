@@ -12,20 +12,12 @@ var NewJobForm = React.createClass({
   getInitialState: function() {
     return {
       title: "",
-      // location_id:"",
       salary:"",
       description: "",
       location: ""
-      // isLoggedIn: false
     };
   },
-  componentDidMount: function() {
-    // ApiUtil.fetchCurrentUser();
-  },
 
-  componentWillUnmount: function() {
-    // this.sessionStoreToken.remove();
-  },
   updateJobTitle: function(e) {
     this.setState({ title: e.currentTarget.value });
   },
@@ -40,31 +32,8 @@ var NewJobForm = React.createClass({
   },
   handleSubmit: function(e){
     e.preventDefault();
-    // debugger;
-    // var location;
-    // debugger;
-    // ApiUtil.searchCity(this.state.location);
-      // location = JobCityStore.findCity(this.state.location);
-    // debugger;
-    // if (!location){
-    //   ApiUtil.createCity(this.state.location);
-    //   location_id = location.id;
-    // } else{
-    //   location_id = location.id;
-    // }
-    // debugger;
-    var jobObject = {
-      title: this.state.title,
-      salary: this.state.salary,
-      description: this.state.description,
-      location: this.state.location
-    };
-
-
-
     var router = this.context.router;
-    ApiUtil.createNewJob(jobObject, function(jobID) {
-      // debugger;
+    ApiUtil.createNewJob(this.state, function(jobID) {
         router.push("/jobs/"+ jobID);
     });
   },
