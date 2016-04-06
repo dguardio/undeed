@@ -109,8 +109,6 @@
 				React.createElement(IndexRoute, { component: FrontPage }),
 				React.createElement(Route, { path: '/jobs', component: JobIndex }),
 				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
-				'// ',
-				React.createElement(Route, { path: 'newjob', component: NewJobForm, onEnter: _requireLoggedIn }),
 				React.createElement(
 					Route,
 					{ path: 'myjobs', component: MyJobIndex, onEnter: _requireLoggedIn },

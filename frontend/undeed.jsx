@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					<IndexRoute component={FrontPage}/>
 					<Route path="/jobs" component={JobIndex}/>
 					<Route path="/jobs/:jobId" component={JobDetail}/>
-					// <Route path="newjob" component={NewJobForm} onEnter={_requireLoggedIn}/>
 					<Route path="myjobs" component={MyJobIndex} onEnter={_requireLoggedIn}>
 						<IndexRoute component={MyJobSaved} />
 						<Route path="applied" component={MyJobApplied} />
