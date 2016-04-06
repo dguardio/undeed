@@ -16,7 +16,7 @@ var JobIndex = require('./components/JobIndex');
 var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');
 var JobSearch = require('./components/JobSearch');
-var NewJobForm = require('./components/NewJobForm');
+// var NewJobForm = require('./components/NewJobForm.jsx');
 // Auth
 var FrontPage = require('./components/FrontPage');
 var LoginForm = require("./components/LoginForm.jsx");
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<IndexRoute component={FrontPage}/>
 					<Route path="/jobs" component={JobIndex}/>
 					<Route path="/jobs/:jobId" component={JobDetail}/>
-					<Route path="newjob" component={NewJobForm} onEnter={_requireLoggedIn}/>
+					// <Route path="newjob" component={NewJobForm} onEnter={_requireLoggedIn}/>
 					<Route path="myjobs" component={MyJobIndex} onEnter={_requireLoggedIn}>
 						<IndexRoute component={MyJobSaved} />
 						<Route path="applied" component={MyJobApplied} />

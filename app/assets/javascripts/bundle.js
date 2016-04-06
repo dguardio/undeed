@@ -62,7 +62,7 @@
 	var JobIndexItem = __webpack_require__(269);
 	var JobDetail = __webpack_require__(270);
 	var JobSearch = __webpack_require__(272);
-	var NewJobForm = __webpack_require__(284);
+	// var NewJobForm = require('./components/NewJobForm.jsx');
 	// Auth
 	var FrontPage = __webpack_require__(285);
 	var LoginForm = __webpack_require__(286);
@@ -109,6 +109,7 @@
 				React.createElement(IndexRoute, { component: FrontPage }),
 				React.createElement(Route, { path: '/jobs', component: JobIndex }),
 				React.createElement(Route, { path: '/jobs/:jobId', component: JobDetail }),
+				'// ',
 				React.createElement(Route, { path: 'newjob', component: NewJobForm, onEnter: _requireLoggedIn }),
 				React.createElement(
 					Route,
@@ -35374,103 +35375,7 @@
 	//# sourceMappingURL=BreakView.js.map
 
 /***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(238);
-	var Link = __webpack_require__(159).Link;
-	var Logo = __webpack_require__(271);
-	var SessionStore = __webpack_require__(275);
-	var JobCityStore = __webpack_require__(267);
-	var NewJobForm = React.createClass({
-	  displayName: 'NewJobForm',
-
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {
-	      title: "",
-	      salary: "",
-	      description: "",
-	      location: ""
-	    };
-	  },
-
-	  updateJobTitle: function (e) {
-	    this.setState({ title: e.currentTarget.value });
-	  },
-	  updateJobLocation: function (e) {
-	    this.setState({ location: e.currentTarget.value });
-	  },
-	  updateJobDescription: function (e) {
-	    this.setState({ description: e.currentTarget.value });
-	  },
-	  updateJobSalary: function (e) {
-	    this.setState({ salary: e.currentTarget.value });
-	  },
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var router = this.context.router;
-	    ApiUtil.createNewJob(this.state, function (jobID) {
-	      router.push("/jobs/" + jobID);
-	    });
-	  },
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Create New Job!'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'div',
-	          { className: 'newjob-input-block' },
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobTitle' },
-	            'Job Title'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobTitle, type: 'text', value: this.state.title }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobLocation' },
-	            'Job Location'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobLocation, type: 'text', value: this.state.location }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'Salary' },
-	            'Salary'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobSalary, type: 'text', value: this.state.salary }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'jobDescription' },
-	            'Job Description'
-	          ),
-	          React.createElement('input', { className: 'input-field', onChange: this.updateJobDescription, type: 'textarea', value: this.state.description })
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'signin-button' },
-	          'Post New Job'
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = NewJobForm;
-
-/***/ },
+/* 284 */,
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
