@@ -23,6 +23,9 @@ JobStore.find = function(id) {
 		}
 	}
 };
+JobStore.count = function(){
+  return( _jobs.length);
+};
 var resetJobs = function(jobs){
   _jobs = jobs;
 };
@@ -67,6 +70,23 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   _PreviousPage = offset/10;
   _jobs = searchedJobs.slice(offset, offset+limit);
 };
+var searchTodaysJob = function(jobs){
+  _jobs = jobs;
+  var searchedJobs = [];
+
+  _jobs.forEach (function(job){
+    var today = new Date();
+    var jobDate = new Date(job.created_at);
+    // debugger;
+    if (jobDate - today < 86400){
+      searchedJobs.push(job);
+    }
+  });
+
+  // _numPage = Math.ceil(searchedJobs.length / 10);
+  // _PreviousPage = offset/10;
+  _jobs = searchedJobs;
+};
 
 JobStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
@@ -84,6 +104,10 @@ JobStore.__onDispatch = function (payload) {
       break;
     case JobConstants.JOBS_SEARCHEDLIMIT:
       searchJobsLIMIT(payload.jobs, payload.whatwhere, payload.limit, payload.offset);
+      JobStore.__emitChange();
+      break;
+    case JobConstants.TODAYS_JOBS_RECEIVED:
+      searchTodaysJob(payload.jobs);
       JobStore.__emitChange();
       break;
   }

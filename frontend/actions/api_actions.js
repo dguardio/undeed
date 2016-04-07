@@ -25,6 +25,12 @@ ApiActions = {
       jobs: jobs
     });
   },
+  receiveTodaysJob: function(jobs){
+      AppDispatcher.dispatch({
+        actionType: JobConstants.TODAYS_JOBS_RECEIVED,
+        jobs: jobs
+      });
+    },
 	receiveSingleJob: function(job){
 		AppDispatcher.dispatch({
 			actionType: JobConstants.JOB_RECEIVED,

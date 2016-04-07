@@ -30,8 +30,9 @@ var JobIndex = React.createClass({
     this.jobStoreToken = JobStore.addListener(this._onChange);
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
+    var date = this.props.location.query.date;
     // ApiUtil.searchJobs({whatField: title, whereField: city});
-    ApiUtil.searchJobsPaginate({whatField: title, whereField: city},this.state.offset);
+      ApiUtil.searchJobsPaginate({whatField: title, whereField: city},this.state.offset);
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();

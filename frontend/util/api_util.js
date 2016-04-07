@@ -146,6 +146,22 @@ var ApiUtil = {
       }
 		});
   },
+    fetchTodaysJobs: function(){
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+  			dataType: 'json',
+  			contentType: "application/json",
+
+  			success: function (jobs) {
+          // debugger;
+          JobActions.receiveTodaysJob(jobs);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+    },
 	fetchSingleJob: function(id){
 		$.ajax({
 			url: '/api/jobs/'+ id,

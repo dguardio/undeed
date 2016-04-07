@@ -1,6 +1,13 @@
 class Job < ActiveRecord::Base
 	validates :title, :jobtype, :salary, :location, :description, :employer_id, :status, presence: true
 
+
+	def self.todays_job(seeker_id)
+		Job.where("created_at >= ?", Time.zone.now.beginning_of_day)
+	end
+
+
+
 	belongs_to(
 	:employer,
 	class_name: "User",

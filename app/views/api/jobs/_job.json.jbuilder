@@ -1,4 +1,4 @@
-json.extract! job, :id, :title, :jobtype, :salary
+json.extract! job, :id, :title, :jobtype, :salary, :created_at, :updated_at
 json.description h(job.description).gsub("\n","<br />").html_safe
 # json.extract! employer, :email, :real_name
 json.employer do
