@@ -11,7 +11,7 @@ var MyJobOptions = React.createClass({
     var id = this.props.myjob.id;
     var job_id = this.props.myjob.job_id;
     var seeker_id = this.props.myjob.seeker_id;
-    // debugger;
+
     ApiUtil.updateMyJobStatus(id,
       {
         id: id,
@@ -28,7 +28,6 @@ var MyJobOptions = React.createClass({
   },
 
   handleClick : function(){
-    // debugger
     if (this.state.classname === "option-hide"){
       this.setState({classname:"option-show"});
     } else{

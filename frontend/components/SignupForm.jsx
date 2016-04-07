@@ -50,7 +50,7 @@ var SignupForm = React.createClass({
 
     var router = this.context.router;
     ApiUtil.signup(this.state, function() {
-      // debugger;
+
         router.push("/");
     });
   },

@@ -2,21 +2,18 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var JobConstants = require('../constants/job_constants');
 ApiActions = {
   receiveMyJobs: function(myjobs){
-    // debugger;
     AppDispatcher.dispatch({
       actionType: JobConstants.MYJOBS_RECEIVED,
       myjobs: myjobs
     });
   },
   receiveMyJob: function(myjob){
-    // debugger;
     AppDispatcher.dispatch({
       actionType: JobConstants.MYJOB_RECEIVED,
       myjob: myjob
     });
   },
   removeMyJob: function(myjob){
-    // debugger;
     AppDispatcher.dispatch({
       actionType: JobConstants.MYJOB_REMOVED,
       myjob: myjob
@@ -51,7 +48,7 @@ ApiActions = {
     });
   },
   receiveCities: function(cities, cityString){
-    // debugger;
+
     AppDispatcher.dispatch({
       actionType: JobConstants.CITIES_RECEIVED,
       cities: cities,
@@ -59,14 +56,14 @@ ApiActions = {
     });
   },
   receiveSingleCity: function(city){
-    // debugger;
+
     AppDispatcher.dispatch({
       actionType: JobConstants.LOCATIONCITY_RECEIVED,
       city: city,
     });
   },
   receiveCity: function(cities, cityString){
-    // debugger;
+
     AppDispatcher.dispatch({
       actionType: JobConstants.CITY_RECEIVED,
       cities: cities,
@@ -74,7 +71,7 @@ ApiActions = {
     });
   },
   receiveJobTitles: function(jobs, jobtitle){
-    // debugger;
+
     AppDispatcher.dispatch({
       actionType: JobConstants.JOBTITLES_RECEIVED,
       jobs: jobs,

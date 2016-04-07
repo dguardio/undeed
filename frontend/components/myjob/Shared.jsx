@@ -35,7 +35,7 @@ var Shared = React.createClass({
 
   render: function() {
     var myjobs = this.state.myjobs.map(function(myjob){
-      // debugger;
+      
       return (
         <div key={myjob.id}>
           <div className="myjob-job-section group">

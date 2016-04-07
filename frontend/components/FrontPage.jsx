@@ -6,7 +6,7 @@ var JobSearch = require('./JobSearch');
 var FrontPage = React.createClass({
 
   render: function() {
-    // debugger;
+    
     return (
       <div>
         <div className="fontpage-content">

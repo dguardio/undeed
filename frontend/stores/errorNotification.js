@@ -14,7 +14,7 @@ ErrorStore.getError = function(error){
 };
 
 ErrorStore.__onDispatch = function (payload) {
-  // debugger;
+  
   switch (payload.actionType) {
     case ErrorConstants.ERROR_RECEIVED:
       this.getError(payload.error.responseText);

@@ -16,7 +16,7 @@ JobStore.calculateOffset = function(){
   return _PreviousPage*10;
 };
 JobStore.find = function(id) {
-  // debugger;
+  
 	for( var i = 0; i < _jobs.length; i++){
 		if( _jobs[i].id == id) {
 			return _jobs[i];
@@ -62,7 +62,7 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
       searchedJobs.push(job);
     }
   });
-// debugger;
+
   _numPage = Math.ceil(searchedJobs.length / 10);
   _PreviousPage = offset/10;
   _jobs = searchedJobs.slice(offset, offset+limit);

@@ -27,7 +27,7 @@ var MyJobIndex = React.createClass({
   },
 
   setStateFromStore: function () {
-    // debugger;
+    
     this.setState({
       currentUser: SessionStore.currentUser(),
       isLoggedIn: SessionStore.isLoggedIn(),

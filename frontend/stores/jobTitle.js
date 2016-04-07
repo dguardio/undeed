@@ -25,12 +25,12 @@ var searchTitles = function(jobs, jobtitle){
       newjobTitles.push(job.title);
     }
   });
-  // debugger;
+  
   _jobTitles = newjobTitles;
 };
 
 JobTitleStore.__onDispatch = function (payload) {
-  // debugger;
+  
   switch(payload.actionType) {
     case JobTitleConstants.JOBTITLES_RECEIVED:
       searchTitles(payload.jobs, payload.jobtitle);

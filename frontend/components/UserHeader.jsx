@@ -44,7 +44,7 @@ var UserHeader = React.createClass({
     this.context.router.push("/");
   },
   handleClick : function(){
-    // debugger
+
     if (this.state.classname === "user-hide"){
       this.setState({classname:"user-show"});
     } else{
@@ -52,9 +52,9 @@ var UserHeader = React.createClass({
     }
   },
   render: function() {
-    // debugger;
+
     if (this.state.isLoggedIn){
-      // debugger;
+
       return (
         <div className="the-header group">
           <div className="find-header"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>

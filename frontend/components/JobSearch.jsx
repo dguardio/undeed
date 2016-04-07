@@ -19,7 +19,6 @@ var JobSeach = React.createClass({
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobsPaginate(whatwhere, 0);
-    // debugger
     this.context.router.push({
       pathname:'/jobs',
       query:{what : this.state.whatField, where: this.state.whereField}
@@ -27,7 +26,6 @@ var JobSeach = React.createClass({
   },
 
   handleWhatFieldChange: function (e) {
-    // debugger;
     this.setState({ whatField: e.currentTarget.value });
     if (e.currentTarget.value.length > 0){
       ApiUtil.searchJobtitle(e.currentTarget.value);
@@ -55,7 +53,6 @@ var JobSeach = React.createClass({
     this.setState({ whatVisible: false });
   },
   render: function() {
-    // debugger;
     return (
       <div>
         <form className="search-component group" onSubmit={this.handleSubmit}>

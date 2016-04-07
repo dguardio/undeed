@@ -1,11 +1,11 @@
 class Api::MyjobsController < ApplicationController
   def index
     @myjobs = Myjob.forseeker(params[:seeker_id])
-        # debugger
+
   end
 
   def create
-    # debugger
+
     @myjob = Myjob.new(myjob_params)
 
     if @myjob.save
@@ -21,7 +21,7 @@ class Api::MyjobsController < ApplicationController
   end
 
   def update
-    # debugger
+
     @myjob = Myjob.find(params[:id])
     @myjob.update(status: myjob_params[:status])
     render :show

@@ -16,7 +16,6 @@ class Myjob < ActiveRecord::Base
   )
 
 	def self.forseeker(seeker_id)
-		# debugger
 		Myjob.where(seeker_id: seeker_id.to_i)
 	end
 end

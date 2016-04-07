@@ -29,7 +29,7 @@ var UserProfile = React.createClass({
 
   render: function() {
     var user = this.state.user;
-    // debugger;
+
     return (
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>

@@ -32,7 +32,7 @@ MyJobStore.count = function (status) {
 };
 
 MyJobStore.exist = function (jobId) {
-  // debugger;
+  
   for( var i = 0; i < _myjobs.length; i++){
 		if( _myjobs[i].job_id === jobId) {
       console.log(true);
@@ -59,7 +59,7 @@ var updateMyJob = function(updatedMyJob){
 	}
 };
 var removeMyJob = function(removedMyJob){
-  // debugger;
+  
   var newMyJobs = [];
   _myjobs.forEach (function(myJob){
 		if (myJob.id !== removedMyJob.id){

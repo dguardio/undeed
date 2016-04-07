@@ -9,7 +9,6 @@ JobCityStore.all = function () {
 };
 
 JobCityStore.find = function(id) {
-  // debugger;
 	for( var i = 0; i < _jobCities.length; i++){
 		if( _jobCities[i].id == id) {
 			return _jobCities[i];
@@ -24,7 +23,6 @@ JobCityStore.findCity = function(cityName) {
 	}
 };
 var searchCities = function(cities, cityString){
-  // debugger;
   _jobCities = cities;
   var searchedCities = [];
   _jobCities.forEach (function(location){
@@ -45,11 +43,9 @@ var searchCity = function(cities, cityString){
   _jobCities = searchedCities;
 };
 var getSingleCity = function(city){
-  // debugger
   _jobCities = [city];
 };
 JobCityStore.__onDispatch = function (payload) {
-  // debugger;
   switch(payload.actionType) {
     case JobCityConstants.CITIES_RECEIVED:
       searchCities(payload.cities,payload.cityString);

@@ -34,7 +34,7 @@ var JobDetail = React.createClass({
 	getStateFromStore: function () {
 		// ApiUtil.fetchJobs();
 		var job = JobStore.find(parseInt(this.props.params.jobId));
-		// debugger;
+		
 		return {
 			job: job,
 			currentUser: SessionStore.currentUser(),
@@ -79,7 +79,7 @@ var JobDetail = React.createClass({
 
 		var job = this.state.job;
 		var email = "";
-		// debugger;
+		
  		if (!job){
 			return <div></div>;
 		}

@@ -67,7 +67,6 @@ var UserForm= React.createClass({
     var formData = new FormData();
     formData.append("user[real_name]", this.state.realName);
     formData.append("user[resume]", this.state.resumeFile);
-    debugger;
       var router = this.context.router;
     ApiUtil.updateUser(formData, function() {
         router.push("userprofile");

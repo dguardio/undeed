@@ -17,7 +17,7 @@ var JobIndex = React.createClass({
     };
   },
   _onChange: function () {
-    // debugger;
+
 		this.setState({
       jobs: JobStore.all(),
       pageNum: JobStore.numPage(),
@@ -30,7 +30,6 @@ var JobIndex = React.createClass({
     this.jobStoreToken = JobStore.addListener(this._onChange);
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
-    // debugger;
     // ApiUtil.searchJobs({whatField: title, whereField: city});
     ApiUtil.searchJobsPaginate({whatField: title, whereField: city},this.state.offset);
   },
@@ -43,7 +42,6 @@ var JobIndex = React.createClass({
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     var offset = Math.ceil(data.selected * 10);
-    // debugger;
     this.setState(
       {offset: offset},
       ApiUtil.searchJobsPaginate({whatField: title, whereField: city}, offset)
@@ -52,11 +50,9 @@ var JobIndex = React.createClass({
 
   render: function() {
     var jobs = this.state.jobs.map(function(job) {
-			// debugger;
       return <JobIndexItem key={job.id} job={job} />;
 
     });
-    // debugger;
       return (
         <div>
           <div className="search-bar group">

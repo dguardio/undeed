@@ -19,7 +19,6 @@ var ApiUtil = {
       });
   },
     updateUser: function(formData, callback) {
-      // debugger;
     $.ajax({
       url: '/api/users/',
       type: 'PATCH',
@@ -28,7 +27,6 @@ var ApiUtil = {
       dataType: 'json',
       data: formData,
       success: function(user) {
-        debugger;
         UserActions.updatedUserReceived(user);
         callback && callback();
       },
@@ -38,7 +36,6 @@ var ApiUtil = {
     });
   },
     fetchUser: function(id) {
-      // debugger;
     $.ajax({
       url: '/api/users/'+ id,
       type: 'get',
@@ -46,7 +43,6 @@ var ApiUtil = {
       contentType: false,
       dataType: 'json',
       success: function(user) {
-        // debugger;
         UserActions.singleUserReceived(user);
       },
       error: function(no){
@@ -55,7 +51,6 @@ var ApiUtil = {
     });
   },
   createNewJob: function(job,callback){
-    // debugger;
       $.ajax({
         url: '/api/jobs/',
         method: 'POST',
@@ -63,7 +58,6 @@ var ApiUtil = {
         dataType: 'json',
 
         success: function (job) {
-          // debugger;
           var jobID = job.id;
           JobActions.receiveSingleJob(job);
           callback && callback(jobID);
@@ -83,17 +77,14 @@ var ApiUtil = {
       contentType: "application/json",
 
       success: function (myjobs) {
-        // debugger;
         JobActions.receiveMyJobs(myjobs);
       },
       error: function(no){
-        // debugger;
         console.log("Error: " + no);
       }
     });
   },
   updateMyJobStatus: function(id, myjob){
-      // debugger;
       $.ajax({
         url: '/api/myjobs/' + id,
         method: 'PATCH',
@@ -163,7 +154,6 @@ var ApiUtil = {
 			contentType: "application/json",
 
 			success: function (job) {
-				// debugger;
 				JobActions.receiveSingleJob(job);
 			},
 			error: function(no){
@@ -172,7 +162,6 @@ var ApiUtil = {
 		});
 	},
   searchJobs: function(whatwhere){
-      // debugger;
       $.ajax({
   			url: '/api/jobs',
   			method: 'GET',
@@ -180,7 +169,6 @@ var ApiUtil = {
   			contentType: "application/json",
 
   			success: function (jobs) {
-          // debugger;
           JobActions.searchAll(jobs, whatwhere);
         },
         error: function(no){
@@ -195,7 +183,6 @@ var ApiUtil = {
   			dataType: 'json',
 
   			success: function (jobs) {
-          // debugger;
           JobActions.searchLIMIT(jobs, whatwhere, 10, offset);
         },
         error: function(no){
@@ -204,7 +191,6 @@ var ApiUtil = {
   		});
     },
   searchJobtitle: function(jobtitle){
-      // debugger;
       $.ajax({
   			url: '/api/jobs',
   			method: 'GET',
@@ -212,7 +198,6 @@ var ApiUtil = {
   			contentType: "application/json",
 
   			success: function (jobs) {
-          // debugger;
           JobActions.receiveJobTitles(jobs, jobtitle);
         },
         error: function(no){
@@ -228,11 +213,9 @@ var ApiUtil = {
   			data: {limit: 10, offset: 0},
 
   			success: function (cities) {
-          // debugger;
           JobActions.receiveCities(cities, cityString);
         },
         error: function(no){
-          // debugger;
           console.log("Error: " + no);
         }
   		});
@@ -246,11 +229,9 @@ var ApiUtil = {
     			contentType: "application/json",
 
     			success: function (cities) {
-            // debugger;
             JobActions.receiveCity(cities, cityString);
           },
           error: function(no){
-            // debugger;
             console.log("Error: " + no);
           }
     		});

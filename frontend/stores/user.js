@@ -9,7 +9,7 @@ UserStore.all = function () {
   return _user;
 };
 UserStore.__onDispatch = function (payload) {
-  // debugger;
+
   switch (payload.actionType) {
     case UserConstants.UPDATED_USER_RECEIVED:
       _user = payload.user;

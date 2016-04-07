@@ -8,7 +8,7 @@ var JobIndexItem = React.createClass({
 
 	render: function() {
 		var job = this.props.job;
-		// debugger;
+		
 		return (
 			<div>
 				<li className="job-index-item">
