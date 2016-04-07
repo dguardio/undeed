@@ -1,17 +1,23 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var Link = require('react-router').Link;
+var ReactRouter = require('react-router');
 var Logo = require('./Logo');
-var UserForm = React.createClass({
+var SessionStore = require('../stores/session');
+var UserForm= React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
     return {
+      realName : "",
       resumeFile: null,
       resumeUrl: null
     };
+  },
+  componentDidMount: function() {
+    ApiUtil.fetchCurrentUser();
   },
 
   render: function() {
@@ -19,6 +25,15 @@ var UserForm = React.createClass({
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>
         <form onSubmit={this.handleSubmit}>
+          <label>Real Name
+            <input
+              type="text"
+              placeholder="Enter your real name"
+              onChange={this.handleRealNameChange}
+              value={this.state.realName}
+              />
+          </label>
+          <br/>
           <label>Resume
             <input
               type="file"
@@ -32,6 +47,9 @@ var UserForm = React.createClass({
         <img className="preview-resume" src={this.state.resumeUrl} />
       </div>
     );
+  },
+  handleRealNameChange: function (e) {
+    this.setState({ realName: e.currentTarget.value });
   },
   handleFileChange: function (e) {
     var file = e.currentTarget.files[0];
@@ -47,10 +65,12 @@ var UserForm = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     var formData = new FormData();
-    formData.append("user[resume]", this.state.imageFile);
-
-    ApiUtil.createPost(formData, function() {
-        router.push("/");
+    formData.append("user[real_name]", this.state.realName);
+    formData.append("user[resume]", this.state.resumeFile);
+    debugger;
+      var router = this.context.router;
+    ApiUtil.updateUser(formData, function() {
+        router.push("userprofile");
     });
   }
 

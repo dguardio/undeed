@@ -18,6 +18,8 @@
     border-bottom: 1px solid lightgray;
 }
 .header-email{
+  float: left;
+  margin-left: 10px;
   text-decoration: underline;
   color: blue;
   cursor: pointer;
@@ -43,8 +45,10 @@
 
 
 .user-show{
-    padding: 5px;
+  padding: 5px;
   position: absolute;
+  top: 30px;
+  right: 20px;
   display:block;
   background: white;
   border: 1px solid black;

@@ -1,6 +1,7 @@
 var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
+var UserActions = require('../actions/user_actions');
 var ApiUtil = {
   createCity: function(city){
       $.ajax({
@@ -17,7 +18,42 @@ var ApiUtil = {
         }
       });
   },
-
+    updateUser: function(formData, callback) {
+      // debugger;
+    $.ajax({
+      url: '/api/users/',
+      type: 'PATCH',
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      data: formData,
+      success: function(user) {
+        debugger;
+        UserActions.updatedUserReceived(user);
+        callback && callback();
+      },
+      error: function(no){
+        console.log("Error: " + no);
+      }
+    });
+  },
+    fetchUser: function(id) {
+      // debugger;
+    $.ajax({
+      url: '/api/users/'+ id,
+      type: 'get',
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      success: function(user) {
+        // debugger;
+        UserActions.singleUserReceived(user);
+      },
+      error: function(no){
+        console.log("Error: " + no);
+      }
+    });
+  },
   createNewJob: function(job,callback){
     // debugger;
       $.ajax({
@@ -234,12 +270,12 @@ var ApiUtil = {
         }
       });
     },
-    signup: function(credentials, callback) {
+    signup: function(userData, callback) {
       $.ajax({
         type: "POST",
         url: "/api/users",
         dataType: "json",
-        data: credentials,
+        data: {user: userData},
         success: function(currentUser) {
           SessionActions.currentUserReceived(currentUser);
           callback && callback();
