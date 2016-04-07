@@ -16,7 +16,7 @@ JobStore.calculateOffset = function(){
   return _PreviousPage*10;
 };
 JobStore.find = function(id) {
-  
+
 	for( var i = 0; i < _jobs.length; i++){
 		if( _jobs[i].id == id) {
 			return _jobs[i];
@@ -57,8 +57,8 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   var searchedJobs = [];
 
   _jobs.forEach (function(job){
-    if (job.location.city.includes(whatwhere.whereField) &&
-        job.title.includes(whatwhere.whatField)){
+    if (job.location.city.toLowerCase().includes(whatwhere.whereField.toLowerCase()) &&
+        job.title.toLowerCase().includes(whatwhere.whatField.toLowerCase())){
       searchedJobs.push(job);
     }
   });
