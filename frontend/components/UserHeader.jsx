@@ -41,6 +41,7 @@ var UserHeader = React.createClass({
 
   handleLogOut: function() {
     ApiUtil.logout();
+    this.handleClick();
     this.context.router.push("/");
   },
   handleClick : function(){
@@ -64,7 +65,7 @@ var UserHeader = React.createClass({
             <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
             <ul className={this.state.classname}>
               <li><button onClick={this.handleLogOut}>Sign Out </button></li>
-              <li><Link to={"/myjobs"}> My Jobs</Link></li>
+              <li><Link onClick={this.handleClick} to={"/myjobs"}> My Jobs</Link></li>
             </ul>
           </div>
         </div>

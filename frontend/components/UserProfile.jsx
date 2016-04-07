@@ -29,16 +29,27 @@ var UserProfile = React.createClass({
 
   render: function() {
     var user = this.state.user;
+    if (user.resume_url === "/missing.pdf"){
+      return (
+        <div>
+          <Link className= "signinlogo" to={"/"}><Logo /></Link>
+          <li>{user.email}</li>
+          <li>{user.real_name}</li>
+          <li>{user.resume_url}</li>
+        </div>
+      );
+    }else {
 
-    return (
-      <div>
-        <Link className= "signinlogo" to={"/"}><Logo /></Link>
-        <li>{user.email}</li>
-        <li>{user.real_name}</li>
-        <li>{user.resume_url}</li>
-        <iframe className="pdf-view" src={user.resume_url}></iframe>
-      </div>
-    );
+      return (
+        <div>
+          <Link className= "signinlogo" to={"/"}><Logo /></Link>
+          <li>{user.email}</li>
+          <li>{user.real_name}</li>
+          <li>{user.resume_url}</li>
+          <iframe className="pdf-view" src={user.resume_url}></iframe>
+        </div>
+      );
+    }
   },
 
 
