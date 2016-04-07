@@ -3,6 +3,8 @@ var ApiUtil = require('../util/api_util');
 var CityDropDown = require('./CityDropdown');
 var TitleDropDown = require('./TitleDropDown');
 var enhanceWithClickOutside = require('react-click-outside');
+var JobStoreActions = require("../actions/jobstore_actions");
+
 var JobSeach = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
 
@@ -12,6 +14,7 @@ var JobSeach = React.createClass({
       whereField: "",
       whereVisible: false,
       whatVisible: false,
+      date: ""
       // offset: 0
     };
   },
@@ -26,9 +29,12 @@ var JobSeach = React.createClass({
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobsPaginate(whatwhere, 0);
+    JobStoreActions.resetReceived();
+    // JobStore.resetPage();
+    // debugger;
     this.context.router.push({
       pathname:'/jobs',
-      query:{what : this.state.whatField, where: this.state.whereField}
+      query:{what : this.state.whatField, where: this.state.whereField, date: this.state.date}
     });
   },
 

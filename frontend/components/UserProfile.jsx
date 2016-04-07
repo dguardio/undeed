@@ -33,9 +33,11 @@ var UserProfile = React.createClass({
       return (
         <div>
           <Link className= "signinlogo" to={"/"}><Logo /></Link>
-          <li>{user.email}</li>
-          <li>{user.real_name}</li>
-          <li>{user.resume_url}</li>
+          <ul className="update-user-list">
+            <li>User Email: {user.email}</li>
+            <li>Real Name: {user.real_name}</li>
+            <li>No Resume uploaded!</li>
+          </ul>
         </div>
       );
     }else {
@@ -43,9 +45,10 @@ var UserProfile = React.createClass({
       return (
         <div>
           <Link className= "signinlogo" to={"/"}><Logo /></Link>
-          <li>{user.email}</li>
-          <li>{user.real_name}</li>
-          <li>{user.resume_url}</li>
+          <ul className="update-user-list">
+            <li>User Email: {user.email}</li>
+            <li>Real Name: {user.real_name}</li>
+          </ul>
           <iframe className="pdf-view" src={user.resume_url}></iframe>
         </div>
       );

@@ -24,7 +24,7 @@ var UserForm= React.createClass({
     return (
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>
-        <form onSubmit={this.handleSubmit}>
+        <form className="update-user-list" onSubmit={this.handleSubmit}>
           <label>Real Name
             <input
               type="text"
@@ -44,7 +44,7 @@ var UserForm= React.createClass({
           <input type="submit" value="Upload"/>
         </form>
         <p>Preview:</p>
-        <img className="preview-resume" src={this.state.resumeUrl} />
+        <iframe className="preview-resume" src={this.state.resumeUrl} />
       </div>
     );
   },

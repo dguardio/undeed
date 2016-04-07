@@ -4,13 +4,19 @@ var JobConstants = require('../constants/job_constants');
 var _jobs = [];
 var _numPage = 0;
 var _PreviousPage = 0;
+var _totalJob = 0;
 var JobStore = new Store(AppDispatcher);
-
+JobStore.total = function(){
+  return _totalJob;
+};
 JobStore.all = function () {
   return _jobs.slice(0);
 };
 JobStore.numPage = function (){
   return _numPage;
+};
+JobStore.resetPage = function (){
+  _PreviousPage = 0;
 };
 JobStore.calculateOffset = function(){
   return _PreviousPage*10;
@@ -25,6 +31,10 @@ JobStore.find = function(id) {
 };
 JobStore.count = function(){
   return( _jobs.length);
+};
+
+var resetPage = function(){
+  _PreviousPage = 0;
 };
 var resetJobs = function(jobs){
   _jobs = jobs;
@@ -46,11 +56,19 @@ var replaceJob = function(newJob){
 var searchJobs = function(jobs, whatwhere){
   _jobs = jobs;
   var searchedJobs = [];
-
   _jobs.forEach (function(job){
-    if (job.location.city.includes(whatwhere.whereField) &&
-        job.title.includes(whatwhere.whatField)){
-      searchedJobs.push(job);
+    if (whatwhere.date === "today"){
+        var today = new Date();
+        var jobDate = new Date(job.created_at);
+      if (job.location.city.includes(whatwhere.whereField) &&
+          job.title.includes(whatwhere.whatField)&& jobDate - today < 86400){
+        searchedJobs.push(job);
+      }
+    } else {
+        if (job.location.city.includes(whatwhere.whereField) &&
+            job.title.includes(whatwhere.whatField)){
+          searchedJobs.push(job);
+        }
     }
   });
   _jobs = searchedJobs;
@@ -58,14 +76,24 @@ var searchJobs = function(jobs, whatwhere){
 var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   _jobs = jobs;
   var searchedJobs = [];
-
   _jobs.forEach (function(job){
-    if (job.location.city.toLowerCase().includes(whatwhere.whereField.toLowerCase()) &&
-        job.title.toLowerCase().includes(whatwhere.whatField.toLowerCase())){
-      searchedJobs.push(job);
+    // debugger;
+    if (whatwhere.date === "today"){
+        var today = new Date();
+        var jobDate = new Date(job.created_at);
+      if (job.location.city.includes(whatwhere.whereField) &&
+          job.title.includes(whatwhere.whatField)&& jobDate - today < 86400){
+        searchedJobs.push(job);
+      }
+    } else {
+        if (job.location.city.includes(whatwhere.whereField) &&
+            job.title.includes(whatwhere.whatField)){
+          searchedJobs.push(job);
+        }
     }
   });
-
+  // debugger;
+  _totaljob = _jobs.length;
   _numPage = Math.ceil(searchedJobs.length / 10);
   _PreviousPage = offset/10;
   _jobs = searchedJobs.slice(offset, offset+limit);
@@ -108,6 +136,10 @@ JobStore.__onDispatch = function (payload) {
       break;
     case JobConstants.TODAYS_JOBS_RECEIVED:
       searchTodaysJob(payload.jobs);
+      JobStore.__emitChange();
+      break;
+    case JobConstants.RESET_RECEIVED:
+      resetPage();
       JobStore.__emitChange();
       break;
   }

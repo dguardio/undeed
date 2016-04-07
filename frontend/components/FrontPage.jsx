@@ -32,8 +32,9 @@ var FrontPage = React.createClass({
           <div className='logomain' />
           <JobSearch />
         </div>
-
-        <Link to="/jobs?what=&where=">{this.state.jobcount} Jobs created today!</Link>
+        <div className="fontpage-jobcount">
+          <Link to="/jobs?date=today&what=&where=">{this.state.jobcount} new Jobs posted today!</Link>
+        </div>
       </div>
     );
   }

@@ -13,6 +13,7 @@ var JobIndex = React.createClass({
     return {
       jobs: [],
       pageNum: 1,
+      // offset: 0,
       offset: JobStore.calculateOffset()
     };
   },
@@ -31,8 +32,9 @@ var JobIndex = React.createClass({
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     var date = this.props.location.query.date;
+    // debugger
     // ApiUtil.searchJobs({whatField: title, whereField: city});
-      ApiUtil.searchJobsPaginate({whatField: title, whereField: city},this.state.offset);
+      ApiUtil.searchJobsPaginate({whatField: title, whereField: city, date: date},this.state.offset);
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
@@ -63,16 +65,18 @@ var JobIndex = React.createClass({
           <div className="search-results">
             {jobs}
           </div>
-          <ReactPaginate previousLabel={"previous"}
-                       nextLabel={"next"}
-                       breakLabel={<a href="">...</a>}
-                       pageNum={this.state.pageNum}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={5}
-                       clickCallback={this.handlePageClick}
-                       containerClassName={"pagination"}
-                       subContainerClassName={"pages pagination"}
-                       activeClassName={"active"} />
+          <div className="react-paginate">
+            <ReactPaginate previousLabel={"previous"}
+                         nextLabel={"next"}
+                         breakLabel={<a href="">...</a>}
+                         pageNum={this.state.pageNum}
+                         marginPagesDisplayed={2}
+                         pageRangeDisplayed={5}
+                         clickCallback={this.handlePageClick}
+                         containerClassName={"pagination"}
+                         subContainerClassName={"pages pagination"}
+                         activeClassName={"active"} />
+          </div>
         </div>
       );
   }

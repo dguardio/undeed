@@ -23,3 +23,31 @@
 	padding: 20px;
 
 }
+
+.react-paginate ul {
+    display: block;
+    margin: 0 auto;
+    width: 800px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.react-paginate li {
+    float: left;
+}
+
+.react-paginate a {
+    background: lightyellow;
+    padding: 20px;
+    display: block;
+    cursor: pointer;
+}
+.react-paginate a:hover{
+  background: lightblue;
+}
+.fontpage-jobcount{
+  display: block;
+  width: 400px;
+  margin: 0 auto;
+  text-align: left;
+}
