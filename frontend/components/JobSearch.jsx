@@ -2,6 +2,7 @@ var React = require('react');
 var ApiUtil = require('../util/api_util');
 var CityDropDown = require('./CityDropdown');
 var TitleDropDown = require('./TitleDropDown');
+var enhanceWithClickOutside = require('react-click-outside');
 var JobSeach = React.createClass({
   contextTypes: {router: React.PropTypes.object.isRequired},
 
@@ -14,7 +15,13 @@ var JobSeach = React.createClass({
       // offset: 0
     };
   },
-
+  handleClickOutside: function() {
+    // debugger;
+    this.setState({
+      whereVisible: false,
+      whatVisible: false
+    });
+  },
   handleSubmit: function(event){
     event.preventDefault();
     var whatwhere = Object.assign({}, this.state);
@@ -29,7 +36,10 @@ var JobSeach = React.createClass({
     this.setState({ whatField: e.currentTarget.value });
     if (e.currentTarget.value.length > 0){
       ApiUtil.searchJobtitle(e.currentTarget.value);
-      this.setState({ whatVisible: true });
+      this.setState({
+        whatVisible: true,
+        whereVisible: false,
+       });
     } else {
       this.setState({ whatVisible: false });
     }
@@ -39,7 +49,8 @@ var JobSeach = React.createClass({
     this.setState({ whereField: e.currentTarget.value });
     if (e.currentTarget.value.length > 0){
       ApiUtil.searchCity(e.currentTarget.value);
-      this.setState({ whereVisible: true });
+      this.setState({ whereVisible: true,
+              whatVisible: false, });
     } else {
       this.setState({ whereVisible: false });
     }
@@ -53,6 +64,7 @@ var JobSeach = React.createClass({
     this.setState({ whatVisible: false });
   },
   render: function() {
+    // debugger;
     return (
       <div>
         <form className="search-component group" onSubmit={this.handleSubmit}>
@@ -75,5 +87,5 @@ var JobSeach = React.createClass({
   }
 
 });
-
-module.exports = JobSeach;
+module.exports = enhanceWithClickOutside(JobSeach);
+// module.exports = JobSeach;

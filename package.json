@@ -31,6 +31,7 @@
     "react": "^0.14.8",
     "react-addons-create-fragment": "^0.14.8",
     "react-addons-linked-state-mixin": "^0.14.8",
+    "react-click-outside": "^2.1.0",
     "react-dom": "^0.14.8",
     "react-modal": "^0.6.1",
     "react-paginate": "^1.0.1",
