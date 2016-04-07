@@ -23,11 +23,16 @@
 	padding: 20px;
 
 }
+.react-paginate{
+    margin-left: 237px;
+    display: block;
 
+  }
 .react-paginate ul {
+    width: 800px;
     display: block;
     margin: 0 auto;
-    width: 800px;
+
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -37,7 +42,9 @@
 }
 
 .react-paginate a {
-    background: lightyellow;
+  color: black;
+  text-decoration: none;
+
     padding: 20px;
     display: block;
     cursor: pointer;

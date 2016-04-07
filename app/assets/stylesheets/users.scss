@@ -105,13 +105,38 @@
 
 
 
+.user-form-input-field{
+	background: white;
+	display: block;
+	width:200px;
+	border: 1px solid lightgrey;
+	margin-bottom: 10px;
+}
 
 
 
+.user-form-input-field-file{
+	display: block;
+	margin-bottom: 10px;
+}
 
-
-
-
+.user-form-upload-button{
+	align-items: flex-start;
+	text-align: center;
+	cursor: default;
+	color: buttontext;
+	background-color: buttonface;
+	box-sizing: border-box;
+	padding: 2px 6px 3px;
+	border: 2px outset buttonface;
+	display: block;
+	margin: 6px 0;
+}
+.preview-resume{
+  border-style: none;
+  width: 100%;
+  height: 900px;
+}
 
 
 
