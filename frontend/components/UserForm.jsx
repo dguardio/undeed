@@ -42,7 +42,7 @@ var UserForm= React.createClass({
               />
           </label>
           <br/>
-          <input className="user-form-upload-button" type="submit" value="Upload"/>
+          <input className="uibutton" type="submit" value="Upload"/>
         </form>
         </div>
         <p>Preview:</p>

@@ -34,7 +34,7 @@ var JobDetail = React.createClass({
 	getStateFromStore: function () {
 		// ApiUtil.fetchJobs();
 		var job = JobStore.find(parseInt(this.props.params.jobId));
-		
+
 		return {
 			job: job,
 			currentUser: SessionStore.currentUser(),
@@ -79,7 +79,7 @@ var JobDetail = React.createClass({
 
 		var job = this.state.job;
 		var email = "";
-		
+
  		if (!job){
 			return <div></div>;
 		}
@@ -98,6 +98,7 @@ var JobDetail = React.createClass({
 				</div>
 				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
 				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
+				<button className="job-detail-save"onClick={this.handleSave}>Save This Job</button>
 				<Modal className="group"
 	          isOpen={this.state.modalIsOpen}
 	          onRequestClose={this.closeModal}
@@ -115,7 +116,7 @@ var JobDetail = React.createClass({
 									<input className="application-input"type="text" />
 			  					<label htmlFor="coverletter">Cover Letter</label>
 									<input className="application-input-field" type="textarea" />
-			            <button className="app-button">Submit Application (sends an email, not implemented yet)</button>
+			            <button className="app-button">Submit Application (not implemented yet)</button>
 
 			          </form>
 							<a className="app-cancel" onClick={this.closeModal}>Cancel</a>

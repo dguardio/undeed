@@ -64,7 +64,7 @@ var UserHeader = React.createClass({
             <div className="header-email"><Link to={"/userprofile"}>My Profile</Link></div>
             <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
             <ul className={this.state.classname}>
-              <li><button onClick={this.handleLogOut}>Sign Out </button></li>
+              <li><button className="pointer" onClick={this.handleLogOut}>Sign Out </button></li>
               <li><Link onClick={this.handleClick} to={"/myjobs"}> My Jobs</Link></li>
             </ul>
           </div>
@@ -74,7 +74,7 @@ var UserHeader = React.createClass({
       return (
         <div className=" the-header group">
           <div className="user-header">
-            <button onClick={this.handleLogIn}>Sign In</button>
+            <button  className="pointer" onClick={this.handleLogIn}>Sign In</button>
           </div>
         </div>
       );

@@ -45,12 +45,18 @@
 
 
 .user-show{
-  padding: 5px;
   position: absolute;
   top: 30px;
-  right: 20px;
+  right: 10px;
   display:block;
   background: white;
-  border: 1px solid black;
+  padding: 10px 30px;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+
   z-index: 2;
+}
+.pointer{
+  cursor:pointer;
 }

@@ -34,14 +34,14 @@ var LoginForm = React.createClass({
                   <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
                   <ErrorNotification></ErrorNotification>
       					</div>
-                <button className="signin-button">Sign In</button>
+                <button className="uibutton large addmargin">Sign In</button>
               </form>
       			   </section>
                <section className="facebook-signin">
                  <form onSubmit={this.handleGuestSubmit}>
-                   <button className="signin-button">Sign in as a guest</button>
+                   <button className="uibutton large addmargin">Sign in as a guest</button>
                  </form>
-                 <a href="/auth/facebook">LOG IN WITH FACEBOOK</a>
+                 <a className="uibutton large confirm addmargin" href="/auth/facebook">LOG IN WITH FACEBOOK</a>
 
                </section>
       			</section>
@@ -54,7 +54,7 @@ var LoginForm = React.createClass({
     e.preventDefault();
     var newState ={ email: "guest@guest.com", password: "guestguest" };
     this.setState(newState);
-    
+
     var router = this.context.router;
     ApiUtil.login(newState, function() {
         router.goBack();
