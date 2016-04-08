@@ -7,24 +7,36 @@ var Link = require('react-router').Link;
 var JobSearch = require('./JobSearch');
 var SessionStore = require("../stores/session");
 var Modal = require("react-modal");
-
+var MyJobStore = require('../stores/myJob');
 
 var JobDetail = React.createClass({
 	getInitialState: function () {
+
 		return this.getStateFromStore();
 	},
 
 	componentDidMount: function (){
 		this.storeToken = JobStore.addListener(this.updateStateFromStore);
+		this.storeToken2 = MyJobStore.addListener(this.updateStateFromStore);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
-		if (this.state.currentUser && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
-			var myJob = {
-				status: "visited",
-				job_id: this.props.params.jobId,
-				seeker_id: this.state.currentUser.id
-			};
-			ApiUtil.createMyJob(myJob);
-		}
+		ApiUtil.fetchCurrentUser(function(){
+			if (SessionStore.currentUser()){
+				ApiUtil.fetchMyJobs(SessionStore.currentUser().id, function(){
+					// debugger;
+					if (SessionStore.currentUser() && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
+						var myJob = {
+							status: "visited",
+							job_id: this.props.params.jobId,
+							seeker_id: SessionStore.currentUser().id
+						};
+						ApiUtil.createMyJob(myJob);
+					}
+				}.bind(this));
+			}
+		}.bind(this));
+
+		// debugger;
+
 	},
 
 	updateStateFromStore: function() {
@@ -33,12 +45,13 @@ var JobDetail = React.createClass({
 
 	getStateFromStore: function () {
 		// ApiUtil.fetchJobs();
-		var job = JobStore.find(parseInt(this.props.params.jobId));
 
+		var job = JobStore.find(parseInt(this.props.params.jobId));
+		// debugger;
 		return {
 			job: job,
-			currentUser: SessionStore.currentUser(),
-			modalIsOpen: false
+			modalIsOpen: false,
+			myjobs: MyJobStore.all()
 		};
 	},
 	openModal: function() {
@@ -47,7 +60,26 @@ var JobDetail = React.createClass({
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
+	handleSave: function(){
+		ApiUtil.fetchCurrentUser(function(){
+			if (SessionStore.currentUser()){
+				var currentUser = SessionStore.currentUser();
+				ApiUtil.fetchMyJobs(currentUser.id, function(){
+					// debugger;
+					myjobid = MyJobStore.findMyJobID(parseInt(this.props.params.jobId));
+					var myJob = {
+						id: myjobid,
+						status: "saved",
+						job_id: parseInt(this.props.params.jobId),
+						seeker_id: currentUser.id
+					};
+					// debugger;
+					ApiUtil.updateMyJobStatus(myjobid, myJob);
+				}.bind(this));
+			}
+		}.bind(this));
 
+	},
 
 	componentWillReceiveProps: function(newProps){
 		ApiUtil.fetchSingleJob(parseInt(newProps.params.jobId));
@@ -55,6 +87,8 @@ var JobDetail = React.createClass({
 
 	componentWillUnmount: function() {
 		this.storeToken.remove();
+		this.storeToken2.remove();
+		//				<button className="job-detail-save"onClick={this.handleSave}>Save This Job</button>
 	},
 
 	render: function () {
@@ -79,7 +113,12 @@ var JobDetail = React.createClass({
 
 		var job = this.state.job;
 		var email = "";
-
+		var savebutton = "job-detail-save";
+		var saved = "notification-hide";
+		if (!job || MyJobStore.findMyJobStatus(job.id)==="saved"){
+			savebutton = "job-detail-save-hide";
+			saved = "notification-show";
+		}
  		if (!job){
 			return <div></div>;
 		}
@@ -98,7 +137,9 @@ var JobDetail = React.createClass({
 				</div>
 				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
 				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
-				<button className="job-detail-save"onClick={this.handleSave}>Save This Job</button>
+				<button className={savebutton} onClick={this.handleSave}>Save This Job</button>
+				<button className={saved} >Job Saved</button>
+
 				<Modal className="group"
 	          isOpen={this.state.modalIsOpen}
 	          onRequestClose={this.closeModal}

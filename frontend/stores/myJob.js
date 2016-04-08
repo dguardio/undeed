@@ -32,14 +32,31 @@ MyJobStore.count = function (status) {
 };
 
 MyJobStore.exist = function (jobId) {
-  
+
   for( var i = 0; i < _myjobs.length; i++){
 		if( _myjobs[i].job_id === jobId) {
-      console.log(true);
 			return true;
 		}
 	}
   return false;
+};
+MyJobStore.findMyJobID = function (jobId) {
+
+  for( var i = 0; i < _myjobs.length; i++){
+		if( _myjobs[i].job_id === jobId) {
+			return _myjobs[i].id;
+		}
+	}
+  return null;
+};
+MyJobStore.findMyJobStatus = function (jobId) {
+
+  for( var i = 0; i < _myjobs.length; i++){
+		if( _myjobs[i].job_id === jobId) {
+			return _myjobs[i].status;
+		}
+	}
+  return null;
 };
 var resetMyJobs = function(jobs){
   _myjobs = jobs;
@@ -59,7 +76,7 @@ var updateMyJob = function(updatedMyJob){
 	}
 };
 var removeMyJob = function(removedMyJob){
-  
+
   var newMyJobs = [];
   _myjobs.forEach (function(myJob){
 		if (myJob.id !== removedMyJob.id){

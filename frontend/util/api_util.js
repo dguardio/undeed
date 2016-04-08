@@ -68,7 +68,7 @@ var ApiUtil = {
         }
       });
   },
-  fetchMyJobs: function(seeker_id){
+  fetchMyJobs: function(seeker_id,callback){
     $.ajax({
       url: '/api/myjobs',
       method: 'GET',
@@ -78,6 +78,7 @@ var ApiUtil = {
 
       success: function (myjobs) {
         JobActions.receiveMyJobs(myjobs);
+        callback && callback();
       },
       error: function(no){
         console.log("Error: " + no);
