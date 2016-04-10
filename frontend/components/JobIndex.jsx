@@ -13,7 +13,6 @@ var JobIndex = React.createClass({
     return {
       jobs: [],
       pageNum: 1,
-      // offset: 0,
       offset: JobStore.calculateOffset()
     };
   },
@@ -32,16 +31,12 @@ var JobIndex = React.createClass({
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     var date = this.props.location.query.date;
-    // debugger
-    // ApiUtil.searchJobs({whatField: title, whereField: city});
       ApiUtil.searchJobsPaginate({whatField: title, whereField: city, date: date},this.state.offset);
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
   },
   handlePageClick :function (data){
-    // var selected = data.selected;
-    // var offset = Math.ceil(selected * 10);
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     var offset = Math.ceil(data.selected * 10);

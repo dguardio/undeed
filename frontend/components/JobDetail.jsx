@@ -22,7 +22,6 @@ var JobDetail = React.createClass({
 		ApiUtil.fetchCurrentUser(function(){
 			if (SessionStore.currentUser()){
 				ApiUtil.fetchMyJobs(SessionStore.currentUser().id, function(){
-					// debugger;
 					if (SessionStore.currentUser() && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
 						var myJob = {
 							status: "visited",
@@ -35,8 +34,6 @@ var JobDetail = React.createClass({
 			}
 		}.bind(this));
 
-		// debugger;
-
 	},
 
 	updateStateFromStore: function() {
@@ -44,10 +41,8 @@ var JobDetail = React.createClass({
 	},
 
 	getStateFromStore: function () {
-		// ApiUtil.fetchJobs();
 
 		var job = JobStore.find(parseInt(this.props.params.jobId));
-		// debugger;
 		return {
 			job: job,
 			modalIsOpen: false,
@@ -65,7 +60,6 @@ var JobDetail = React.createClass({
 			if (SessionStore.currentUser()){
 				var currentUser = SessionStore.currentUser();
 				ApiUtil.fetchMyJobs(currentUser.id, function(){
-					// debugger;
 					myjobid = MyJobStore.findMyJobID(parseInt(this.props.params.jobId));
 					var myJob = {
 						id: myjobid,
@@ -73,7 +67,6 @@ var JobDetail = React.createClass({
 						job_id: parseInt(this.props.params.jobId),
 						seeker_id: currentUser.id
 					};
-					// debugger;
 					ApiUtil.updateMyJobStatus(myjobid, myJob);
 				}.bind(this));
 			}
@@ -88,7 +81,6 @@ var JobDetail = React.createClass({
 	componentWillUnmount: function() {
 		this.storeToken.remove();
 		this.storeToken2.remove();
-		//				<button className="job-detail-save"onClick={this.handleSave}>Save This Job</button>
 	},
 
 	render: function () {
@@ -115,7 +107,11 @@ var JobDetail = React.createClass({
 		var email = "";
 		var savebutton = "job-detail-save";
 		var saved = "notification-hide";
-		if (!job || MyJobStore.findMyJobStatus(job.id)==="saved"){
+		// debugger;
+		if(!SessionStore.currentUser()){
+			savebutton = "job-detail-save-hide";
+			saved = "notification-hide";
+		}else if (!job || MyJobStore.findMyJobStatus(job.id)==="saved"){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-show";
 		}

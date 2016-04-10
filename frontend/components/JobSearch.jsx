@@ -19,7 +19,7 @@ var JobSeach = React.createClass({
     };
   },
   handleClickOutside: function() {
-    // debugger;
+
     this.setState({
       whereVisible: false,
       whatVisible: false
@@ -30,8 +30,6 @@ var JobSeach = React.createClass({
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobsPaginate(whatwhere, 0);
     JobStoreActions.resetReceived();
-    // JobStore.resetPage();
-    // debugger;
     this.context.router.push({
       pathname:'/jobs',
       query:{what : this.state.whatField, where: this.state.whereField, date: this.state.date}
@@ -70,7 +68,6 @@ var JobSeach = React.createClass({
     this.setState({ whatVisible: false });
   },
   render: function() {
-    // debugger;
     return (
       <div>
         <form className="search-component group" onSubmit={this.handleSubmit}>

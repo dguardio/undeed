@@ -22,7 +22,6 @@ JobStore.calculateOffset = function(){
   return _PreviousPage*10;
 };
 JobStore.find = function(id) {
-
 	for( var i = 0; i < _jobs.length; i++){
 		if( _jobs[i].id == id) {
 			return _jobs[i];
@@ -77,7 +76,6 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   _jobs = jobs;
   var searchedJobs = [];
   _jobs.forEach (function(job){
-    // debugger;
     if (whatwhere.date === "today"){
         var today = new Date();
         var jobDate = new Date(job.created_at);
@@ -92,7 +90,6 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
         }
     }
   });
-  // debugger;
   _totaljob = _jobs.length;
   _numPage = Math.ceil(searchedJobs.length / 10);
   _PreviousPage = offset/10;
@@ -105,14 +102,11 @@ var searchTodaysJob = function(jobs){
   _jobs.forEach (function(job){
     var today = new Date();
     var jobDate = new Date(job.created_at);
-    // debugger;
     if (today- jobDate < 86400){
       searchedJobs.push(job);
     }
   });
 
-  // _numPage = Math.ceil(searchedJobs.length / 10);
-  // _PreviousPage = offset/10;
   _jobs = searchedJobs;
 };
 
