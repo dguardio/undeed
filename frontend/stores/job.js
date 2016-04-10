@@ -82,7 +82,7 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
         var today = new Date();
         var jobDate = new Date(job.created_at);
       if (job.location.city.includes(whatwhere.whereField) &&
-          job.title.includes(whatwhere.whatField)&& jobDate - today < 86400){
+          job.title.includes(whatwhere.whatField)&& today- jobDate < 86400){
         searchedJobs.push(job);
       }
     } else {
@@ -106,7 +106,7 @@ var searchTodaysJob = function(jobs){
     var today = new Date();
     var jobDate = new Date(job.created_at);
     // debugger;
-    if (jobDate - today < 86400){
+    if (today- jobDate < 86400){
       searchedJobs.push(job);
     }
   });
