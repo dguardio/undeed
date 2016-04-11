@@ -20,7 +20,7 @@ SessionStore.currentUserHasBeenFetched = function() {
 };
 
 SessionStore.__onDispatch = function (payload) {
-  
+
   switch (payload.actionType) {
     case SessionConstants.CURRENT_USER_RECEIVED:
       _currentUser = payload.currentUser;
@@ -28,7 +28,6 @@ SessionStore.__onDispatch = function (payload) {
       SessionStore.__emitChange();
       break;
     case SessionConstants.LOGOUT:
-      console.log("logged out");
       _currentUser = null;
       SessionStore.__emitChange();
       break;

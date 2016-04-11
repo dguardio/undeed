@@ -17,6 +17,6 @@ node_modules
 npm-debug.log
 app/assets/javascripts/bundle.js*
 secrets.yml
-
+.byebug_history
 # Ignore application configuration
 /config/application.yml

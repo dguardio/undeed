@@ -94,7 +94,6 @@ var ApiUtil = {
 
         success: function (myjob) {
           JobActions.receiveMyJob(myjob);
-          // callback && callback();
         },
         error: function(no){
           console.log("Error: " + no);
@@ -263,7 +262,7 @@ var ApiUtil = {
           callback && callback();
         },
         error: function(error){
-          console.log("Thank you for taking a look at the console log, how can I gid rid of this 401? If you have an idea, could you let me know? thank you! ");
+          // console.log("Error: " + no);
           ErrorActions.errorReceived(error);
         }
       });
@@ -277,6 +276,10 @@ var ApiUtil = {
         success: function(currentUser) {
           SessionActions.currentUserReceived(currentUser);
           callback && callback();
+        },
+        error: function(error){
+
+          ErrorActions.errorReceived(error);
         }
       });
     },
@@ -306,7 +309,7 @@ var ApiUtil = {
           completion && completion();
         },
         error: function(no){
-            console.log("Thank you for taking a look at the console log");
+            console.log("Error: " + no);
         }
       });
     }
