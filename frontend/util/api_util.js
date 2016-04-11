@@ -262,7 +262,6 @@ var ApiUtil = {
           callback && callback();
         },
         error: function(error){
-          // console.log("Error: " + no);
           ErrorActions.errorReceived(error);
         }
       });
