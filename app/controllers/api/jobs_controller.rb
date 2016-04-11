@@ -13,7 +13,6 @@ class Api::JobsController < ApplicationController
 		city = params.require(:job)[:location]
 		location = Location.find_or_create_by(city: city)
 
-		# job_params[:location_id] = location.id
 		@job = location.jobs.new(job_params)
 		@job.employer_id = current_user.id
     if @job.save

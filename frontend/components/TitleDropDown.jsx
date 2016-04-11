@@ -21,7 +21,6 @@ var TitleDropDown  = React.createClass({
     this.setState({ jobTitles: JobTitleStore.all()} );
   },
   render: function() {
-    // console.log(JobTitleStore.all());
 
     var keyNum = 0;
     var jobTitles = this.state.jobTitles.map(function (jobTitle) {

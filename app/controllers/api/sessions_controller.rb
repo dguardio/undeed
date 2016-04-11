@@ -24,6 +24,6 @@ class Api::SessionsController < ApplicationController
   def destroy
     sign_out
 
-    render json: {} # Need a valid json object for our AJAX success callback
+    render json: {}
   end
 end

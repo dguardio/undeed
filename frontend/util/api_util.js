@@ -263,7 +263,7 @@ var ApiUtil = {
           callback && callback();
         },
         error: function(error){
-          console.log("Thank you for taking a look at the console log, how can I gid rid of this 401? If you have an idea, could you left me know? thank you! ");
+          console.log("Thank you for taking a look at the console log, how can I gid rid of this 401? If you have an idea, could you let me know? thank you! ");
           ErrorActions.errorReceived(error);
         }
       });
@@ -304,7 +304,7 @@ var ApiUtil = {
           completion && completion();
         },
         error: function(no){
-            console.log("Thank you for taking a look at the console log, how can I gid rid of this 401? If you have an idea, could you left me know? thank you! ");
+            console.log("Thank you for taking a look at the console log, how can I gid rid of this 401? If you have an idea, could you let me know? thank you! ");
         }
       });
     }

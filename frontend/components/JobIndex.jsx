@@ -21,7 +21,6 @@ var JobIndex = React.createClass({
 		this.setState({
       jobs: JobStore.all(),
       pageNum: JobStore.numPage(),
-      // offset: 0
      });
 	},
 

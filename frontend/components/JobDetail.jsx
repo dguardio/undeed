@@ -107,7 +107,7 @@ var JobDetail = React.createClass({
 		var email = "";
 		var savebutton = "job-detail-save";
 		var saved = "notification-hide";
-		// debugger;
+
 		if(!SessionStore.currentUser()){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-hide";
