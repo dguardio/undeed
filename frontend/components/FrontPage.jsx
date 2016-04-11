@@ -34,6 +34,7 @@ var FrontPage = React.createClass({
         </div>
         <div className="fontpage-jobcount">
           <Link to="/jobs?date=today&what=&where=">{this.state.jobcount} new Jobs posted today!</Link>
+          <div> This is a job searching website, inspired by <a href="http://www.indeed.com/">Indeed.com</a>. Thank you for visiting!</div>
         </div>
       </div>
     );
