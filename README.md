@@ -1,27 +1,27 @@
 # Undeed
 
-[Heroku link][heroku] Coming Soon
+[live][heroku]
 
-[heroku]: http://www.herokuapp.com
-
-## Minimum Viable Product
-
-Undeed is a web application inspired by Indeed built using Ruby on Rails and React.js. Undeed allows users to:
-
-- [x] Create an account
-- [x] Log in / Log out
-- [x] Search / read jobs
-- [x] Automatically record visited jobs in My Jobs
-- [x] Organize jobs with different statuses in My Jobs
-- [x] User able to upload resume
+[heroku]: http://www.undeed.xyz
+## Description
+Undeed is a job searching website inspired by Indeed.com. It is a single-page app that helps job seekers search, save and organize jobs, and help employers post jobs at the same time.
 
 ## Technical implementation details
 - One Page App using React, Flux , React Router
 - Secure Password encryption with Brcypt
 - CSRF Authenticity Token enabled
 - Log In with facebook with OmniAuth Using OAuth2 Strategy
-- Real Time Search Dropdown List
+- Real Time Search Dropdown List on each keypress
+- Upload images through Paperclip and AWS
 
+Index Page
+![Alt text](./app/assets/images/screenshot_main.png)
+
+My Jobs Page
+![Alt text](./app/assets/images/screenshot_myjobs.png)
+
+Resume Page
+![Alt text](./app/assets/images/screenshot_resume.png)
 
 ## Technology
 - Ruby on Rails
@@ -35,6 +35,9 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 * JBuilder
 * ReactRouter
 * Flux
+* Paperclip
+* react-paginate
+* react-click-outside
 
 ### Languages
 * JavaScript
@@ -43,22 +46,7 @@ Undeed is a web application inspired by Indeed built using Ruby on Rails and Rea
 * CSS
 * SQL
 
-## Design Docs
-* [View Wireframes][views]
-* [React Components][components]
-* [Flux Stores][stores]
-* [API endpoints][api-endpoints]
-* [DB schema][schema]
-
-[views]: ./docs/views.md
-[components]: ./docs/components.md
-[stores]: ./docs/stores.md
-[api-endpoints]: ./docs/api-endpoints.md
-[schema]: ./docs/schema.md
-
-
-
 ### TODOs / Future Features (TBD)
 - [ ] More Job Search filters
-- [ ] Email application confirmation
+- [ ] Save application in database
 - [ ] Search History
