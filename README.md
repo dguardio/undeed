@@ -15,6 +15,7 @@ Undeed is a job searching website inspired by Indeed.com. It is a single-page ap
 - Upload images through Paperclip and AWS
 
 Index Page
+
 ![Alt text](./app/assets/images/screenshot_main.png)
 
 My Jobs Page
