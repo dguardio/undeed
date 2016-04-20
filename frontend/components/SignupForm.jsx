@@ -11,7 +11,9 @@ var SignupForm = React.createClass({
   getInitialState: function() {
     return {
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: "",
+      validation:[],
     };
   },
 
@@ -29,12 +31,15 @@ var SignupForm = React.createClass({
                   <Link to={"/login"}>Sign in</Link>
                 </text>
                 <form onSubmit={this.handleSubmit}>
-        					<div className="input-block">
+        					<div className="signup-input-block">
                     <label htmlFor="email">Email</label>
                     <input className="input-field" onChange={this.updateEmail} type="text" value={this.state.email}/>
 
                     <label htmlFor="password">Password</label>
                     <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <input className="input-field" onChange={this.updateConfirmPassword} type="password" value={this.state.confirmPassword}/>
+                    {this.state.validation.join(", ")}
                     <ErrorNotification></ErrorNotification>
         					</div>
                   <button className="uibutton large addmargin">Create an account</button>
@@ -49,12 +54,26 @@ var SignupForm = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
+    var errors = [];
+    if (this.state.email === ""){
+      errors.push("Email cannot be blank");
+    }
+    if (this.state.password === ""){
+      errors.push("Password cannot be blank");
+    }else if (this.state.password.length < 6){
+      errors.push("Password must have 6 characters or more");
+    }else if (this.state.password !== this.state.confirmPassword){
+      errors.push("Passwords don't match");
+    }
+    this.setState({ validation: errors });
+
 
     var router = this.context.router;
-    ApiUtil.signup(this.state, function() {
-
-        router.push("/");
-    });
+    if (!errors){
+      ApiUtil.signup(this.state, function() {
+          router.push("/");
+      });
+    }
   },
 
   updateEmail: function(e) {
@@ -63,6 +82,10 @@ var SignupForm = React.createClass({
 
   updatePassword: function(e) {
     this.setState({ password: e.currentTarget.value });
+  },
+
+  updateConfirmPassword: function(e) {
+    this.setState({ confirmPassword: e.currentTarget.value });
   }
 
 });

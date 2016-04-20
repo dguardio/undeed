@@ -11,7 +11,8 @@ var LoginForm = React.createClass({
   getInitialState: function() {
     return {
       email: "",
-      password: ""
+      password: "",
+      validation: [],
     };
   },
 
@@ -32,6 +33,7 @@ var LoginForm = React.createClass({
 
                   <label htmlFor="password">Password</label>
                   <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+                  {this.state.validation.join(", ")}
                   <ErrorNotification></ErrorNotification>
       					</div>
                 <button className="uibutton large addmargin">Sign In</button>
@@ -63,10 +65,22 @@ var LoginForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
 
+    var errors = [];
+    if (this.state.email === ""){
+      errors.push("Email cannot be blank");
+    }
+    if (this.state.password === ""){
+      errors.push("Password cannot be blank");
+    }else if (this.state.password.length < 6){
+      errors.push("Password must have 6 characters or more");
+    }
+    this.setState({ validation: errors });
     var router = this.context.router;
-    ApiUtil.login(this.state, function() {
-        router.goBack();
-    });
+    if (errors.length === 0){
+      ApiUtil.login(this.state, function() {
+          router.goBack();
+      });
+    }
   },
 
   updateEmail: function(e) {
