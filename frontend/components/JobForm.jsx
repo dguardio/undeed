@@ -15,7 +15,8 @@ var JobForm = React.createClass({
       title: "",
       salary:"",
       description: "",
-      location: ""
+      location: "",
+      error: [],
     };
   },
 
@@ -40,11 +41,33 @@ var JobForm = React.createClass({
       description: this.state.description,
       location: this.state.location
     };
-    ApiUtil.createNewJob(jobObject, function(jobID) {
-        router.push("/jobs/"+ jobID);
+
+    var errors = [];
+    if (this.state.title === ""){
+      errors.push("Title cannot be blank");
+    }
+    if (this.state.salary === ""){
+      errors.push("Salary cannot be blank");
+    }
+    if (isNaN(this.state.salary.replace(/,/g, '')) === true){
+      errors.push("Please enter a valid number in salary");
+    }
+    if (this.state.description === ""){
+      errors.push("Description cannot be blank");
+    }
+    if (this.state.location === ""){
+      errors.push("location cannot be blank");
+    }
+    this.setState({ error: errors });
+    if (errors.length === 0){
+      ApiUtil.createNewJob(jobObject, function(jobID) {
+      router.push("/jobs/"+ jobID);
     });
+    }
   },
   render: function() {
+    var error = this.state.error.join(", ");
+    // debugger;
     return (
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>
@@ -66,6 +89,7 @@ var JobForm = React.createClass({
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea className="input-textarea" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
+                    {error}
                     <ErrorNotification></ErrorNotification>
                   </div>
                   <button className="uibutton large addmargin">Post New Job</button>

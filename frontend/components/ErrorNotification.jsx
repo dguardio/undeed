@@ -22,10 +22,14 @@ var ErrorNotification = React.createClass({
   },
   render: function() {
     var errors;
+
     if (this.state.error){
-      errors = this.state.error.join(", ");
-    }
-    // debugger;
+      if (this.state.error.constructor === Array){
+        errors = this.state.error.join(", ");
+        }else{
+        errors = this.state.error;
+        }
+      }
     if (errors){
       return (
         <div>{errors}, please try again!</div>
