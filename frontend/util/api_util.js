@@ -65,7 +65,7 @@ var ApiUtil = {
           callback && callback(jobID);
         },
         error: function(no){
-
+          ErrorActions.errorReceived(no);
           console.log("Error: " + no);
         }
       });

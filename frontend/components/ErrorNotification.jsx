@@ -21,10 +21,14 @@ var ErrorNotification = React.createClass({
     this.setState({ error: ErrorStore.all()} );
   },
   render: function() {
-    var error = this.state.error;
-    if (error){
+    var errors;
+    if (this.state.error){
+      errors = this.state.error.join(", ");
+    }
+    // debugger;
+    if (errors){
       return (
-        <div>{error}, please try again!</div>
+        <div>{errors}, please try again!</div>
       );
     }else{
       return(

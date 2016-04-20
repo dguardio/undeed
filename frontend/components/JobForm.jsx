@@ -4,6 +4,7 @@ var Link = require('react-router').Link;
 var Logo = require('./Logo');
 var SessionStore = require("../stores/session");
 var JobCityStore = require("../stores/jobCity");
+var ErrorNotification = require('./ErrorNotification.jsx');
 var JobForm = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -65,8 +66,9 @@ var JobForm = React.createClass({
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea className="input-textarea" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
+                    <ErrorNotification></ErrorNotification>
                   </div>
-                  <button className="signin-button">Post New Job</button>
+                  <button className="uibutton large addmargin">Post New Job</button>
                 </form>
              </section>
       		</section>
