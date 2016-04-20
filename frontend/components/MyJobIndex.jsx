@@ -27,7 +27,7 @@ var MyJobIndex = React.createClass({
   },
 
   setStateFromStore: function () {
-    
+
     this.setState({
       currentUser: SessionStore.currentUser(),
       isLoggedIn: SessionStore.isLoggedIn(),
@@ -49,7 +49,7 @@ var MyJobIndex = React.createClass({
               <li><Link to={"myjobs/"}>Saved</Link> {MyJobStore.count("saved")}</li>
               <li><Link to={"myjobs/applied"}>Applied</Link> {MyJobStore.count("applied")}</li>
               <li><Link to={"myjobs/interviewed"}>Interviewed</Link> {MyJobStore.count("interviewed")}</li>
-              <li><Link to={"myjobs/offerred"}>offerred</Link> {MyJobStore.count("offerred")}</li>
+              <li><Link to={"myjobs/offerred"}>offered</Link> {MyJobStore.count("offerred")}</li>
               <li><Link to={"myjobs/hired"}>Hired</Link> {MyJobStore.count("hired")}</li>
               <li><Link to={"myjobs/visited"}>Visited</Link> {MyJobStore.count("visited")}</li>
               <li><Link to={"myjobs/archived"}>Archived</Link> {MyJobStore.count("archived")}</li>
