@@ -11,7 +11,7 @@ ErrorStore.all = function () {
 
 ErrorStore.getError = function(error){
 
-  _errors = error.message[0];
+  _errors = error.message;
 };
 
 ErrorStore.__onDispatch = function (payload) {
