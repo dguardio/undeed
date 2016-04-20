@@ -33,7 +33,13 @@ var JobForm = React.createClass({
   handleSubmit: function(e){
     e.preventDefault();
     var router = this.context.router;
-    ApiUtil.createNewJob(this.state, function(jobID) {
+    var jobObject = {
+      title: this.state.title,
+      salary: this.state.salary.replace(/,/g, ''),
+      description: this.state.description,
+      location: this.state.location
+    };
+    ApiUtil.createNewJob(jobObject, function(jobID) {
         router.push("/jobs/"+ jobID);
     });
   },
@@ -41,23 +47,31 @@ var JobForm = React.createClass({
     return (
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>
-        <h1>Create New Job!</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div className="newjob-input-block">
-            <label htmlFor="jobTitle">Job Title</label>
-            <input className="input-field" onChange={this.updateJobTitle} type="text" value={this.state.title}/>
+        <div className="newjob-main">
+          <div className="newjob-content group">
+            <section className="signin-block group">
+              <section className="main-signin">
+                <h1>Create New Job!</h1>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="newjob-input-block">
+                    <label htmlFor="jobTitle">Job Title</label>
+                    <input className="input-field" onChange={this.updateJobTitle} type="text" value={this.state.title}/>
 
-            <label htmlFor="jobLocation">Job Location</label>
-            <input className="input-field" onChange={this.updateJobLocation} type="text" value={this.state.location}/>
+                    <label htmlFor="jobLocation">Job Location</label>
+                    <input className="input-field" onChange={this.updateJobLocation} type="text" value={this.state.location}/>
 
-            <label htmlFor="Salary">Salary</label>
-            <input className="input-field" onChange={this.updateJobSalary} type="text" value={this.state.salary}/>
+                    <label htmlFor="Salary">Salary</label>
+                    <input className="input-field" onChange={this.updateJobSalary} type="text" value={this.state.salary}/>
 
-            <label htmlFor="jobDescription">Job Description</label>
-            <input className="input-field" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
+                    <label htmlFor="jobDescription">Job Description</label>
+                    <textarea className="input-textarea" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
+                  </div>
+                  <button className="signin-button">Post New Job</button>
+                </form>
+             </section>
+      		</section>
           </div>
-          <button className="signin-button">Post New Job</button>
-        </form>
+        </div>
       </div>
     );
   },

@@ -51,6 +51,7 @@ var ApiUtil = {
     });
   },
   createNewJob: function(job,callback){
+    // debugger;
       $.ajax({
         url: '/api/jobs/',
         method: 'POST',
@@ -58,6 +59,7 @@ var ApiUtil = {
         dataType: 'json',
 
         success: function (job) {
+
           var jobID = job.id;
           JobActions.receiveSingleJob(job);
           callback && callback(jobID);

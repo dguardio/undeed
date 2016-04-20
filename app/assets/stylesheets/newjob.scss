@@ -2,7 +2,34 @@
 	padding: 12px;
 	background: #e0e5ff;
 	width: 370px;
-	height:200px;
+	height:400px;
 	border-top: 2px solid #36c;
 	display:block;
+}
+
+.input-textarea{
+  background: white;
+	display: block;
+	width:340px;
+  height: 250px;
+	border: 1px solid lightgrey;
+	margin-bottom: 10px;
+	overflow: auto;
+	 word-wrap: break-word;
+    word-break: break-all;
+}
+
+.newjob-content{
+		display: block;
+		height: 500px;
+		background: white;
+}
+
+.newjob-main{
+	display: block;
+	height: 500px;
+	background: #e0e5ff;
+	padding: 15px 0 15px 0px;
+	border-top: 1px solid #36c;
+	border-bottom: 1px solid #36c;
 }
