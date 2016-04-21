@@ -56,7 +56,6 @@ var replaceJob = function(newJob){
 var getJobsforEmployer = function(jobs, employer_id){
   _jobs = jobs;
   var employers_job = [];
-  debugger;
   _jobs.forEach (function(job){
     if (job.employer_id === employer_id){
       employers_job.push(job);

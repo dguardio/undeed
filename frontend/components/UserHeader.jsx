@@ -59,6 +59,7 @@ var UserHeader = React.createClass({
       return (
         <div className="the-header group">
           <div className="find-header"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>
+          <div className="find-header"><Link to={"/postedjobs"}>My Posted Jobs</Link></div>
           <div className="user-header group">
             <div className="header-email"><Link to={"/userform"}>Upload resume</Link></div>
             <div className="header-email"><Link to={"/userprofile"}>My Profile</Link></div>

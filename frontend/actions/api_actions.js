@@ -25,13 +25,13 @@ ApiActions = {
       jobs: jobs
     });
   },
-    receiveJobsforEmployer: function(jobs, employer_id){
-      AppDispatcher.dispatch({
-        actionType: JobConstants.JOBS_RECEIVED_FOR_EMPLOYER,
-        jobs: jobs,
-        employer_id: employer_id,
-      });
-    },
+  receiveJobsforEmployer: function(jobs, employer_id){
+    AppDispatcher.dispatch({
+      actionType: JobConstants.JOBS_RECEIVED_FOR_EMPLOYER,
+      jobs: jobs,
+      employer_id: employer_id,
+    });
+  },
   receiveTodaysJob: function(jobs){
       AppDispatcher.dispatch({
         actionType: JobConstants.TODAYS_JOBS_RECEIVED,
