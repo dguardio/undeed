@@ -4,20 +4,13 @@ var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
 var Link = require('react-router').Link;
 var JobAppIndexItem = React.createClass({
-    getInitialState: function() {
-      return {
-        count : 0
-      };
-    },
-    componentDidMount: function() {
 
-    },
 
 
 	render: function() {
 
 		var job = this.props.job;
-
+    var count = this.props.count;
 		return (
 			<div>
 				<li className="job-index-item">
@@ -28,7 +21,7 @@ var JobAppIndexItem = React.createClass({
 					{job.employer.name} - {job.location.city}<br />
 					{job.salary}<br />
 					{job.description.split(" ").slice(0,10).join(" ") + "..."}<br />
-        Application Count:
+        Application Count: {count}
 				</li>
 			</div>
 		);

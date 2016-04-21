@@ -8,7 +8,15 @@ var _applications = [];
 ApplicationStore.all = function () {
   return _applications.slice(0);
 };
-
+ApplicationStore.count = function (job_id){
+  var count = 0;
+  _applications.forEach(function(app){
+    if (app.job_id === job_id){
+      count += 1;
+    }
+  });
+  return count;
+};
 var getApplication = function(application){
   _applications.push(application);
 
