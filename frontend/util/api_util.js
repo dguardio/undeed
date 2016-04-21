@@ -2,7 +2,24 @@ var JobActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
 var ErrorActions = require('../actions/error_actions');
 var UserActions = require('../actions/user_actions');
+var ApplicationActions = require('../actions/application_actions');
 var ApiUtil = {
+  createApplication: function(application){
+    // debugger;
+    $.ajax({
+      url: '/api/applications/',
+      method: 'POST',
+      data: {application: application},
+      dataType: 'json',
+      success: function (application) {
+        // debugger;
+        ApplicationActions.applicationReceived(application);
+      },
+      error: function(no){
+        console.log("Error: " + no);
+      }
+    });
+  },
   createCity: function(city){
       $.ajax({
         url: '/api/locations/',

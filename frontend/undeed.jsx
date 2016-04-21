@@ -20,6 +20,9 @@ var JobIndexItem = require('./components/JobIndex');
 var JobDetail = require('./components/JobDetail');
 var JobSearch = require('./components/JobSearch');
 
+//Application
+var ApplicationStore = require('./stores/application');
+
 // Auth
 var FrontPage = require('./components/FrontPage');
 var LoginForm = require("./components/LoginForm.jsx");
@@ -27,6 +30,7 @@ var SignupForm = require("./components/SignupForm.jsx");
 var SessionStore = require("./stores/session");
 var UserHeader =  require("./components/UserHeader.jsx");
 var ErrorStore = require('./stores/errorNotification');
+
 // MyJob
 var MyJobIndex = require("./components/MyJobIndex");
 var MyJobSaved = require('./components/myjob/MyJobSaved');

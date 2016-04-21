@@ -167,10 +167,10 @@ var JobDetail = React.createClass({
 	handleSubmit: function(e) {
 		e.preventDefault();
 		var application ={
-			employer_email: job.employer.email,
-			 name: "guestguest",
-			 user_email: "",
-			 coverletter: "" };
+			job_id: this.state.job.id,
+			real_name: "Lei",
+			email: "",
+			coverletter: "Man!" };
 		ApiUtil.createApplication(application);
 	}
 });
