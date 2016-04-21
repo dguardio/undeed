@@ -24,7 +24,7 @@ job1 = Job.create(
 	salary:	99999,
 	location_id: new_york.id,
 	description: "Determines engineering requirements by conducting inspections and analytical tests; analyzing and synthesizing data; maintaining control charts; determining root causes; preparing bid specifications.\nResolves engineering problems by collecting and analyzing information; researching, analyzing, adapting, and modifying engineering techniques; recommending solutions; preparing drawings, schematics, and diagrams; evaluating components, materials, and suppliers; resolving design integration issues; developing specifications and safety standards; performing installations.\nVerifies engineering applications by conducting tests and inspections; building and analyzing models and simulations; conducting laboratory experiments and measurements.\nMaintains project team accomplishments by communicating essential information; coordinating actions; obtaining expert input; reviewing open issues and action items; contributing information to team meetings and reports; escalating project completion impediments.\nMeets cost standards by preparing cost-benefit analyses; tracking and reporting expenses.\nComplies with codes and regulations by complying with requirements; preparing permit applications, plans, and compliance reports.\nPrepares guidelines by describing operational and testing methods and procedures.\nMaintains and improves quality results by completing quality assurance tests; following standards; studying, evaluating, and re-designing processes; implementing changes.\nEnsures operation of analytical equipment by calibrating equipment; completing preventive maintenance requirements; following manufacturer's instructions; troubleshooting malfunctions; calling for repairs; maintaining equipment inventories; evaluating new equipment and techniques.\nKeeps supplies ready by inventorying stock; placing orders; verifying receipt.\nPrepares engineering reports by collecting, analyzing, and summarizing data and trends; entering data and generating reports and presentations; performing calculations.\nUpdates job knowledge by tracking and understanding emerging engineering practices; participating in educational opportunities and professional organizations; reading professional publications; maintaining personal networks.\nEnhances engineering and organization reputation by accepting ownership for accomplishing new and different requests; exploring opportunities to add value to job accomplishments.",
-	employer_id: lei.id,
+	employer_id: guest.id,
 	status: true
 	)
 job2 = Job.create(
@@ -35,7 +35,7 @@ job2 = Job.create(
 	description: "High school teachers work for schools that enroll students from grades 9-12. They typically instruct students on a single subject, such as English, math, science, history, language or art. To do so, they must plan curricula, which may cover basic topics in algebra to advanced information on psychology.\n
 	High school teachers can be influential in students' lives, since students will apply what they learn to their future endeavors. Though teaching can be rewarding, high school teachers may have challenging jobs when dealing with unmotivated or disruptive students. Stress can occur when facilities aren't up to standards, workloads become difficult to manage and teachers work more than 40 hours per week.\nAspiring public high school teachers must obtain a bachelor's degree; although private high school teachers are not always required to have a 4-year degree, the U.S. Bureau of Labor Statistics (BLS) notes that private high schools may still favor applicants who have a bachelor's degree (www.bls.gov). The BLS also notes that prospective candidates may consult the National Council for Accreditation of Teacher Education and the Teacher Education Accreditation Council, who accredit education programs for teachers (www.bls.gov). These institutions may help candidates to facilitate their entry into the profession.\n
 	While in college, prospective high school teachers may simultaneously participate in a teacher preparation course or program, which is typically required by state licensing boards and may be a part of their curriculum to earn a degree. These programs usually last for one year and provide aspiring teachers with experience in student-teacher interactions.\n",
-	employer_id: lei.id,
+	employer_id: guest.id,
 	status: true
 )
 job3 = Job.create(
@@ -54,7 +54,7 @@ job3 = Job.create(
 	Alert colleagues to emerging technologies or applications and the opportunities to integrate them into operations and activities.\n
 	Be actively involved in and contribute regularly to the development community of the CMS of your choice.\n
 	Develop innovative, reusable Web-based tools for activism and community building.",
-	employer_id: lei.id,
+	employer_id: guest.id,
 	status: true
 )
 	job4 = Job.create(
@@ -363,3 +363,11 @@ lei_job2 = Myjob.create(job_id: job2.id, seeker_id: lei.id, status: "visited")
 lei_job3 = Myjob.create(job_id: job3.id, seeker_id: lei.id, status: "visited")
 lei_job4 = Myjob.create(job_id: job4.id, seeker_id: lei.id, status: "visited")
 lei_job5 = Myjob.create(job_id: job5.id, seeker_id: lei.id, status: "visited")
+
+
+Application.destroy_all
+job1app1 = Application.create(real_name: "Lei", email: "qq@qq.com", job_id: job1.id, user_id: lei.id)
+job1app2 = Application.create(real_name: "Lei", email: "qq@qq.com", job_id: job1.id, user_id: lei.id)
+job1app3 = Application.create(real_name: "Lei", email: "qq@qq.com", job_id: job1.id, user_id: lei.id)
+job2app1 = Application.create(real_name: "Lei", email: "qq@qq.com", job_id: job2.id, user_id: lei.id)
+job2app2 = Application.create(real_name: "Lei", email: "qq@qq.com", job_id: job2.id, user_id: lei.id)

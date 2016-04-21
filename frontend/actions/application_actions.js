@@ -8,6 +8,13 @@ var ApplicationActions = {
       actionType: ApplicationConstants.APPLICATION_RECEIVED,
       application: application
     });
+  },
+  applicationsReceived: function(applications){
+
+    AppDispatcher.dispatch({
+      actionType: ApplicationConstants.APPLICATIONS_RECEIVED,
+      applications: applications
+    });
   }
 };
 

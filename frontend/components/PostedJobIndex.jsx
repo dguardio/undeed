@@ -4,6 +4,7 @@ var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
 var JobDetail = require('./JobDetail');
 var JobIndexItem = require('./JobIndexItem');
+var JobAppIndexItem = require('./JobAppIndexItem');
 var SessionStore = require("../stores/session");
 var Logo = require('./Logo');
 var Link = require('react-router').Link;
@@ -26,6 +27,7 @@ var PostedJobIndex = React.createClass({
     ApiUtil.fetchCurrentUser(function(){
 			if (SessionStore.currentUser()){
 				ApiUtil.fetchJobsforEmployer(SessionStore.currentUser().id);
+        ApiUtil.fetchAppsforEmployer();
       }
     });
   },
@@ -35,7 +37,8 @@ var PostedJobIndex = React.createClass({
 
   render: function() {
     var jobs = this.state.jobs.map(function(job) {
-      return <JobIndexItem key={job.id} job={job} />;
+      // return <JobIndexItem key={job.id} job={job} />;
+      return <JobAppIndexItem key={job.id} job={job} />;
 
     });
       return (

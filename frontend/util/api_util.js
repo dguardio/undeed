@@ -20,6 +20,19 @@ var ApiUtil = {
       }
     });
   },
+  fetchAppsforEmployer: function(){
+    $.ajax({
+      url: '/api/applications/',
+      method: 'GET',
+      dataType: 'json',
+      success: function (applications) {
+        ApplicationActions.applicationsReceived(applications);
+      },
+      error: function(no){
+        console.log("Error: " + no);
+      }
+    });
+  },
   createCity: function(city){
       $.ajax({
         url: '/api/locations/',
@@ -68,7 +81,7 @@ var ApiUtil = {
     });
   },
   createNewJob: function(job,callback){
-    // debugger;
+
       $.ajax({
         url: '/api/jobs/',
         method: 'POST',

@@ -9,16 +9,23 @@ ApplicationStore.all = function () {
   return _applications.slice(0);
 };
 
-ApplicationStore.getApplication = function(application){
-
+var getApplication = function(application){
   _applications.push(application);
 
 };
+var resetApps = function(applications){
+    _applications = applications;
+};
 
 ApplicationStore.__onDispatch = function (payload) {
+
   switch (payload.actionType) {
     case ApplicationConstants.APPLICATION_RECEIVED:
-      this.getApplication(payload.application);
+      getApplication(payload.application);
+      ApplicationStore.__emitChange();
+      break;
+    case ApplicationConstants.APPLICATIONS_RECEIVED:
+      resetApps(payload.applications);
       ApplicationStore.__emitChange();
       break;
   }
