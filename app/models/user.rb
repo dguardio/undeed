@@ -8,17 +8,28 @@ class User < ActiveRecord::Base
 	validates_attachment_content_type :resume, :content_type => ['application/pdf']
 
 	has_many(
- 	:jobs,
- 	class_name: "Job",
- 	primary_key: :id,
- 	foreign_key: :employer_id
+	 	:jobs,
+	 	class_name: "Job",
+	 	primary_key: :id,
+	 	foreign_key: :employer_id
  	)
 	has_many(
-  :myjobs,
-  class_name: "Myjob",
-  primary_key: :id,
-  foreign_key: :seeker_id
+	  :myjobs,
+	  class_name: "Myjob",
+	  primary_key: :id,
+	  foreign_key: :seeker_id
   )
+	has_many(
+	  :applications,
+	  class_name: "Application",
+	  primary_key: :id,
+	  foreign_key: :user_id
+  )
+	has_many(
+		:received_applications,
+		through: :jobs,
+		source: :applications
+	)
 
 	after_initialize :ensure_session_token!
 	attr_reader :password

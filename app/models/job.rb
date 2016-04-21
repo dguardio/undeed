@@ -9,22 +9,28 @@ class Job < ActiveRecord::Base
 
 
 	belongs_to(
-	:employer,
-	class_name: "User",
-	primary_key: :id,
-	foreign_key: :employer_id
+		:employer,
+		class_name: "User",
+		primary_key: :id,
+		foreign_key: :employer_id
 	)
 	belongs_to(
-	:location,
-	class_name: "Location",
-	primary_key: :id,
-	foreign_key: :location_id
+		:location,
+		class_name: "Location",
+		primary_key: :id,
+		foreign_key: :location_id
 	)
 	has_many(
-  :seeker,
-  class_name: "User",
-  primary_key: :id,
-  foreign_key: :job_id
+	  :seeker,
+	  class_name: "User",
+	  primary_key: :id,
+	  foreign_key: :job_id
   )
 
+	has_many(
+	  :applications,
+	  class_name: "Application",
+	  primary_key: :id,
+	  foreign_key: :job_id
+  )
 end

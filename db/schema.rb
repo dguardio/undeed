@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406185152) do
+ActiveRecord::Schema.define(version: 20160421011937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "real_name",           null: false
+    t.string   "email",               null: false
+    t.integer  "job_id",              null: false
+    t.integer  "user_id"
+    t.text     "cover_letter"
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
+    t.datetime "resume_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title",                             null: false
