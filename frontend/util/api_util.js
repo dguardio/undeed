@@ -165,6 +165,21 @@ var ApiUtil = {
       }
 		});
   },
+    fetchJobsforEmployer: function(employer_id){
+      $.ajax({
+  			url: '/api/jobs',
+  			method: 'GET',
+  			dataType: 'json',
+  			contentType: "application/json",
+
+  			success: function (jobs) {
+          JobActions.receiveJobsforEmployer(jobs,employer_id);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+  		});
+    },
     fetchTodaysJobs: function(){
       $.ajax({
   			url: '/api/jobs',

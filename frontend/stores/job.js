@@ -52,6 +52,18 @@ var replaceJob = function(newJob){
 		_jobs.push(newJob);
 	}
 };
+
+var getJobsforEmployer = function(jobs, employer_id){
+  _jobs = jobs;
+  var employers_job = [];
+  debugger;
+  _jobs.forEach (function(job){
+    if (job.employer_id === employer_id){
+      employers_job.push(job);
+    }
+  });
+  _jobs = employers_job;
+};
 var searchJobs = function(jobs, whatwhere){
   _jobs = jobs;
   var searchedJobs = [];
@@ -114,6 +126,10 @@ JobStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case JobConstants.JOBS_RECEIVED:
       resetJobs(payload.jobs);
+      JobStore.__emitChange();
+      break;
+    case JobConstants.JOBS_RECEIVED_FOR_EMPLOYER:
+      getJobsforEmployer(payload.jobs, payload.employer_id);
       JobStore.__emitChange();
       break;
 		case JobConstants.JOB_RECEIVED:
