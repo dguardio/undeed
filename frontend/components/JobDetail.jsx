@@ -8,7 +8,6 @@ var JobSearch = require('./JobSearch');
 var SessionStore = require("../stores/session");
 var Modal = require("react-modal");
 var MyJobStore = require('../stores/myJob');
-
 var JobDetail = React.createClass({
 	getInitialState: function () {
 
@@ -20,20 +19,25 @@ var JobDetail = React.createClass({
 		this.storeToken2 = MyJobStore.addListener(this.updateStateFromStore);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 		ApiUtil.fetchCurrentUser(function(){
-			if (SessionStore.currentUser()){
-				ApiUtil.fetchMyJobs(SessionStore.currentUser().id, function(){
-					if (SessionStore.currentUser() && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
+			var currentUser = SessionStore.currentUser();
+			if (currentUser){
+				this.setState({
+					name: currentUser.real_name,
+					email: currentUser.email,
+					user_id: currentUser.id
+				});
+				ApiUtil.fetchMyJobs(currentUser.id, function(){
+					if (currentUser && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
 						var myJob = {
 							status: "visited",
 							job_id: this.props.params.jobId,
-							seeker_id: SessionStore.currentUser().id
+							seeker_id: currentUser.id
 						};
 						ApiUtil.createMyJob(myJob);
 					}
 				}.bind(this));
 			}
 		}.bind(this));
-
 	},
 
 	updateStateFromStore: function() {
@@ -46,9 +50,25 @@ var JobDetail = React.createClass({
 		return {
 			job: job,
 			modalIsOpen: false,
-			myjobs: MyJobStore.all()
+			myjobs: MyJobStore.all(),
+			// name: "",
+			// coverLetter :"",
+			// email: "",
+			// user_id : null
 		};
 	},
+
+  updateName: function(e) {
+		// debugger;
+    this.setState({ name: e.currentTarget.value });
+  },
+  updateCoverLetter: function(e) {
+    this.setState({ coverLetter: e.currentTarget.value});
+  },
+  updateEmail: function(e) {
+    this.setState({ email: e.currentTarget.value });
+  },
+
 	openModal: function() {
     this.setState({modalIsOpen: true});
   },
@@ -84,6 +104,7 @@ var JobDetail = React.createClass({
 	},
 
 	render: function () {
+
 		var customStyles = {
 		  overlay : {
 		    position        : 'fixed',
@@ -146,14 +167,14 @@ var JobDetail = React.createClass({
 			          <div className="application-title">{job.title}</div>
 								{job.employer.name} - {job.location.city}
 
-			          <form>
+			          <form onSubmit={this.handleSubmit}>
 			  					<label htmlFor="realname">Name</label>
-									<input className="application-input"type="text" />
+									<input onChange={this.updateName} value={this.state.name} className="application-input" type="text" />
 			  					<label htmlFor="email">Email</label>
-									<input className="application-input"type="text" />
+									<input onChange={this.updateEmail} value={this.state.email} className="application-input" type="text" />
 			  					<label htmlFor="coverletter">Cover Letter</label>
-									<textarea className="application-input-field" />
-			            <button className="app-button">Submit Application (not implemented yet)</button>
+									<textarea onChange={this.updateCoverLetter} className="application-input-field" />
+			            <button className="app-button">Submit Application</button>
 
 			          </form>
 							<a className="app-cancel" onClick={this.closeModal}>Cancel</a>
@@ -166,11 +187,13 @@ var JobDetail = React.createClass({
 	},
 	handleSubmit: function(e) {
 		e.preventDefault();
+		console.log("inhere");
 		var application ={
 			job_id: this.state.job.id,
-			real_name: "Lei",
-			email: "",
-			coverletter: "Man!" };
+			real_name: this.state.name,
+			email: this.state.email,
+			coverletter: this.state.coverLetter,
+		 	user_id: this.state.user_id};
 		ApiUtil.createApplication(application);
 	}
 });

@@ -7,7 +7,7 @@ var JobIndexItem = React.createClass({
 
 	render: function() {
 		var job = this.props.job;
-
+		var salary = job.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		return (
 			<div>
 				<li className="job-index-item">
@@ -16,7 +16,7 @@ var JobIndexItem = React.createClass({
 					</Link>
 					<br />
 					{job.employer.name} - {job.location.city}<br />
-					{job.salary}<br />
+				${salary}<br />
 					{job.description.split(" ").slice(0,10).join(" ") + "..."}<br />
 				</li>
 			</div>
