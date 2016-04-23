@@ -14,6 +14,7 @@ var PostedJobIndex = React.createClass({
     return {
       jobs: [],
       apps: [],
+      currentUserID: null,
     };
   },
   _onChangeJob: function () {
@@ -28,20 +29,31 @@ var PostedJobIndex = React.createClass({
       apps: ApplicationStore.all(),
      });
 	},
+  _onChangeSession: function () {
+
+		this.setState({
+      apps: SessionStore.currentUser().id,
+     });
+	},
 
   componentDidMount: function() {
     this.jobStoreToken = JobStore.addListener(this._onChangeJob);
-    this.ApplicationStoreToken = ApplicationStore.addListener(this._onChangeApp);
-    ApiUtil.fetchCurrentUser(function(){
-			if (SessionStore.currentUser()){
-				ApiUtil.fetchJobsforEmployer(SessionStore.currentUser().id);
-        ApiUtil.fetchAppsforEmployer();
-      }
-    });
+    this.applicationStoreToken = ApplicationStore.addListener(this._onChangeApp);
+    this.sessionStoreToken = SessionStore.addListener(this._onChangeSession);
+    // ApiUtil.fetchCurrentUser(function(){
+		// 	if (SessionStore.currentUser()){
+		// 		ApiUtil.fetchJobsforEmployer(SessionStore.currentUser().id);
+    //     ApiUtil.fetchAppsforEmployer();
+    //   }
+    // });
+    ApiUtil.fetchCurrentUser();
+    ApiUtil.fetchJobsforEmployer(SessionStore.currentUser().id);
+    ApiUtil.fetchAppsforEmployer();
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
-    this.ApplicationStoreToken.remove();
+    this.applicationStoreToken.remove();
+    this.sessionStoreToken.remove();
   },
 
   render: function() {

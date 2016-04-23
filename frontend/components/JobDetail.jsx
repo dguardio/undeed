@@ -195,6 +195,8 @@ var JobDetail = React.createClass({
 			coverletter: this.state.coverLetter,
 		 	user_id: this.state.user_id};
 		ApiUtil.createApplication(application);
+		this.closeModal();
 	}
+
 });
 module.exports = JobDetail;

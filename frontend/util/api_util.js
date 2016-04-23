@@ -33,6 +33,19 @@ var ApiUtil = {
       }
     });
   },
+    fetchAppsWithJobID: function(jobId){
+      $.ajax({
+        url: '/api/applications/',
+        method: 'GET',
+        dataType: 'json',
+        success: function (applications) {
+          ApplicationActions.applicationsJobIdReceived(applications, jobId);
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+      });
+    },
   createCity: function(city){
       $.ajax({
         url: '/api/locations/',

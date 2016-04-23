@@ -25,6 +25,15 @@ var resetApps = function(applications){
     _applications = applications;
 };
 
+var resetAppsWithJobId = function(applications, jobId){
+    var result = [];
+    application.forEach(function(app){
+      if (app.job_id === jobId)
+        result.push(app);
+    });
+    _applications = result;
+};
+
 ApplicationStore.__onDispatch = function (payload) {
 
   switch (payload.actionType) {
@@ -36,7 +45,11 @@ ApplicationStore.__onDispatch = function (payload) {
       resetApps(payload.applications);
       ApplicationStore.__emitChange();
       break;
-  }
+    case ApplicationConstants.APPLICATIONSJOBID_RECEIVED:
+      resetApps(payload.applications, payload.jobId);
+      ApplicationStore.__emitChange();
+      break;
+}
 };
 window.ApplicationStore = ApplicationStore;
 module.exports = ApplicationStore;

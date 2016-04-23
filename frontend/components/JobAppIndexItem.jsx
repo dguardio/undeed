@@ -21,7 +21,7 @@ var JobAppIndexItem = React.createClass({
 					{job.employer.name} - {job.location.city}<br />
 					{job.salary}<br />
 					{job.description.split(" ").slice(0,10).join(" ") + "..."}<br />
-        Application Count: {count}
+				<Link className="job-index-item-title" to={"applications/" + job.id}> Application Count: {count}</Link>
 				</li>
 			</div>
 		);

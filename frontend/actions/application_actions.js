@@ -15,6 +15,14 @@ var ApplicationActions = {
       actionType: ApplicationConstants.APPLICATIONS_RECEIVED,
       applications: applications
     });
+  },
+  applicationsJobIdReceived: function(applications, jobId){
+
+    AppDispatcher.dispatch({
+      actionType: ApplicationConstants.APPLICATIONSJOBID_RECEIVED,
+      applications: applications,
+      jobId: jobId
+    });
   }
 };
 
