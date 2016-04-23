@@ -16,7 +16,7 @@ var ApplicationIndex = React.createClass({
     return {
       jobId : this.props.params.jobId,
       apps : [],
-      userId : null,
+      user : {},
     };
 	},
 
@@ -24,7 +24,7 @@ var ApplicationIndex = React.createClass({
     this.applicationStoreToken = ApplicationStore.addListener(this._onChangeApp);
     this.sessionStoreToken = SessionStore.addListener(this._onChangeSession);
     ApiUtil.fetchCurrentUser();
-    ApiUtil.fetchAppsWithJobID(this.state.jobId);
+    ApiUtil.fetchAppsWithJobID(parseInt(this.state.jobId));
   },
 
   componentWillUnmount: function() {
@@ -38,7 +38,7 @@ var ApplicationIndex = React.createClass({
 	},
   _onChangeSession: function () {
 		this.setState({
-      userId: SessionStore.currentUser().id,
+      user: SessionStore.currentUser(),
      });
 	},
 
@@ -51,8 +51,8 @@ var ApplicationIndex = React.createClass({
     return (
         <div>
 
-    			  <Link className="logo-link" to={"/"}><Logo /></Link>
-
+    			<Link className="logo-link" to={"/"}><Logo /></Link>
+					<h2>Jobs Posted by me ({this.state.user.real_name})</h2>
           <div className="search-results">
             {apps}
           </div>
