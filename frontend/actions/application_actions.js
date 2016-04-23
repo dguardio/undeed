@@ -23,7 +23,15 @@ var ApplicationActions = {
       applications: applications,
       jobId: jobId
     });
-  }
+  },
+    applicationsAppIdReceived: function(applications, appId){
+
+      AppDispatcher.dispatch({
+        actionType: ApplicationConstants.APPLICATIONSAPPID_RECEIVED,
+        applications: applications,
+        appId: appId
+      });
+    },
 };
 
 module.exports = ApplicationActions;

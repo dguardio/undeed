@@ -13,9 +13,10 @@ var AppIndexItem = React.createClass({
 			<div>
 				<li className="job-index-item">
 					<br />
-					{app.email}<br />
-          {app.real_name}<br />
-          {app.cover_letter}<br />
+					Application from: {app.real_name}<br />
+					Email: {app.email}<br />
+					CoverLetter: {app.cover_letter}<br />
+  				<Link className="job-index-item-title" to={"/apps/" + app.id}>See Application Detail</Link>
 
 				</li>
 			</div>

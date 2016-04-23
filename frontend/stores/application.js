@@ -34,6 +34,14 @@ var resetAppsWithJobId = function(applications, jobId){
     });
     _applications = result;
 };
+var resetAppsWithAppId = function(applications, appId){
+    var result = [];
+    applications.forEach(function(app){
+      if (app.id === appId)
+        result.push(app);
+    });
+    _applications = result;
+};
 
 ApplicationStore.__onDispatch = function (payload) {
 
@@ -48,6 +56,10 @@ ApplicationStore.__onDispatch = function (payload) {
       break;
     case ApplicationConstants.APPLICATIONSJOBID_RECEIVED:
       resetAppsWithJobId(payload.applications, payload.jobId);
+      ApplicationStore.__emitChange();
+      break;
+    case ApplicationConstants.APPLICATIONSAPPID_RECEIVED:
+      resetAppsWithAppId(payload.applications, payload.appId);
       ApplicationStore.__emitChange();
       break;
 }

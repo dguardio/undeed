@@ -8,12 +8,12 @@ var ApplicationStore = require("../stores/application");
 var AppIndexItem = require('./AppIndexItem');
 
 
-var ApplicationIndex = React.createClass({
+var AppDetail = React.createClass({
 	getInitialState: function () {
     return {
       job : {},
-      apps : [],
-      user : {},
+      app : {},
+      user :{},
     };
 	},
 
@@ -22,9 +22,16 @@ var ApplicationIndex = React.createClass({
     this.sessionStoreToken = SessionStore.addListener(this._onChangeSession);
     this.jobStoreToken = JobStore.addListener(this._onChangeJob);
     ApiUtil.fetchCurrentUser();
-		var jobId = parseInt(this.props.params.jobId);
-		ApiUtil.fetchSingleJob(jobId);
-    ApiUtil.fetchAppsWithJobID(jobId);
+		var appId = parseInt(this.props.params.appId);
+    // ApiUtil.fetchAppsWithAppID(appId);
+		// ApiUtil.fetchSingleJob(this.state.app.job_id);
+    ApiUtil.fetchAppsWithAppID(appId, function(){
+			var app = ApplicationStore.all()[0];
+			if (app){
+				ApiUtil.fetchSingleJob(parseInt(app.job_id));
+			}
+		}.bind(this));
+
   },
 
   componentWillUnmount: function() {
@@ -34,7 +41,7 @@ var ApplicationIndex = React.createClass({
   },
   _onChangeApp: function () {
 		this.setState({
-      apps: ApplicationStore.all(),
+      app: ApplicationStore.all()[0],
      });
 	},
   _onChangeJob: function () {
@@ -50,18 +57,24 @@ var ApplicationIndex = React.createClass({
 	},
 
   render: function() {
-    var apps = this.state.apps.map(function(app) {
+    var app = this.state.app;
+		var coverLetter = app.cover_letter;
 
-      return <AppIndexItem key={app.id} app={app}/>;
+		if (coverLetter === null){
+			coverLetter = "Not included";
+		}
 
-    });
+		console.log(app);
     return (
         <div>
 
     			<Link className="logo-link" to={"/"}><Logo /></Link>
-					<h2>Applications received from Job ({this.state.job.title})</h2>
+
           <div className="search-results">
-            {apps}
+            Job : {this.state.job.title}<br />
+  					Application from: {app.real_name}<br />
+  					Email: {app.email}<br />
+					CoverLetter: {coverLetter}<br />
           </div>
         </div>
     );
@@ -69,4 +82,4 @@ var ApplicationIndex = React.createClass({
 
 });
 
-module.exports = ApplicationIndex;
+module.exports = AppDetail;

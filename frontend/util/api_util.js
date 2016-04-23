@@ -46,6 +46,20 @@ var ApiUtil = {
         }
       });
     },
+    fetchAppsWithAppID: function(appId, callback){
+      $.ajax({
+        url: '/api/applications/',
+        method: 'GET',
+        dataType: 'json',
+        success: function (applications) {
+          ApplicationActions.applicationsAppIdReceived(applications, appId);
+          callback && callback();
+        },
+        error: function(no){
+          console.log("Error: " + no);
+        }
+      });
+    },
   createCity: function(city){
       $.ajax({
         url: '/api/locations/',

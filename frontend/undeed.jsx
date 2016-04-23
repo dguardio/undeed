@@ -24,6 +24,7 @@ var JobSearch = require('./components/JobSearch');
 var ApplicationStore = require('./stores/application');
 var PostedJobIndex = require('./components/PostedJobIndex');
 var ApplicationIndex = require('./components/ApplicationIndex');
+var AppDetail = require('./components/AppDetail');
 
 // Auth
 var FrontPage = require('./components/FrontPage');
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<Route path="/jobs/:jobId" component={JobDetail}/>
 					<Route path="postedjobs" component={PostedJobIndex} onEnter={_requireLoggedIn}/>
 					<Route path="applications/:jobId" component={ApplicationIndex} onEnter={_requireLoggedIn}/>
+					<Route path="apps/:appId" component={AppDetail} onEnter={_requireLoggedIn}/>
 					<Route path="userprofile" component={UserProfile} onEnter={_requireLoggedIn}/>
 					<Route path="newjob" component={JobForm} onEnter={_requireLoggedIn}/>
 					<Route path="userform" component={UserForm} onEnter={_requireLoggedIn}/>
