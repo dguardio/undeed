@@ -21,10 +21,12 @@ var JobDetail = React.createClass({
 		ApiUtil.fetchCurrentUser(function(){
 			var currentUser = SessionStore.currentUser();
 			if (currentUser){
+
 				this.setState({
 					name: currentUser.real_name,
 					email: currentUser.email,
-					user_id: currentUser.id
+					user_id: currentUser.id,
+					resumeOnFile: currentUser.resume_url
 				});
 				ApiUtil.fetchMyJobs(currentUser.id, function(){
 					if (currentUser && MyJobStore.exist(parseInt(this.props.params.jobId))===false){
@@ -102,6 +104,9 @@ var JobDetail = React.createClass({
 		this.storeToken.remove();
 		this.storeToken2.remove();
 	},
+	toUploadResume: function(){
+		this.setState({ resumeOnFile: "" });
+	},
 
 	render: function () {
 
@@ -137,8 +142,20 @@ var JobDetail = React.createClass({
 			saved = "notification-show";
 		}
 
-		if (SessionStore.currentUser()){
-			debugger;
+		var resumeUpload;
+		if (!this.state.resumeOnFile){
+
+			resumeUpload = <input className="user-form-input-field-file"
+							              type="file"
+							              onChange={this.handleFileChange}
+							              />;
+		}
+		else{
+			this.uploadOnFile();
+			resumeUpload = <div className="user-form-input-field-file">Use resume on file
+												<a href ={this.state.resumeOnFile} download>link</a> or
+												<a onClick={this.toUploadResume}>upload a different one</a>
+											</div>;
 		}
  		if (!job){
 			return <div></div>;
@@ -180,10 +197,7 @@ var JobDetail = React.createClass({
 									<textarea onChange={this.updateCoverLetter} className="application-input-field" />
 
 				          <label>Resume
-				            <input className="user-form-input-field-file"
-				              type="file"
-				              onChange={this.handleFileChange}
-				              />
+										{resumeUpload}
 				          </label>
 			            <button className="app-button">Submit Application</button>
 
@@ -197,6 +211,7 @@ var JobDetail = React.createClass({
 		);
 	},
   handleFileChange: function (e) {
+		debugger;
     var file = e.currentTarget.files[0];
     var reader = new FileReader();
 
@@ -207,10 +222,14 @@ var JobDetail = React.createClass({
 
     reader.readAsDataURL(file);
   },
+
+	uploadOnFile: function(){
+
+	},
 	handleSubmit: function(e) {
 		e.preventDefault();
     var formData = new FormData();
-		// debugger;
+		debugger;
     formData.append("application[real_name]", this.state.realName);
     formData.append("application[resume]", this.state.resumeFile);
 		formData.append("application[job_id]", this.state.job.id);

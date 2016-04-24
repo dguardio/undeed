@@ -16,6 +16,7 @@ var UserProfile = React.createClass({
 
   componentDidMount: function (){
   	var user_id = SessionStore.currentUser().id;
+    console.log(user_id);
     ApiUtil.fetchUser(user_id);
     this.UserStoreToken = UserStore.addListener(this.setStateFromStore);
   },
