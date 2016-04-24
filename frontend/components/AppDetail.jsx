@@ -60,9 +60,16 @@ var AppDetail = React.createClass({
 		if (this.state.app.resume_url === "/missing.pdf" || this.state.app.resume_url === undefined ){
 			return "resume not included";
 		}else {
-			return <iframe className="pdf-view" src={this.state.app.resume_url} download></iframe>;
+			return <iframe className="app-pdf-view" src={this.state.app.resume_url} download></iframe>;
 		}
 	},
+		calculateDate : function(date){
+			var oneDay = 24*60*60*1000;
+			var today = new Date();
+			var submittedDate = new Date(date);
+			var diffDays = Math.round(Math.abs((submittedDate.getTime() - today.getTime())/(oneDay)));
+			return diffDays;
+		},
   render: function() {
     var app = this.state.app;
 		var coverLetter = app.cover_letter;
@@ -71,15 +78,16 @@ var AppDetail = React.createClass({
 		if (coverLetter === null){
 			coverLetter = "Not included";
 		}
-		console.log(app);
     return (
         <div>
-
-    			<Link className="logo-link" to={"/"}><Logo /></Link>
-
+          <div className="search-bar group">
+    			  <Link className="logo-link" to={"/"}><Logo /></Link>
+            <div className="app-index-title">Application Detail</div>
+          </div>
           <div className="search-results">
             Job : {this.state.job.title}<br />
-  					Application from: {app.real_name}<br />
+						Applicant: {app.real_name}<br />
+						Submiited: {this.calculateDate(app.updated_at)} day ago<br />
   					Email: {app.email}<br />
 					  CoverLetter: {coverLetter}<br />
 					{resume}

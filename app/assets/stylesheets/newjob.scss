@@ -19,6 +19,9 @@
     word-break: break-all;
 }
 
+.input-textarea:focus{
+  outline: -webkit-focus-ring-color auto 5px;
+}
 .newjob-content{
 		display: block;
 		height: 500px;

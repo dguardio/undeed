@@ -69,8 +69,15 @@
 	background: white;
 	display: block;
 	width:340px;
+  height: 20px;
 	border: 1px solid lightgrey;
 	margin-bottom: 10px;
+
+
+}
+
+.input-field:focus{
+  outline: -webkit-focus-ring-color auto 5px;
 }
 .signin-button{
 	align-items: flex-start;
@@ -118,6 +125,11 @@
 }
 
 
+.app-pdf-view{
+    width:600px;
+    height:800px
+}
+
 
 .user-form-input-field{
 	background: white;
@@ -162,7 +174,7 @@
 	padding: 12px;
 	background: #e0e5ff;
 	width: 370px;
-	height:140px;
+	height:150px;
 	border-top: 2px solid #36c;
 	display:block;
 }

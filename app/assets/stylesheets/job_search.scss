@@ -19,6 +19,12 @@
   width: 260px;
   height:25px;
 }
+.searchfield-what:focus{
+  outline: -webkit-focus-ring-color auto 5px;
+}
+.searchfield-where:focus{
+  outline: -webkit-focus-ring-color auto 5px;
+}
 .search-button{
 	align-items: flex-start;
 	text-align: center;

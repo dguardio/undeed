@@ -1,13 +1,15 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+var Modal = require("react-modal");
+var Link = require('react-router').Link;
+
+var Logo = require('./Logo');
+var JobSearch = require('./JobSearch');
+
 var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
-var Logo = require('./Logo');
-var Link = require('react-router').Link;
-var JobSearch = require('./JobSearch');
 var SessionStore = require("../stores/session");
-var Modal = require("react-modal");
 var MyJobStore = require('../stores/myJob');
+
 var JobDetail = React.createClass({
 	getInitialState: function () {
 
@@ -133,7 +135,10 @@ var JobDetail = React.createClass({
 		var email = "";
 		var savebutton = "job-detail-save";
 		var saved = "notification-hide";
-
+		var salary;
+		if (job){
+			salary = job.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 		if(!SessionStore.currentUser()){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-hide";
@@ -144,7 +149,6 @@ var JobDetail = React.createClass({
 
 		var resumeUpload;
 		if (!this.state.resumeOnFile){
-
 			resumeUpload = <input className="user-form-input-field-file"
 							              type="file"
 							              onChange={this.handleFileChange}
@@ -152,9 +156,9 @@ var JobDetail = React.createClass({
 		}
 		else{
 			this.uploadOnFile();
-			resumeUpload = <div className="user-form-input-field-file">Use resume on file
-												<a href ={this.state.resumeOnFile} download>link</a> or
-												<a onClick={this.toUploadResume}>upload a different one</a>
+			resumeUpload = <div className="user-form-input-field-file">
+											<a href ={this.state.resumeOnFile} download>Use resume on file</a>   or
+											<a onClick={this.toUploadResume}> upload a different one</a>
 											</div>;
 		}
  		if (!job){
@@ -171,7 +175,7 @@ var JobDetail = React.createClass({
 				<div className="job-detail-header">
 					<h2 className="job-detail-title">{job.title}</h2>
 					{job.employer.name} - {job.location.city}<br />
-					Salary: {job.salary}<br />
+				Salary: ${salary}/year<br />
 				</div>
 				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
 				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
@@ -211,7 +215,6 @@ var JobDetail = React.createClass({
 		);
 	},
   handleFileChange: function (e) {
-		debugger;
     var file = e.currentTarget.files[0];
     var reader = new FileReader();
 
@@ -229,7 +232,6 @@ var JobDetail = React.createClass({
 	handleSubmit: function(e) {
 		e.preventDefault();
     var formData = new FormData();
-		debugger;
     formData.append("application[real_name]", this.state.realName);
     formData.append("application[resume]", this.state.resumeFile);
 		formData.append("application[job_id]", this.state.job.id);

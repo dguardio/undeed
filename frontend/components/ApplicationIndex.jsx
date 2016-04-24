@@ -57,9 +57,10 @@ var ApplicationIndex = React.createClass({
     });
     return (
         <div>
-
-    			<Link className="logo-link" to={"/"}><Logo /></Link>
-					<h2>Applications received from Job ({this.state.job.title})</h2>
+          <div className="search-bar group">
+    			  <Link className="logo-link" to={"/"}><Logo /></Link>
+            <div className="app-index-title">Apps received for {this.state.job.title} Position</div>
+          </div>
           <div className="search-results">
             {apps}
           </div>

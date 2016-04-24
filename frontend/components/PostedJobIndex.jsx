@@ -64,7 +64,10 @@ var PostedJobIndex = React.createClass({
       return (
         <div>
 
+          <div className="search-bar group">
     			  <Link className="logo-link" to={"/"}><Logo /></Link>
+            <div className="app-index-title">My Posted Jobs</div>
+          </div>
 
           <div className="search-results">
             {jobs}

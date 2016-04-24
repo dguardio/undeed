@@ -11,6 +11,10 @@ var JobAppIndexItem = React.createClass({
 
 		var job = this.props.job;
     var count = this.props.count;
+		var salary;
+		if (job){
+			salary = job.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 		return (
 			<div>
 				<li className="job-index-item">
@@ -19,7 +23,7 @@ var JobAppIndexItem = React.createClass({
 					</Link>
 					<br />
 					{job.employer.name} - {job.location.city}<br />
-					{job.salary}<br />
+					${salary}/year<br />
 					{job.description.split(" ").slice(0,10).join(" ") + "..."}<br />
 				<Link className="job-index-item-title" to={"applications/" + job.id}> Application Count: {count}</Link>
 				</li>
