@@ -56,14 +56,21 @@ var AppDetail = React.createClass({
      });
 	},
 
+	isThereResume: function(){
+		if (this.state.app.resume_url === "/missing.pdf"){
+			return "resume not included";
+		}else {
+			return <iframe className="pdf-view" src={this.state.app.resume_url} download></iframe>;
+		}
+	},
   render: function() {
     var app = this.state.app;
 		var coverLetter = app.cover_letter;
 
+		var resume = this.isThereResume();
 		if (coverLetter === null){
 			coverLetter = "Not included";
 		}
-
 		console.log(app);
     return (
         <div>
@@ -74,7 +81,8 @@ var AppDetail = React.createClass({
             Job : {this.state.job.title}<br />
   					Application from: {app.real_name}<br />
   					Email: {app.email}<br />
-					CoverLetter: {coverLetter}<br />
+					  CoverLetter: {coverLetter}<br />
+					{resume}
           </div>
         </div>
     );

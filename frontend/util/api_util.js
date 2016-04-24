@@ -9,7 +9,10 @@ var ApiUtil = {
     $.ajax({
       url: '/api/applications/',
       method: 'POST',
-      data: {application: application},
+      // data: {application: application},
+      processData: false,
+      contentType: false,
+      data: application,
       dataType: 'json',
       success: function (application) {
         // debugger;

@@ -174,6 +174,13 @@ var JobDetail = React.createClass({
 									<input onChange={this.updateEmail} value={this.state.email} className="application-input" type="text" />
 			  					<label htmlFor="coverletter">Cover Letter</label>
 									<textarea onChange={this.updateCoverLetter} className="application-input-field" />
+
+				          <label>Resume
+				            <input className="user-form-input-field-file"
+				              type="file"
+				              onChange={this.handleFileChange}
+				              />
+				          </label>
 			            <button className="app-button">Submit Application</button>
 
 			          </form>
@@ -185,16 +192,37 @@ var JobDetail = React.createClass({
 		</div>
 		);
 	},
+  handleFileChange: function (e) {
+    var file = e.currentTarget.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+      var result = reader.result;
+      this.setState({ resumeFile: file, resumeUrl: result });
+    }.bind(this);
+
+    reader.readAsDataURL(file);
+  },
 	handleSubmit: function(e) {
 		e.preventDefault();
-		console.log("inhere");
-		var application ={
-			job_id: this.state.job.id,
-			real_name: this.state.name,
-			email: this.state.email,
-			coverletter: this.state.coverLetter,
-		 	user_id: this.state.user_id};
-		ApiUtil.createApplication(application);
+    var formData = new FormData();
+		// debugger;
+    formData.append("application[real_name]", this.state.realName);
+    formData.append("application[resume]", this.state.resumeFile);
+		formData.append("application[job_id]", this.state.job.id);
+		formData.append("application[real_name]", this.state.name);
+		formData.append("application[email]", this.state.email);
+		formData.append("application[cover_letter]", this.state.coverLetter);
+	 	formData.append("application[user_id]", this.state.user_id);
+		// var application ={
+		// 	job_id: this.state.job.id,
+		// 	real_name: this.state.name,
+		// 	email: this.state.email,
+		// 	cover_letter: this.state.coverLetter,
+		//  	user_id: this.state.user_id};
+		// ApiUtil.createApplication(application);
+		ApiUtil.createApplication(formData);
+
 		this.closeModal();
 	}
 

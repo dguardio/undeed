@@ -21,6 +21,6 @@ class Api::ApplicationsController < ApplicationController
   end
 
   def application_params
-    params.require(:application).permit(:real_name, :email, :job_id, :cover_letter, :user_id)
+    params.require(:application).permit(:real_name, :email, :job_id, :cover_letter, :user_id, :resume)
   end
 end
