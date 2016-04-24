@@ -57,7 +57,7 @@ var AppDetail = React.createClass({
 	},
 
 	isThereResume: function(){
-		if (this.state.app.resume_url === "/missing.pdf"){
+		if (this.state.app.resume_url === "/missing.pdf" || this.state.app.resume_url === undefined ){
 			return "resume not included";
 		}else {
 			return <iframe className="pdf-view" src={this.state.app.resume_url} download></iframe>;

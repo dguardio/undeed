@@ -136,6 +136,10 @@ var JobDetail = React.createClass({
 			savebutton = "job-detail-save-hide";
 			saved = "notification-show";
 		}
+
+		if (SessionStore.currentUser()){
+			debugger;
+		}
  		if (!job){
 			return <div></div>;
 		}

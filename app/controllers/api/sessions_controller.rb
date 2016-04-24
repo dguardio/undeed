@@ -1,7 +1,8 @@
 class Api::SessionsController < ApplicationController
   def show
     if signed_in?
-      render json: current_user
+      # render json: current_user
+      render :show
     else
       render json: {}, status: 200
     end
@@ -15,7 +16,8 @@ class Api::SessionsController < ApplicationController
 
     if user && user.is_password?(params[:password])
       sign_in(user)
-      render json: user
+      # render json: user
+      render :show
     else
       render json: { message: "Invalid credentials" }, status: 401
     end
