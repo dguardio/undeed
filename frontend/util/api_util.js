@@ -23,6 +23,23 @@ var ApiUtil = {
       }
     });
   },
+    createApplication2: function(application){
+      // debugger;
+      $.ajax({
+        url: '/api/applications/',
+        method: 'POST',
+        data: {application: application},
+        dataType: 'json',
+        success: function (application) {
+          // debugger;
+          ApplicationActions.applicationReceived(application);
+        },
+        error: function(no){
+          debugger;
+          console.log("Error: " + no);
+        }
+      });
+    },
   fetchAppsforEmployer: function(){
     $.ajax({
       url: '/api/applications/',

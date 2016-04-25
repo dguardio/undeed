@@ -7,7 +7,10 @@ class Api::ApplicationsController < ApplicationController
   def create
 
     @application = Application.new(application_params)
-
+    # debugger
+    if params[:application][:resume_url]
+      @application.resume = URI.parse(params[:application][:resume_url])
+    end
     if @application.save
       render :show
     else

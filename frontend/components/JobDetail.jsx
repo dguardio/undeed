@@ -19,6 +19,7 @@ var JobDetail = React.createClass({
       myJob : [],
       user :{},
 			modalIsOpen: false,
+			useOnFile: false
     };
 	},
 
@@ -62,7 +63,7 @@ var JobDetail = React.createClass({
 	},
   _onChangeJob: function () {
 		this.setState({
-      job: JobStore.all()[0],
+      job: JobStore.find(parseInt(this.props.params.jobId)),
      });
 	},
   _onChangeSession: function () {
@@ -137,6 +138,7 @@ var JobDetail = React.createClass({
 		this.storeToken4.remove();
 	},
 	toUploadResume: function(){
+		console.log("state changed");
 		this.setState({ resumeOnFile: "" });
 	},
 
@@ -196,15 +198,16 @@ var JobDetail = React.createClass({
 							              />;
 		}
 		else{
-			this.uploadOnFile();
 			resumeUpload = <div className="user-form-input-field-file">
-											<a href ={this.state.resumeOnFile} download>Use resume on file (not working yet)</a>   or
+											<a onClick={this.uploadOnFile}>Use resume on file (not working yet)</a>
+											<a href ={this.state.resumeOnFile} download>Link</a>   or
 											<a onClick={this.toUploadResume}> upload a different one</a>
 											</div>;
 		}
  		if (!job){
 			return <div></div>;
 		}
+
 		return (
 
 		<div>
@@ -269,26 +272,38 @@ var JobDetail = React.createClass({
   },
 
 	uploadOnFile: function(){
-
+		// this.setState({ resumeFile: this.state.user.resume});
+		this.setState({useOnFile: true});
 	},
 	handleSubmit: function(e) {
 		e.preventDefault();
-    var formData = new FormData();
-    formData.append("application[real_name]", this.state.realName);
-    formData.append("application[resume]", this.state.resumeFile);
-		formData.append("application[job_id]", this.state.job.id);
-		formData.append("application[real_name]", this.state.name);
-		formData.append("application[email]", this.state.email);
-		formData.append("application[cover_letter]", this.state.coverLetter);
-	 	formData.append("application[user_id]", this.state.user_id);
-		// var application ={
-		// 	job_id: this.state.job.id,
-		// 	real_name: this.state.name,
-		// 	email: this.state.email,
-		// 	cover_letter: this.state.coverLetter,
-		//  	user_id: this.state.user_id};
-		// ApiUtil.createApplication(application);
-		ApiUtil.createApplication(formData);
+		debugger;
+		if (this.state.useOnFile === false){
+	    var formData = new FormData();
+	    formData.append("application[real_name]", this.state.realName);
+	    formData.append("application[resume]", this.state.resumeFile);
+			formData.append("application[job_id]", this.state.job.id);
+			formData.append("application[real_name]", this.state.name);
+			formData.append("application[email]", this.state.email);
+			formData.append("application[cover_letter]", this.state.coverLetter);
+		 	formData.append("application[user_id]", this.state.user_id);
+
+			ApiUtil.createApplication(formData);
+		}else{
+				var application ={
+					job_id: this.state.job.id,
+					real_name: this.state.name,
+					email: this.state.email,
+					cover_letter: this.state.coverLetter,
+				 	user_id: this.state.user_id,
+					resume_url: this.state.user.resume_url
+					// resume_file_name: this.state.user.resume_file_name,
+					// resume_content_type: this.state.user.resume_content_type,
+					// resume_file_size: this.state.user.resume_file_size,
+					// resume_updated_at: this.state.user.resume_updated_at,
+				};
+				ApiUtil.createApplication2(application);
+		}
 		this.handleApply();
 		this.closeModal();
 	}
