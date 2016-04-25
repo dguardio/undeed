@@ -48,7 +48,6 @@ var AppDetail = React.createClass({
 		this.setState({
       job: JobStore.all()[0],
      });
-
 	},
   _onChangeSession: function () {
 		this.setState({

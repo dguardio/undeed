@@ -8,22 +8,29 @@ var JobSearch = require('./JobSearch');
 var ApiUtil = require('../util/api_util');
 var JobStore = require('../stores/job');
 var SessionStore = require("../stores/session");
+var ApplicationStore = require("../stores/application");
 var MyJobStore = require('../stores/myJob');
 
 var JobDetail = React.createClass({
 	getInitialState: function () {
 
-		return this.getStateFromStore();
+    return {
+      job : JobStore.find(parseInt(this.props.params.jobId)),
+      myJob : [],
+      user :{},
+			modalIsOpen: false,
+    };
 	},
 
 	componentDidMount: function (){
-		this.storeToken = JobStore.addListener(this.updateStateFromStore);
-		this.storeToken2 = MyJobStore.addListener(this.updateStateFromStore);
+		this.storeToken = JobStore.addListener(this._onChangeJob);
+		this.storeToken2 = MyJobStore.addListener(this._onChangeMyJob);
+		this.storeToken3 = SessionStore.addListener(this._onChangeSession);
+		this.storeToken4 = SessionStore.addListener(this._onChangeApp);
 		ApiUtil.fetchSingleJob(parseInt(this.props.params.jobId));
 		ApiUtil.fetchCurrentUser(function(){
 			var currentUser = SessionStore.currentUser();
 			if (currentUser){
-
 				this.setState({
 					name: currentUser.real_name,
 					email: currentUser.email,
@@ -43,27 +50,28 @@ var JobDetail = React.createClass({
 			}
 		}.bind(this));
 	},
-
-	updateStateFromStore: function() {
-		this.setState(this.getStateFromStore());
+  _onChangeApp: function () {
+		this.setState({
+      app: ApplicationStore.all()[0],
+     });
 	},
-
-	getStateFromStore: function () {
-
-		var job = JobStore.find(parseInt(this.props.params.jobId));
-		return {
-			job: job,
-			modalIsOpen: false,
-			myjobs: MyJobStore.all(),
-			// name: "",
-			// coverLetter :"",
-			// email: "",
-			// user_id : null
-		};
+  _onChangeMyJob: function () {
+		this.setState({
+      myjob: MyJobStore.all()[0],
+     });
+	},
+  _onChangeJob: function () {
+		this.setState({
+      job: JobStore.all()[0],
+     });
+	},
+  _onChangeSession: function () {
+		this.setState({
+      user: SessionStore.currentUser(),
+     });
 	},
 
   updateName: function(e) {
-		// debugger;
     this.setState({ name: e.currentTarget.value });
   },
   updateCoverLetter: function(e) {
@@ -79,6 +87,7 @@ var JobDetail = React.createClass({
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
+
 	handleSave: function(){
 		ApiUtil.fetchCurrentUser(function(){
 			if (SessionStore.currentUser()){
@@ -95,8 +104,27 @@ var JobDetail = React.createClass({
 				}.bind(this));
 			}
 		}.bind(this));
-
 	},
+
+		handleApply: function(){
+			ApiUtil.fetchAppsWithJobID(this.state.job.id, function(){
+				if (ApplicationStore.all[0]){
+					var currentUser = SessionStore.currentUser();
+					ApiUtil.fetchMyJobs(currentUser.id, function(){
+						myjobid = MyJobStore.findMyJobID(parseInt(this.props.params.jobId));
+						var myJob = {
+							id: myjobid,
+							status: "applied",
+							job_id: parseInt(this.props.params.jobId),
+							seeker_id: currentUser.id
+						};
+						ApiUtil.updateMyJobStatus(myjobid, myJob);
+					}.bind(this));
+				}
+			}.bind(this));
+		},
+
+
 
 	componentWillReceiveProps: function(newProps){
 		ApiUtil.fetchSingleJob(parseInt(newProps.params.jobId));
@@ -105,6 +133,8 @@ var JobDetail = React.createClass({
 	componentWillUnmount: function() {
 		this.storeToken.remove();
 		this.storeToken2.remove();
+		this.storeToken3.remove();
+		this.storeToken4.remove();
 	},
 	toUploadResume: function(){
 		this.setState({ resumeOnFile: "" });
@@ -134,7 +164,9 @@ var JobDetail = React.createClass({
 		var job = this.state.job;
 		var email = "";
 		var savebutton = "job-detail-save";
+		var applybutton = "job-detail-apply";
 		var saved = "notification-hide";
+		var applied = "notification-hide";
 		var salary;
 		if (job){
 			salary = job.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -142,9 +174,18 @@ var JobDetail = React.createClass({
 		if(!SessionStore.currentUser()){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-hide";
+			applybutton = "job-detail-apply";
+			applied = "notification-hide";
+		}else if (!job|| MyJobStore.findMyJobStatus(job.id)==="applied"){
+			savebutton = "job-detail-save-hide";
+			applybutton = "job-detail-apply-hide";
+			saved = "notification-hide";
+			applied = "notification-show";
 		}else if (!job || MyJobStore.findMyJobStatus(job.id)==="saved"){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-show";
+			applybutton = "job-detail-apply";
+			applied = "notification-hide";
 		}
 
 		var resumeUpload;
@@ -157,7 +198,7 @@ var JobDetail = React.createClass({
 		else{
 			this.uploadOnFile();
 			resumeUpload = <div className="user-form-input-field-file">
-											<a href ={this.state.resumeOnFile} download>Use resume on file</a>   or
+											<a href ={this.state.resumeOnFile} download>Use resume on file (not working yet)</a>   or
 											<a onClick={this.toUploadResume}> upload a different one</a>
 											</div>;
 		}
@@ -178,7 +219,8 @@ var JobDetail = React.createClass({
 				Salary: ${salary}/year<br />
 				</div>
 				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
-				<button className="job-detail-apply"onClick={this.openModal}>Apply This Job</button>
+				<button className={applybutton}onClick={this.openModal}>Apply This Job</button>
+				<button className={applied} >Already Applied</button>
 				<button className={savebutton} onClick={this.handleSave}>Save This Job</button>
 				<button className={saved} >Job Saved</button>
 
@@ -247,7 +289,7 @@ var JobDetail = React.createClass({
 		//  	user_id: this.state.user_id};
 		// ApiUtil.createApplication(application);
 		ApiUtil.createApplication(formData);
-
+		this.handleApply();
 		this.closeModal();
 	}
 
