@@ -7,10 +7,21 @@
 	font-weight:bold;
 }
 .dropdown-location-list{
+		color:#9c9c9c;
 	display: block;
 	padding: 3px 5px;
+	font-decoration: normal;
 }
 .dropdown-location-list:hover {
 	background: blue;
-	color: white;
+	color: white !important;
+
+}
+
+.boldItem {
+	font-decoration: bold;
+	color:black;
+}
+.dropdown-location-list:hover .boldItem{
+	color:white;
 }

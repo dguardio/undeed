@@ -25,11 +25,17 @@ var TitleDropDown  = React.createClass({
     var keyNum = 0;
     var jobTitles = this.state.jobTitles.map(function (jobTitle) {
       keyNum++;
+      var word = this.props.whatField;
+      idx = jobTitle.toLowerCase().indexOf(word.toLowerCase());
+      prestring = jobTitle.slice(0,idx);
+      string = jobTitle.slice(idx, idx+ this.props.whatField.length);
+      poststring = jobTitle.slice(idx+ this.props.whatField.length);
+
       return (
         <li className="dropdown-location-list"
           onClick={this.props.setTitle.bind(null,jobTitle)}
           key={keyNum} >
-          {jobTitle}
+          {prestring}<strong className="boldItem">{string}</strong>{poststring}
         </li>);
     }.bind(this));
     if (this.props.whatVisible === true && jobTitles.length > 0 ){

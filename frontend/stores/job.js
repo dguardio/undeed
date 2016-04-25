@@ -70,8 +70,10 @@ var searchJobs = function(jobs, whatwhere){
     if (whatwhere.date === "today"){
         var today = new Date();
         var jobDate = new Date(job.created_at);
+  			var oneDay = 24*60*60*1000;
+  			var diffDays = Math.round(Math.abs((today.getTime() - jobDate.getTime())/(oneDay)));
       if (job.location.city.includes(whatwhere.whereField) &&
-          job.title.includes(whatwhere.whatField)&& jobDate - today < 86400){
+          job.title.includes(whatwhere.whatField)&& diffDays === 0){
         searchedJobs.push(job);
       }
     } else {

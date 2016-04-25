@@ -74,7 +74,7 @@ var JobSeach = React.createClass({
           <div className="what-field">
             <label className="search-label">what:</label>
             <input className="searchfield-what" type='text' onChange={this.handleWhatFieldChange} value={this.state.whatField} />
-            <TitleDropDown setTitle={this.setJobTitle} whatVisible={this.state.whatVisible}/>
+            <TitleDropDown setTitle={this.setJobTitle} whatVisible={this.state.whatVisible} whatField={this.state.whatField}/>
           </div>
           <div className="where-field">
             <label className="search-label">where:</label>
