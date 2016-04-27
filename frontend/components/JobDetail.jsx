@@ -19,7 +19,9 @@ var JobDetail = React.createClass({
       myJob : [],
       user :{},
 			modalIsOpen: false,
-			useOnFile: false
+			useOnFile: false,
+			uploadResume: false,
+			onFileattached: false,
     };
 	},
 
@@ -138,12 +140,14 @@ var JobDetail = React.createClass({
 		this.storeToken4.remove();
 	},
 	toUploadResume: function(){
-		console.log("state changed");
-		this.setState({ resumeOnFile: "" });
+		this.setState({
+			uploadResume: true,
+			useOnFile: false
+		});
 	},
 
 	render: function () {
-
+		console.log(this.state.coverLetter);
 		var customStyles = {
 		  overlay : {
 		    position        : 'fixed',
@@ -196,14 +200,30 @@ var JobDetail = React.createClass({
 							              type="file"
 							              onChange={this.handleFileChange}
 							              />;
+			}
+		else if (this.state.resumeOnFile && this.state.uploadResume){
+			resumeUpload = <div><input className="user-form-input-field-file"
+							              type="file"
+							              onChange={this.handleFileChange}
+							              />
+													or <a onClick={this.uploadOnFile}>Use resume on file</a>
+
+							      </div>;
 		}
-		else{
+		else if (this.state.resumeOnFile && !this.state.useOnFile){
 			resumeUpload = <div className="user-form-input-field-file">
-											<a onClick={this.uploadOnFile}>Use resume on file (not working yet)</a>
-											<a href ={this.state.resumeOnFile} download>Link</a>   or
-											<a onClick={this.toUploadResume}> upload a different one</a>
+											<a onClick={this.uploadOnFile}>Use resume on file</a>
+											or
+											<a onClick={this.toUploadResume}> upload a different one</a>;
 											</div>;
+			}
+		else if (this.state.resumeOnFile && this.state.useOnFile){
+			resumeUpload = <div className="user-form-input-field-file">
+								<h3>Resume on file Attached</h3>   or
+								<a onClick={this.toUploadResume}> upload a different one</a>;
+								</div>;
 		}
+
  		if (!job){
 			return <div></div>;
 		}
@@ -243,7 +263,7 @@ var JobDetail = React.createClass({
 			  					<label htmlFor="email">Email</label>
 									<input onChange={this.updateEmail} value={this.state.email} className="application-input" type="text" />
 			  					<label htmlFor="coverletter">Cover Letter</label>
-									<textarea onChange={this.updateCoverLetter} className="application-input-field" />
+									<textarea onChange={this.updateCoverLetter} className="application-input-field"></textarea>
 
 				          <label>Resume
 										{resumeUpload}
@@ -272,12 +292,15 @@ var JobDetail = React.createClass({
   },
 
 	uploadOnFile: function(){
-		// this.setState({ resumeFile: this.state.user.resume});
-		this.setState({useOnFile: true});
+		console.log("uploadOnFile");
+		this.setState({
+			useOnFile: true,
+			uploadResume: false,
+			onFileattached: true,
+		});
 	},
 	handleSubmit: function(e) {
 		e.preventDefault();
-		debugger;
 		if (this.state.useOnFile === false){
 	    var formData = new FormData();
 	    formData.append("application[real_name]", this.state.realName);
@@ -297,10 +320,6 @@ var JobDetail = React.createClass({
 					cover_letter: this.state.coverLetter,
 				 	user_id: this.state.user_id,
 					resume_url: this.state.user.resume_url
-					// resume_file_name: this.state.user.resume_file_name,
-					// resume_content_type: this.state.user.resume_content_type,
-					// resume_file_size: this.state.user.resume_file_size,
-					// resume_updated_at: this.state.user.resume_updated_at,
 				};
 				ApiUtil.createApplication2(application);
 		}
