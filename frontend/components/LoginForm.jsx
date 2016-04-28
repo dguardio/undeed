@@ -24,26 +24,26 @@ var LoginForm = React.createClass({
           <div className="content group">
         		<section className="signin-block group">
         			<section className="main-signin">
-              <h1 className="signin-title">Sign In</h1>
-              <text className="link-to-sign-up">Not a member?<Link to={"/signup"}>Create an account free</Link></text>
-              <form onSubmit={this.handleSubmit}>
-      					<div className="input-block">
-                  <label htmlFor="email">Email</label>
-                  <input className="input-field" onChange={this.updateEmail} type="text" value={this.state.email}/>
+                <h1 className="signin-title" >Sign In</h1>
+                <text className="link-to-sign-up">Not a member?<Link to={"/signup"}>Create an account free</Link></text>
+                <form onSubmit={this.handleSubmit}>
+        					<div className="input-block">
+                    <label htmlFor="email">Email</label>
+                    <input className="input-field" onChange={this.updateEmail} type="text" value={this.state.email}/>
 
-                  <label htmlFor="password">Password</label>
-                  <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
-                  <div className="error">{this.state.validation.join(", ")}</div>
-                  <div className="error"><ErrorNotification /></div>
-      					</div>
-                <button className="uibutton large addmargin">Sign In</button>
-              </form>
-      			   </section>
-               <section className="facebook-signin">
+                    <label htmlFor="password">Password</label>
+                    <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
+                    <div className="error">{this.state.validation.join(", ")}</div>
+                    <div className="error"><ErrorNotification /></div>
+        					</div>
+                  <button className="uibutton large addmargin max">Sign In</button>
+                </form>
+      			  </section>
+              <section className="facebook-signin">
                  <form onSubmit={this.handleGuestSubmit}>
-                   <button className="uibutton large addmargin">Sign in as a guest</button>
+                   <button className="uibutton large addmargin max">Sign in as a guest</button>
                  </form>
-                 <a className="uibutton large confirm addmargin" href="/auth/facebook">LOG IN WITH FACEBOOK</a>
+                 <a className="uibutton large confirm addmargin max" href="/auth/facebook">LOG IN WITH FACEBOOK</a>
 
                </section>
       			</section>
