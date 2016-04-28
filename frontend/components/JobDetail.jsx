@@ -109,23 +109,23 @@ var JobDetail = React.createClass({
 		}.bind(this));
 	},
 
-		handleApply: function(){
-			ApiUtil.fetchAppsWithJobID(this.state.job.id, function(){
-				if (ApplicationStore.all[0]){
-					var currentUser = SessionStore.currentUser();
-					ApiUtil.fetchMyJobs(currentUser.id, function(){
-						myjobid = MyJobStore.findMyJobID(parseInt(this.props.params.jobId));
-						var myJob = {
-							id: myjobid,
-							status: "applied",
-							job_id: parseInt(this.props.params.jobId),
-							seeker_id: currentUser.id
-						};
-						ApiUtil.updateMyJobStatus(myjobid, myJob);
-					}.bind(this));
-				}
-			}.bind(this));
-		},
+	handleApply: function(){
+		ApiUtil.fetchAppsWithJobID(this.state.job.id, function(){
+			if (ApplicationStore.all[0]){
+				var currentUser = SessionStore.currentUser();
+				ApiUtil.fetchMyJobs(currentUser.id, function(){
+					myjobid = MyJobStore.findMyJobID(parseInt(this.props.params.jobId));
+					var myJob = {
+						id: myjobid,
+						status: "applied",
+						job_id: parseInt(this.props.params.jobId),
+						seeker_id: currentUser.id
+					};
+					ApiUtil.updateMyJobStatus(myjobid, myJob);
+				}.bind(this));
+			}
+		}.bind(this));
+	},
 
 
 
@@ -181,11 +181,11 @@ var JobDetail = React.createClass({
 			saved = "notification-hide";
 			applybutton = "job-detail-apply";
 			applied = "notification-hide";
-		}else if (!job|| MyJobStore.findMyJobStatus(job.id)==="applied"){
-			savebutton = "job-detail-save-hide";
-			applybutton = "job-detail-apply-hide";
-			saved = "notification-hide";
-			applied = "notification-show";
+		// }else if (!job|| MyJobStore.findMyJobStatus(job.id)==="applied"){
+		// 	savebutton = "job-detail-save-hide";
+		// 	applybutton = "job-detail-apply-hide";
+		// 	saved = "notification-hide";
+		// 	applied = "notification-show";
 		}else if (!job || MyJobStore.findMyJobStatus(job.id)==="saved"){
 			savebutton = "job-detail-save-hide";
 			saved = "notification-show";

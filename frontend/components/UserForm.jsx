@@ -24,10 +24,10 @@ var UserForm= React.createClass({
     return (
       <div>
         <Link className= "signinlogo" to={"/"}><Logo /></Link>
-        <div className="newjob-input-block">
+        <div className="userform-input-block">
         <form className="update-user-list" onSubmit={this.handleSubmit}>
           <label>Real Name
-            <input className="user-form-input-field"
+            <input className="input-field"
               type="text"
               placeholder="Enter your real name"
               onChange={this.handleRealNameChange}
@@ -45,8 +45,8 @@ var UserForm= React.createClass({
           <input className="uibutton" type="submit" value="Upload"/>
         </form>
         </div>
-        <p>Preview:</p>
-        <iframe className="preview-resume" src={this.state.resumeUrl} />
+        <p className="preview" >Preview:</p>
+        <iframe className="preview-resume preview" src={this.state.resumeUrl} />
       </div>
     );
   },
