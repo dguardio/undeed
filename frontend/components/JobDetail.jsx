@@ -147,7 +147,6 @@ var JobDetail = React.createClass({
 	},
 
 	render: function () {
-		console.log(this.state.coverLetter);
 		var customStyles = {
 		  overlay : {
 		    position        : 'fixed',
@@ -292,7 +291,6 @@ var JobDetail = React.createClass({
   },
 
 	uploadOnFile: function(){
-		console.log("uploadOnFile");
 		this.setState({
 			useOnFile: true,
 			uploadResume: false,

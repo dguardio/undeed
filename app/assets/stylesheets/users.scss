@@ -179,6 +179,126 @@
 	display:block;
 }
 
+.header-links{
+  display: block;
+}
+.header-links-hide{
+  display: block;
+}
+  .go-left{
+
+  }
+  .go-right{
+
+  }
+@media only screen and (max-width: 700px){
+	.fontpage-content{
+
+		box-sizing:border-box;
+		width:100%;
+	}
+	.what-field{
+		box-sizing:border-box;
+		display: block;
+		width: 100%;
+	}
+	.searchfield-where{
+		box-sizing:border-box;
+		display: block;
+		width: 100%;
+	}
+	.searchfield-what{
+		box-sizing:border-box;
+		display: block;
+		width: 100%;
+	}
+	.where-field{
+		display: block;
+		width: 100%;
+	}
+	.search-button{
+		box-sizing:border-box;
+		display: block;
+		text-align: center;
+		width: 100%;
+	}
+
+  .frontpage-text{
+    color:red;
+  }
+  .fontpage-jobcount{
+    width: 80%;
+  }
+	.find-header{
+		background:green;
+		margin:0px;
+		width:50%;
+	}
+	.the-header{
+		padding: 0;
+		background: red;
+	}
+	.user-header{
+		margin:0px;
+		width:50%;
+	}
+	.user-email{
+    text-align:right;
+		margin:0px;
+		width:100%;
+	}
+	.header-email{
+    padding: 10px;
+    text-align: center;
+	  float: right;
+		width:100%;
+		margin: 0px;
+	  color: blue;
+    background: orange;
+	  cursor: pointer;
+    text-decoration: none;
+	}
+	.header-email a {
+    text-decoration: none;
+    color: #000000;
+	}
+	.header-email :hover{
+		background: lightblue;
+	}
+  .header-links{
+    display: block;
+  }
+    .header-links-hide{
+      display: none;
+    }
+
+
+  .user-hide{
+    display: none;
+  }
+  .go-left{
+    float:left;
+    width:50%;
+  }
+  .go-right{
+    float:right;
+    width:50%;
+  }
+
+  .user-show{
+    border: 0px;
+    padding: 10px;
+    text-align: center;
+    float: right;
+    width:100%;
+    margin: 0px;
+    color: blue;
+    background: orange;
+    cursor: pointer;
+    text-decoration: none;
+    position: static;
+  }
+}
 
 
 

@@ -8,7 +8,8 @@ var UserHeader = React.createClass({
     return {
       currentUser : SessionStore.currentUser(),
       isLoggedIn : SessionStore.isLoggedIn(),
-      classname:"user-hide"
+      emailToggle:"user-hide",
+      headerToggle:"header-links-hide"
     };
   },
   componentDidMount: function() {
@@ -26,7 +27,8 @@ var UserHeader = React.createClass({
     this.setState({
       currentUser: SessionStore.currentUser(),
       isLoggedIn: SessionStore.isLoggedIn(),
-      classname: "user-hide"
+      emailToggle: "user-hide",
+      headerToggle:"header-links-hide"
 
     });
   },
@@ -46,29 +48,44 @@ var UserHeader = React.createClass({
   },
   handleClick : function(){
 
-    if (this.state.classname === "user-hide"){
-      this.setState({classname:"user-show"});
-    } else{
-      this.setState({classname:"user-hide"});
+    if (this.state.emailToggle === "user-hide"){
+      this.setState({emailToggle:"user-show"});
+    }else{
+      this.setState({emailToggle:"user-hide",});
+    }
+    if (this.state.headerToggle === "header-links-hide"){
+      this.setState({headerToggle:"header-links"});
+    }else{
+      this.setState({headerToggle:"header-links-hide",});
     }
   },
   render: function() {
-
+    var headerToggleName = this.state.headerToggle + " group";
+    var emailToggleName = this.state.emailToggle + " group";
     if (this.state.isLoggedIn){
 
       return (
+
         <div className="the-header group">
-          <div className="find-header"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>
-          <div className="find-header"><Link to={"/postedjobs"}>My Posted Jobs</Link></div>
-          <div className="user-header group">
-            <div className="header-email"><Link to={"/userform"}>Upload resume</Link></div>
-            <div className="header-email"><Link to={"/userprofile"}>My Profile</Link></div>
+          <div className="user-email group">
             <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
-            <ul className={this.state.classname}>
-              <li><button className="pointer" onClick={this.handleLogOut}>Sign Out </button></li>
-              <li><Link onClick={this.handleClick} to={"/myjobs"}> My Jobs</Link></li>
+            <ul className={emailToggleName}>
+              <li className="go-left"><button className="pointer" onClick={this.handleLogOut}>Sign Out</button></li>
+              <li className="go-right"><Link onClick={this.handleClick} to={"/myjobs"}> My Jobs</Link></li>
             </ul>
           </div>
+          <div className={headerToggleName}>
+            <div className="find-header group">
+              <div className="header-email"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>
+              <div className="header-email"><Link to={"/postedjobs"}>My Posted Jobs</Link></div>
+            </div>
+
+            <div className="user-header group">
+              <div className="header-email"><Link to={"/userform"}>Upload resume</Link></div>
+              <div className="header-email"><Link to={"/userprofile"}>My Profile</Link></div>
+            </div>
+        </div>
+
         </div>
       );
     } else {

@@ -5,6 +5,14 @@
   cursor: pointer;
   // background: lightblue;
 }
+
+.user-email{
+  float: right;
+  text-decoration: underline;
+  color: #00c;
+  cursor: pointer;
+  // background: lightblue;
+}
 .find-header{
   float: left;
   text-decoration: underline;
@@ -29,15 +37,8 @@
   display: block;
   cursor: pointer;
   position: relative;
-  // background:red;
 }
-// .header-email:active{
-//   background:black;
-// }
-// .header-email:hover .header-dropdown {
-//   display: block;
-//   background:pink;
-// }
+
 .user-hide{
   display: none;
   padding: 5px;
