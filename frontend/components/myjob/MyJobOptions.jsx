@@ -54,8 +54,10 @@ var MyJobOptions = React.createClass({
       case "applied":
         return (
           <div className="myjobs-option">
-            <li  className="myjob-optionbutton" key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Got an interview?</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button">
+              <li  className="myjob-optionbutton" key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Got an interview?</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
               <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Archive</li>
@@ -65,8 +67,10 @@ var MyJobOptions = React.createClass({
       case "interviewed":
         return (
           <div className="myjobs-option">
-            <li className="myjob-optionbutton" key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> I got an Offer</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button">
+              <li className="myjob-optionbutton" key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> I got an Offer</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
               <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
@@ -77,8 +81,10 @@ var MyJobOptions = React.createClass({
       case "offerred":
         return (
           <div className="myjobs-option">
-            <li className="myjob-optionbutton" key="hired" onClick={this.handleOnClick.bind(null,"hired")}> I got Hired</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button">
+              <li className="myjob-optionbutton" key="hired" onClick={this.handleOnClick.bind(null,"hired")}> I got Hired</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewing</li>
               <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Archiv</li>
@@ -88,8 +94,10 @@ var MyJobOptions = React.createClass({
       case "hired":
         return (
           <div className="myjobs-option">
-            <li className="myjob-optionbutton" key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button">
+              <li className="myjob-optionbutton" key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="archived" onClick={this.handleOnClick.bind(null,"archived")}> Move to Archived</li>
               <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
@@ -99,8 +107,10 @@ var MyJobOptions = React.createClass({
       case "visited":
         return (
           <div className="myjobs-option">
-            <li className="myjob-optionbutton" key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Save</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button">
+              <li className="myjob-optionbutton" key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Save</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
               <li key="delete" onClick={this.handleRemove}> Delete</li>
@@ -110,8 +120,10 @@ var MyJobOptions = React.createClass({
       case "archived":
         return (
           <div className="myjobs-option">
-            <li className="myjob-optionbutton" key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
-            <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            <div className="myjobs-button group">
+              <li className="myjob-optionbutton" key="visited" onClick={this.handleOnClick.bind(null,"visited")}> Move to Visited</li>
+              <li className="myjob-dropdown" onClick={this.handleClick}>&#8595;</li>
+            </div>
             <ul className={this.state.classname}>
               <li key="delete" onClick={this.handleRemove}> Delete</li>
             </ul>
@@ -120,8 +132,10 @@ var MyJobOptions = React.createClass({
       default:
         return (
           <div className="myjobs-option">
-            <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
-            <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            <div className="myjobs-button">
+              <li key="saved" onClick={this.handleOnClick.bind(null,"saved")}> Move to Saved</li>
+              <li key="applied" onClick={this.handleOnClick.bind(null,"applied")}> Move to Applied</li>
+            </div>
             <li key="interviewed" onClick={this.handleOnClick.bind(null,"interviewed")}> Move to Interviewed</li>
             <li key="offerred" onClick={this.handleOnClick.bind(null,"offerred")}> Move to Offerred</li>
             <li key="hired" onClick={this.handleOnClick.bind(null,"hired")}> Move to Hired</li>

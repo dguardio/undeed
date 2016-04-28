@@ -27,7 +27,7 @@ var SignupForm = React.createClass({
               <section className="main-signin">
                 <h1 className="signin-title">Create an account</h1>
                 <text className="link-to-sign-up">
-                  Already have an account?
+                  Already have an account? 
                   <Link to={"/login"}>Sign in</Link>
                 </text>
                 <form onSubmit={this.handleSubmit}>
@@ -42,7 +42,7 @@ var SignupForm = React.createClass({
                     <div className="error">{this.state.validation.join(", ")}</div>
                     <div className="error"><ErrorNotification /></div>
         					</div>
-                  <button className="uibutton large addmargin">Create an account</button>
+                  <button className="uibutton large addmargin max">Create an account</button>
                 </form>
              </section>
     			</section>
