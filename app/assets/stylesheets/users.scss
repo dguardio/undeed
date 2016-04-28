@@ -347,6 +347,37 @@
     text-decoration: none;
     position: static;
   }
+
+  .logo-link{
+    display: block;
+    width: 50%;
+  }
+  .search-results{
+    box-sizing: border-box;
+  	background: #FEF9E7;
+  	width: 100%;
+  	margin: 0;
+  	padding: 20px;
+  }
+  .search-bar{
+    box-sizing: border-box;
+    width:100%;
+    display: block;
+    padding: 5px;
+  }
+  .search-bar-search{
+    box-sizing: border-box;
+    float: left;
+  	position: relative;
+  	padding: 5px 0 20px 0;
+  	margin: 0 auto;
+  	width: 100%;
+    font-size: 18px;
+  }
+  .react-paginate{
+    margin:0;
+    width:100%
+  }
 }
 
 
