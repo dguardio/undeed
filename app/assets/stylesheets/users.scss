@@ -248,7 +248,6 @@
 		width:100%;
 	}
 	.header-email{
-    padding: 10px;
     text-align: center;
 	  float: right;
 		width:100%;
@@ -259,18 +258,24 @@
     text-decoration: none;
 	}
 	.header-email a {
+    display: block;
+    padding: 10px;
     text-decoration: none;
-    color: #000000;
+    color: #FFFFFF;
 	}
-	.header-email :hover{
-		background: lightblue;
+	.header-email a:hover{
+    display: block;
+    padding: 10px;
+		background: blue;
 	}
+
+
   .header-links{
     display: block;
   }
-    .header-links-hide{
-      display: none;
-    }
+  .header-links-hide{
+    display: none;
+  }
 
 
   .user-hide{
@@ -278,21 +283,47 @@
   }
   .go-left{
     float:left;
+    padding: 0px;
     width:50%;
   }
   .go-right{
     float:right;
+    padding: 0px;
     width:50%;
   }
-
-  .user-show{
-    border: 0px;
+  .go-left a{
+    display:block;
     padding: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .go-right a{
+    display:block;
+    padding: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .go-left a:hover{
+      display: block;
+      padding: 10px;
+  		background: blue;
+      color: #FFFFFF;
+  }
+  .go-right a:hover{
+      display: block;
+      padding: 10px;
+  		background: blue;
+      color: #FFFFFF;
+  }
+  .user-show{
+    box-sizing:border-box;
+    border: 0px;
+    padding: 0px;
     text-align: center;
     float: right;
     width:100%;
     margin: 0px;
-    color: blue;
+    color: #FFFFFF;
     background: orange;
     cursor: pointer;
     text-decoration: none;

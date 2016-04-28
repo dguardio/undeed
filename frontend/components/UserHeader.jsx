@@ -47,7 +47,6 @@ var UserHeader = React.createClass({
     this.context.router.push("/");
   },
   handleClick : function(){
-
     if (this.state.emailToggle === "user-hide"){
       this.setState({emailToggle:"user-show"});
     }else{
@@ -59,6 +58,9 @@ var UserHeader = React.createClass({
       this.setState({headerToggle:"header-links-hide",});
     }
   },
+    toHideClick : function(){
+        this.setState({emailToggle:"user-hide", headerToggle:"header-links-hide",});
+    },
   render: function() {
     var headerToggleName = this.state.headerToggle + " group";
     var emailToggleName = this.state.emailToggle + " group";
@@ -68,13 +70,13 @@ var UserHeader = React.createClass({
 
         <div className="the-header group">
           <div className="user-email group">
-            <div onClick={this.handleClick} className="header-email">{this.state.currentUser.email}</div>
+            <div onClick={this.handleClick} className="header-email"><a>{this.state.currentUser.email}</a></div>
             <ul className={emailToggleName}>
-              <li className="go-left"><button className="pointer" onClick={this.handleLogOut}>Sign Out</button></li>
+              <li className="go-left"><a onClick={this.handleLogOut}>Sign Out</a></li>
               <li className="go-right"><Link onClick={this.handleClick} to={"/myjobs"}> My Jobs</Link></li>
             </ul>
           </div>
-          <div className={headerToggleName}>
+          <div onClick={this.toHideClick} className={headerToggleName}>
             <div className="find-header group">
               <div className="header-email"><Link to={"/newjob"}>Employer/Post a new Job</Link></div>
               <div className="header-email"><Link to={"/postedjobs"}>My Posted Jobs</Link></div>
