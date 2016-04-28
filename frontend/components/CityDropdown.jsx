@@ -22,11 +22,17 @@ var CityDropDown  = React.createClass({
   },
   render: function() {
     var cities = this.state.cities.map(function (location) {
+      var word = this.props.whereField;
+      idx = location.city.toLowerCase().indexOf(word.toLowerCase());
+      prestring = location.city.slice(0,idx);
+      string = location.city.slice(idx, idx+ this.props.whereField.length);
+      poststring = location.city.slice(idx+ this.props.whereField.length);
+
       return (
         <li className="dropdown-location-list"
           onClick={this.props.setLocation.bind(null,location.city)}
           key={location.id} >
-          {location.city}
+          {prestring}<strong className="boldItem">{string}</strong>{poststring}
         </li>);
     }.bind(this));
     if (this.props.whereVisible === true && cities.length > 0 ){

@@ -33,8 +33,8 @@ var LoginForm = React.createClass({
 
                   <label htmlFor="password">Password</label>
                   <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
-                  {this.state.validation.join(", ")}
-                  <ErrorNotification></ErrorNotification>
+                  <div className="error">{this.state.validation.join(", ")}</div>
+                  <div className="error"><ErrorNotification /></div>
       					</div>
                 <button className="uibutton large addmargin">Sign In</button>
               </form>

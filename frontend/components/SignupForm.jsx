@@ -39,8 +39,8 @@ var SignupForm = React.createClass({
                     <input className="input-field" onChange={this.updatePassword} type="password" value={this.state.password}/>
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input className="input-field" onChange={this.updateConfirmPassword} type="password" value={this.state.confirmPassword}/>
-                    {this.state.validation.join(", ")}
-                    <ErrorNotification></ErrorNotification>
+                    <div className="error">{this.state.validation.join(", ")}</div>
+                    <div className="error"><ErrorNotification /></div>
         					</div>
                   <button className="uibutton large addmargin">Create an account</button>
                 </form>

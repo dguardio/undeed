@@ -13,7 +13,8 @@ var JobIndex = React.createClass({
     return {
       jobs: [],
       pageNum: 1,
-      offset: JobStore.calculateOffset()
+      offset: JobStore.calculateOffset(),
+      searched: false
     };
   },
   _onChange: function () {
@@ -30,7 +31,13 @@ var JobIndex = React.createClass({
     var city = this.props.location.query.where;
     var title = this.props.location.query.what;
     var date = this.props.location.query.date;
-      ApiUtil.searchJobsPaginate({whatField: title, whereField: city, date: date},this.state.offset);
+    ApiUtil.searchJobsPaginate(
+      {whatField: title, whereField: city, date: date},
+      this.state.offset,
+      function(){
+        this.setState({searched:true});
+      }.bind(this)
+      );
   },
   componentWillUnmount: function() {
     this.jobStoreToken.remove();
@@ -50,6 +57,29 @@ var JobIndex = React.createClass({
       return <JobIndexItem key={job.id} job={job} />;
 
     });
+    var jobTitle = this.props.location.query.what || "' '";
+    var jobLocation = this.props.location.query.where || "' '";
+
+    if (jobs.length === 0 && this.state.searched === true){
+      return(
+        <div>
+          <div className="search-bar group">
+    			  <Link className="logo-link" to={"/"}><Logo /></Link>
+            <div className="search-bar-search"><JobSearch /></div>
+          </div>
+          <div className="search-results">
+            <div className="no-result">
+              The search <b className="bold">{jobTitle}</b> jobs in <b className="bold">{jobLocation}</b> did not match any jobs
+            </div>
+              <ul className="search-suggestion">Search suggestions:
+                <li>Try more general keywords</li>
+                <li>Check your spelling</li>
+                <li>Replace abbreviations with the entire word</li>
+              </ul>
+          </div>
+        </div>
+      );}
+    else {
       return (
         <div>
           <div className="search-bar group">
@@ -73,6 +103,7 @@ var JobIndex = React.createClass({
           </div>
         </div>
       );
+    }
   }
 });
 module.exports = JobIndex;

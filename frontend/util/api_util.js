@@ -285,7 +285,7 @@ var ApiUtil = {
         }
   		});
     },
-    searchJobsPaginate: function(whatwhere, offset){
+    searchJobsPaginate: function(whatwhere, offset, callback){
       $.ajax({
   			url: '/api/jobs',
   			method: 'GET',
@@ -293,6 +293,7 @@ var ApiUtil = {
 
   			success: function (jobs) {
           JobActions.searchLIMIT(jobs, whatwhere, 10, offset);
+          callback && callback();
         },
         error: function(no){
           console.log("Error: " + no);

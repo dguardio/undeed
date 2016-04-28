@@ -89,8 +89,8 @@ var JobForm = React.createClass({
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea className="input-textarea" onChange={this.updateJobDescription} type="textarea" value={this.state.description}/>
-                    {error}
-                    <ErrorNotification></ErrorNotification>
+                    <div className="error">{error}</div>
+                    <div className="error"><ErrorNotification /></div>
                   </div>
                   <button className="uibutton large addmargin">Post New Job</button>
                 </form>

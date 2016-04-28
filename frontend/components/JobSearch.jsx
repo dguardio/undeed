@@ -79,7 +79,7 @@ var JobSeach = React.createClass({
           <div className="where-field">
             <label className="search-label">where:</label>
             <input className="searchfield-where" type='text' onChange={this.handleWhereFieldChange} value={this.state.whereField}/>
-            <CityDropDown setLocation={this.setLocation} whereVisible={this.state.whereVisible}/>
+            <CityDropDown setLocation={this.setLocation}  whereVisible={this.state.whereVisible} whereField={this.state.whereField}/>
           </div>
           <button className="search-button">Find Jobs</button>
         </form>
