@@ -83,7 +83,6 @@ var JobDetail = React.createClass({
   updateEmail: function(e) {
     this.setState({ email: e.currentTarget.value });
   },
-
 	openModal: function() {
     this.setState({modalIsOpen: true});
   },
@@ -145,7 +144,14 @@ var JobDetail = React.createClass({
 			useOnFile: false
 		});
 	},
-
+	_formateDate: function(date){
+		var datePosted = new Date(date);
+		var year = datePosted.getFullYear();
+		var month = datePosted.getMonth() + 1;
+		var day = datePosted.getDate();
+		var string = month + "/" + day + "/" + year;
+		return string;
+	},
 	render: function () {
 		var customStyles = {
 		  overlay : {
@@ -173,7 +179,9 @@ var JobDetail = React.createClass({
 		var saved = "notification-hide";
 		var applied = "notification-hide";
 		var salary;
+		var postDate;
 		if (job){
+			postDate = this._formateDate(job.created_at);
 			salary = job.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 		if(!SessionStore.currentUser()){
@@ -239,6 +247,7 @@ var JobDetail = React.createClass({
 					<h2 className="job-detail-title">{job.title}</h2>
 					{job.employer.name} - {job.location.city}<br />
 				Salary: ${salary}/year<br />
+			Posted on: {postDate}<br />
 				</div>
 				<div className="job-detail-detail" dangerouslySetInnerHTML={{__html: job.description}} />
 				<button className={applybutton}onClick={this.openModal}>Apply This Job</button>
