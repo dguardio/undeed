@@ -93,7 +93,7 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
         var today = new Date();
         var jobDate = new Date(job.created_at);
       if (job.location.city.includes(whatwhere.whereField) &&
-          job.title.includes(whatwhere.whatField)&& today- jobDate < 86400){
+          job.title.includes(whatwhere.whatField)&& today- jobDate < 86400000){
         searchedJobs.push(job);
       }
     } else {
@@ -109,17 +109,20 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   _jobs = searchedJobs.slice(offset, offset+limit);
 };
 var searchTodaysJob = function(jobs){
-  _jobs = jobs;
-  var searchedJobs = [];
 
-  _jobs.forEach (function(job){
+  var searchedJobs = [];
+    // debugger;
+  jobs.forEach (function(job){
+    // debugger;
     var today = new Date();
     var jobDate = new Date(job.created_at);
-    if (today- jobDate < 86400){
+    // debugger;
+    if (today- jobDate < 86400000){
       searchedJobs.push(job);
+      // debugger;
     }
   });
-
+  // debugger;
   _jobs = searchedJobs;
 };
 
