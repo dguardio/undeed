@@ -58,9 +58,15 @@ var UserHeader = React.createClass({
       this.setState({headerToggle:"header-links-hide",});
     }
   },
-    toHideClick : function(){
-        this.setState({emailToggle:"user-hide", headerToggle:"header-links-hide",});
-    },
+  toHideClick : function(){
+      this.setState({emailToggle:"user-hide", headerToggle:"header-links-hide",});
+  },
+  handleGuestSubmit: function(e) {
+    e.preventDefault();
+    var guest = { email: "guest@guest.com", password: "guestguest" };
+    var router = this.context.router;
+    ApiUtil.login(guest);
+  },
   render: function() {
     var headerToggleName = this.state.headerToggle + " group";
     var emailToggleName = this.state.emailToggle + " group";
@@ -95,6 +101,7 @@ var UserHeader = React.createClass({
         <div className=" the-header group">
           <div className="user-header">
             <button  className="pointer" onClick={this.handleLogIn}>Sign In</button>
+            <button  className="pointer" onClick={this.handleGuestSubmit}>Sign In as guest</button>
           </div>
         </div>
       );
