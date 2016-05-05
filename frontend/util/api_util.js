@@ -5,7 +5,7 @@ var UserActions = require('../actions/user_actions');
 var ApplicationActions = require('../actions/application_actions');
 var ApiUtil = {
   createApplication: function(application){
-    // debugger;
+    // 
     $.ajax({
       url: '/api/applications/',
       method: 'POST',
@@ -15,7 +15,7 @@ var ApiUtil = {
       data: application,
       dataType: 'json',
       success: function (application) {
-        // debugger;
+        // 
         ApplicationActions.applicationReceived(application);
       },
       error: function(no){
@@ -24,18 +24,18 @@ var ApiUtil = {
     });
   },
     createApplication2: function(application){
-      // debugger;
+      // 
       $.ajax({
         url: '/api/applications/',
         method: 'POST',
         data: {application: application},
         dataType: 'json',
         success: function (application) {
-          // debugger;
+          // 
           ApplicationActions.applicationReceived(application);
         },
         error: function(no){
-          debugger;
+          
           console.log("Error: " + no);
         }
       });

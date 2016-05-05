@@ -4,15 +4,17 @@
 
 [heroku]: http://www.undeed.xyz
 ## Description
-Undeed is a job searching website inspired by Indeed.com. It is a single-page app that helps job seekers search, save and organize jobs, and help employers post jobs at the same time.
+Undeed is a job searching website inspired by Indeed.com. It is a single-page app that helps job seekers search, organize and apply jobs, and help employers post jobs and view applications at the same time.
 
 ## Technical implementation details
-- One Page App using React, Flux , React Router
+- One Page App using React, Flux and React Router
+- Real Time Auto-Suggest with AJAX request in the search bar
+- Both FrontEnd and BackEnd validation for better user feedback and higher security
+- Upload images through Paperclip and AWS
 - Secure Password encryption with Brcypt
 - CSRF Authenticity Token enabled
 - Log In with facebook with OmniAuth Using OAuth2 Strategy
-- Real Time Search Dropdown List on each keypress
-- Upload images through Paperclip and AWS
+
 
 Index Page
 

@@ -27,7 +27,7 @@ var resetApps = function(applications){
 
 var resetAppsWithJobId = function(applications, jobId){
     var result = [];
-    // debugger;
+    // 
     applications.forEach(function(app){
       if (app.job_id === jobId)
         result.push(app);

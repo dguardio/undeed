@@ -119,18 +119,18 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
 var searchTodaysJob = function(jobs){
 
   var searchedJobs = [];
-    // debugger;
+    //
   jobs.forEach (function(job){
-    // debugger;
+    //
     var today = new Date();
     var jobDate = new Date(job.created_at);
-    // debugger;
+    //
     if (today- jobDate < 86400000){
       searchedJobs.push(job);
-      // debugger;
+      //
     }
   });
-  // debugger;
+  //
   _jobs = searchedJobs;
 };
 
