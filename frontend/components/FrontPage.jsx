@@ -25,6 +25,12 @@ var FrontPage = React.createClass({
 
     },
   render: function() {
+    var recentJobs;
+    if (this.state.jobcount > 0 ){
+      recentJobs = <Link to="/jobs?date=today&what=&where=">{this.state.jobcount} new Jobs posted today!</Link>;
+    }else{
+      recentJobs = <Link to="/jobs?date=recent&what=&where="> Checkout Jobs posted recently!</Link>;
+    }
 
     return (
       <div>
@@ -33,7 +39,7 @@ var FrontPage = React.createClass({
           <JobSearch />
         </div>
         <div className="fontpage-jobcount">
-          <Link to="/jobs?date=today&what=&where=">{this.state.jobcount} new Jobs posted today!</Link>
+          {recentJobs}
           <div className="frontpage-text"> This is a job searching website, inspired by <a href="http://www.indeed.com/">Indeed.com</a>. Thank you for visiting! <br/> To see my other projects, please visited <a href="http://www.leizhu.io/">leizhu.io</a></div>
         </div>
       </div>
