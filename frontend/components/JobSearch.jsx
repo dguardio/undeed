@@ -30,6 +30,8 @@ var JobSeach = React.createClass({
     var whatwhere = Object.assign({}, this.state);
     ApiUtil.searchJobsPaginate(whatwhere, 0);
     JobStoreActions.resetReceived();
+    this.setState({  whereVisible: false,
+      whatVisible: false});
     this.context.router.push({
       pathname:'/jobs',
       query:{what : this.state.whatField, where: this.state.whereField, date: this.state.date}

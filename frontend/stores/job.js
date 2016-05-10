@@ -88,6 +88,8 @@ var searchJobs = function(jobs, whatwhere){
 var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
   _jobs = jobs;
   var searchedJobs = [];
+  var where = whatwhere.whereField.toLowerCase();
+  var what = whatwhere.whatField.toLowerCase();
   if(whatwhere.date === "recent"){
     jobs.sort(function(b, a) {
         return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
@@ -99,14 +101,14 @@ var searchJobsLIMIT = function(jobs, whatwhere, limit, offset){
     if (whatwhere.date === "today"){
         var today = new Date();
         var jobDate = new Date(job.created_at);
-      if (job.location.city.includes(whatwhere.whereField) &&
-          job.title.includes(whatwhere.whatField)&& today- jobDate < 86400000){
+      if (job.location.city.toLowerCase().includes(where) &&
+          job.title.toLowerCase().includes(what)&& today- jobDate < 86400000){
         searchedJobs.push(job);
       }
     }
     else {
-        if (job.location.city.includes(whatwhere.whereField) &&
-            job.title.includes(whatwhere.whatField)){
+        if (job.location.city.toLowerCase().includes(where) &&
+            job.title.toLowerCase().includes(what)){
           searchedJobs.push(job);
         }
     }
